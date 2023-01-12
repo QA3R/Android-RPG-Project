@@ -157,10 +157,12 @@ MonoBehaviour:
   party:
   - {fileID: 11400000, guid: 6d25748d7ac012641bc74315a4d2cdb5, type: 2}
   - {fileID: 11400000, guid: 2d2c30616c7e2fa4f84a1bbf12aa85f9, type: 2}
+  - {fileID: 11400000, guid: 082d28d2ef0a29d40ad676d95d71e707, type: 2}
   enemyParty:
   - {fileID: 11400000, guid: 6311736b9a6337649b0a4bc38e6a5336, type: 2}
   - {fileID: 11400000, guid: 7f9e7c6e9531cdc4cbd1504691745ae7, type: 2}
   statusTxt: {fileID: 1035696464}
+  currentEntity: {fileID: 0}
   battlePanel: {fileID: 768383502}
 --- !u!4 &340862739
 Transform:
@@ -675,6 +677,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 340862738}
+        m_TargetAssemblyTypeName: Managers.BattleManager, Assembly-CSharp
+        m_MethodName: ClearTurnPos
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 768383502}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive

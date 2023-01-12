@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef75bda879f97fe4da5365bc321841b5, type: 3}
   m_Name: Angie
   m_EditorClassIdentifier: 
-  controlable: 0
-  Name: 
-  EntityModel: {fileID: 0}
-  currentHP: 0
-  MaxHP: 0
-  Atk: 0
-  Spd: 0
-  Def: 0
-  Res: 0
+  controlable: 1
+  Name: Angie
+  EntityModel: {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978,
+    type: 3}
+  currentHP: 25
+  MaxHP: 25
+  Atk: 15
+  Spd: 20
+  Def: 8
+  Res: 8
