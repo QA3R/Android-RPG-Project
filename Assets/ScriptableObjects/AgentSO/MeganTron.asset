@@ -16,9 +16,9 @@ MonoBehaviour:
   Name: MeganTron
   EntityModel: {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978,
     type: 3}
-  currentHP: 5
-  MaxHP: 5
+  currentHP: 30
+  MaxHP: 30
   Atk: 1
   Spd: 1
-  Def: 15
-  Res: 15
+  Def: 6
+  Res: 5

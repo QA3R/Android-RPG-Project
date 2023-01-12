@@ -18,7 +18,7 @@ MonoBehaviour:
     type: 3}
   currentHP: 25
   MaxHP: 25
-  Atk: 15
+  Atk: 7
   Spd: 20
-  Def: 8
-  Res: 8
+  Def: 4
+  Res: 4
