@@ -4,22 +4,20 @@ using Unity.VisualScripting;
 using UnityEngine;
 using ScriptableObjects;
 using System.Linq;
+using TMPro;
 
 namespace Managers
 {
     public class BattleManager : MonoBehaviour
     {
         #region Variables
-
         [SerializeField] private List<EntityScriptaleObject> entitiesInField;
         [SerializeField] private List<int> entityspd;
         [SerializeField] private List<EntityScriptaleObject> party;
         [SerializeField] private List<EntityScriptaleObject> enemyParty;
-
-        bool decisionMade;
-
+        [SerializeField] private TextMeshProUGUI statusTxt;
+        [SerializeField] private EntityScriptaleObject currentEntity;
         [SerializeField] GameObject battlePanel;
-
         #endregion
 
         // Start is called before the first frame update
@@ -47,7 +45,7 @@ namespace Managers
                 {
                     enemySO.currentHP = enemySO.MaxHP;
                     Instantiate(enemySO.EntityModel);
-                    Debug.Log("Enemy Model " + enemySO.name + "has been spawned");               
+                    Debug.Log("Enemy Model " + enemySO.name + "has been spawned");
                 }
             }
 
@@ -57,17 +55,19 @@ namespace Managers
             SetBattleStatus();
         }
 
+        #region Methods
         public void SetBattleStatus()
         {
-            foreach (EntityScriptaleObject entitySO in entitiesInField)
+            foreach (EntityScriptaleObject entitySO in entitiesInField.ToList<EntityScriptaleObject>())
             {
+                //Updates the currentEntity to the entity whose turn it is
+                currentEntity = entitySO;
+                
                 //If the player is controlable, we give player controls and sends that entity to the bottom of the list
                 if (entitySO.controlable)
                 {
                     battlePanel.SetActive(true);
-                    entitiesInField.Remove(entitySO);
-                    entitiesInField.Add(entitySO);
-                    Debug.Log("It is " + entitySO.name + " turn");
+                    statusTxt.text = "It is " + entitySO.name + " turn";
                     break;
                 }
                 else
@@ -77,14 +77,19 @@ namespace Managers
             }
         }
 
-        public void PlayerAttack(EntityScriptaleObject player)
+        //Clears the current playable party member from the turn order (sets them to the back of the turn order)
+        public void ClearTurnPos()
         {
-        
+            entitiesInField.Remove(currentEntity);
+            entitiesInField.Add(currentEntity);
         }
+        #endregion
 
         void EnemyAttack(EntityScriptaleObject enemy)
         {
-            Debug.Log("It is Enemy: " + enemy.name + " turn.");
+            currentEntity = enemy;
+
+            //Debug.Log("It is Enemy: " + enemy.name + " turn.");
             //Get the partymember with the least HP to the top of the list
             party.Sort((Ent1, Ent2) => Ent1.currentHP.CompareTo(Ent2.currentHP));
 
@@ -100,8 +105,7 @@ namespace Managers
             Debug.Log(dmgDealtToTarget + " damage was dealt to " + party[0].name);
             party[0].currentHP = party[0].currentHP - dmgDealtToTarget;
 
-            entitiesInField.Remove(enemy);
-            entitiesInField.Add(enemy);
+            ClearTurnPos();
             SetBattleStatus();
         }
     }
