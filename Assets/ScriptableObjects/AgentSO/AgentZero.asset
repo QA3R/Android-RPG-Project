@@ -16,9 +16,14 @@ MonoBehaviour:
   Name: AgentZero
   EntityModel: {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978,
     type: 3}
-  currentHP: 5
-  MaxHP: 10
-  Atk: 10
-  Spd: 5
-  Def: 5
-  Res: 5
+  currentHP: 791
+  MaxHP: 791
+  Atk: 25.5
+  Spd: 22.5
+  Def: 47.27
+  Res: 85.7
+  EquipedArtifacts:
+  - {fileID: 11400000, guid: bbd897e687cba04408b15329d1796c8d, type: 2}
+  - {fileID: 11400000, guid: 5042403a60d1f824db4fdd61bea90c0f, type: 2}
+  - {fileID: 11400000, guid: 1a269f4a4d5814d458c45a5497dabbbd, type: 2}
+  - {fileID: 11400000, guid: 1b2a9192aaf000f448eaea6204a7f32a, type: 2}

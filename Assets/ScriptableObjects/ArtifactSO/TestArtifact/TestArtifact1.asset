@@ -9,16 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef75bda879f97fe4da5365bc321841b5, type: 3}
-  m_Name: SlowWalker
+  m_Script: {fileID: 11500000, guid: e82ed9a8cf4b9a44a9aeff2bd7074100, type: 3}
+  m_Name: TestArtifact1
   m_EditorClassIdentifier: 
-  controlable: 0
-  Name: SlowWalker
-  EntityModel: {fileID: 0}
-  currentHP: 0
-  MaxHP: 352
-  Atk: 12
-  Spd: 1
-  Def: 5
-  Res: 8
-  EquipedArtifacts: []
+  HPPercent: 1
+  AtKPercent: 17
+  DefPercent: 1
+  ResPercent: 1

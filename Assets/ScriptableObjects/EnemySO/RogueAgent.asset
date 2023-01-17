@@ -16,9 +16,10 @@ MonoBehaviour:
   Name: RogueAgent
   EntityModel: {fileID: 1209568149458620216, guid: d7c76ddf655361540888a28f109b1570,
     type: 3}
-  currentHP: 12
-  MaxHP: 12
-  Atk: 5
-  Spd: 2
-  Def: 5
-  Res: 5
+  currentHP: 400
+  MaxHP: 400
+  Atk: 36
+  Spd: 20
+  Def: 11
+  Res: 8
+  EquipedArtifacts: []

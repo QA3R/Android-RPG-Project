@@ -16,9 +16,10 @@ MonoBehaviour:
   Name: Angie
   EntityModel: {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978,
     type: 3}
-  currentHP: 25
-  MaxHP: 25
-  Atk: 7
-  Spd: 20
-  Def: 4
-  Res: 4
+  currentHP: 334
+  MaxHP: 584
+  Atk: 27
+  Spd: 15
+  Def: 26
+  Res: 24
+  EquipedArtifacts: []
