@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlable: 0
   Name: SlowWalker
-  EntityModel: {fileID: 0}
+  EntityModel: {fileID: 1209568149458620216, guid: e07012d961bff114a846567471d7d20f,
+    type: 3}
   currentHP: 0
   MaxHP: 352
   Atk: 12

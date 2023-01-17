@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEngine;
-using ScriptableObjects;
-using System.Linq;
-using TMPro;
+using System.Collections;
 using UnityEngine.Rendering.Universal;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using TMPro;
+using ScriptableObjects;
+using Entities;
 
 namespace Managers
 {
@@ -13,11 +14,18 @@ namespace Managers
     {
         #region Variables
         [SerializeField] private List<EntityScriptableObject> entitiesInField;
-        [SerializeField] private List<EntityScriptableObject> party;
+        [SerializeField] public List<EntityScriptableObject> party;
         [SerializeField] private List<EntityScriptableObject> enemyParty;
-        
+
+        //Test List
+        [SerializeField] private List<GameObject> entitiesInBattlefield;
+
         [SerializeField] private EntityScriptableObject currentEntity;
         [SerializeField] private EntityScriptableObject targetEntity;
+
+        [SerializeField] private GameObject currentEnemyObj;
+
+        [SerializeField] private Enemy currentEnemyScript;
        
         [SerializeField]private float TotalDMG;
         
@@ -35,18 +43,18 @@ namespace Managers
             {
                 entitiesInField.Add(agentSO);
 
+
                 if (agentSO.EntityModel != null)
                 {
                     agentSO.currentHP = agentSO.MaxHP;
                     Instantiate(agentSO.EntityModel);
-                    
                 }
             }
-        
+
             //Spawn all the enemys from the enemy party list in the battlefield
             foreach (EntityScriptableObject enemySO in enemyParty)
             {
-                entitiesInField.Add(enemySO);  
+                entitiesInField.Add(enemySO);
 
                 if (enemySO.EntityModel != null)
                 {
@@ -79,7 +87,11 @@ namespace Managers
                 else
                 {
                     CalculateATK();
-                    EnemyAttack(currentEntity);
+
+                    //EnemyAttack(currentEntity);
+                    currentEnemyObj = entitySO.GetComponent<GameObject>();
+                    currentEnemyScript = currentEnemyObj.GetComponent<Enemy>();
+                    currentEnemyScript.Attack(entitySO);    
                     ClearTurnPos();
                     SetBattleStatus();
                 }
@@ -95,38 +107,6 @@ namespace Managers
             //targetEntity = null;
         }
         #endregion
-
-        void EnemyAttack(EntityScriptableObject enemy)
-        {
-            currentEntity = enemy;
-
-            //Get the partymember with the least HP to the top of the list
-            party.Sort((Ent1, Ent2) => Ent1.currentHP.CompareTo(Ent2.currentHP));
-            
-            //Assign the party member with the lowest SPD to be the targetEntity
-            if(party.Count >0)
-            {
-                targetEntity = party[0];
-            
-                //Get the dmg that will be dealt to the target assigned to this int
-                TotalDMG = TotalDMG - targetEntity.Def;
-
-                if (TotalDMG< 0)
-                {
-                    TotalDMG = 0;
-                }
-
-                //Subtract the hp from the dmg dealt to the target
-                targetEntity.currentHP = targetEntity.currentHP - TotalDMG;
-                DMGTxt.text = targetEntity.Name + " Took " + TotalDMG + "DMG";
-
-                /*if (targetEntity.currentHP < 1)
-                {
-                    entitiesInField.Remove(targetEntity);
-                    party.Remove(targetEntity);
-                }*/
-            }
-        }
 
         /// <summary>
         /// This method should calculate the total ATK... 

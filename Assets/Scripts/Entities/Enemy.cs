@@ -9,24 +9,22 @@ namespace Entities
 {
     public class Enemy : Entity
     {
-
         [SerializeField] private EntityScriptableObject currentEntity;
         [SerializeField] private EntityScriptableObject targetEntity;
 
         [SerializeField] private float TotalDMG;
 
-        [SerializeField] private TextMeshProUGUI statusTxt;
-        [SerializeField] private TextMeshProUGUI DMGTxt;
-
-        [SerializeField] GameObject battlePanel;
         [SerializeField] BattleManager battleManager;
 
-        public delegate void OnAttack(EntityScriptableObject targetEntity);
-        OnAttack nextAction;
-
+        #region Action Methods
         //Selects the Ally with the lowest current HP and calculates DMG dealt based on the enemy's ATK
-        public void Attack(EntityScriptableObject enemy)
+        public override void Attack(EntityScriptableObject enemy) 
         {
+            if (battleManager = null)
+            {
+                battleManager = GameObject.FindObjectOfType<BattleManager>();
+            }
+
             //Assigns the current 
             currentEntity = enemy;
 
@@ -48,11 +46,32 @@ namespace Entities
 
                 //Subtract the hp from the dmg dealt to the target
                 targetEntity.currentHP = targetEntity.currentHP - TotalDMG;
-                DMGTxt.text = targetEntity.Name + " Took " + TotalDMG + "DMG";
+                //DMGTxt.text = targetEntity.Name + " Took " + TotalDMG + "DMG";
 
                 //Ping to do DMG to party members when DMG is calculated
             }
         }
+
+        public override void AtkSkill()
+        {
+
+        }
+
+        public override void BuffSKill()
+        {
+
+        }
+
+        public override void DebuffSkill()
+        {
+
+        }
+
+        public override void HealSkill()
+        {
+
+        }
+        #endregion
     }
 
 }
