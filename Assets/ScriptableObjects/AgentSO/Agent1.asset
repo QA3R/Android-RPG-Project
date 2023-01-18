@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef75bda879f97fe4da5365bc321841b5, type: 3}
-  m_Name: AgentZero
+  m_Name: Agent1
   m_EditorClassIdentifier: 
   controlable: 1
   Name: AgentZero

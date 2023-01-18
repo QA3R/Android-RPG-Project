@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1209568149458620221}
   - component: {fileID: 1209568149458620218}
   - component: {fileID: 1209568149458620219}
+  - component: {fileID: 9176906079929316450}
   - component: {fileID: 6604052832293780820}
   m_Layer: 0
   m_Name: RogueAgent
@@ -98,6 +99,26 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9176906079929316450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209568149458620216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f411aa58b6637564782da7b2e1a0bb5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _entityType: {fileID: 11400000, guid: 6311736b9a6337649b0a4bc38e6a5336, type: 2}
+  _isControlable: 0
+  _name: 
+  _atk: 0
+  _def: 0
+  _spd: 0
+  _res: 0
+  _hp: 0
 --- !u!114 &6604052832293780820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,8 +131,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84fab0de9bc0d9943ad1aee7953457a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _entityType: {fileID: 0}
+  _isControlable: 0
+  _name: 
+  _atk: 0
+  _def: 0
+  _spd: 0
+  _res: 0
+  _hp: 0
   currentEntity: {fileID: 0}
   targetEntity: {fileID: 0}
   TotalDMG: 0
   battleManager: {fileID: 0}
-  entityType: {fileID: 11400000, guid: 6311736b9a6337649b0a4bc38e6a5336, type: 2}

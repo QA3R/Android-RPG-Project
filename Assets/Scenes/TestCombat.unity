@@ -152,16 +152,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2425bcf2c09eda47a92626f06316763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entitiesInField: []
-  party:
-  - {fileID: 11400000, guid: 6d25748d7ac012641bc74315a4d2cdb5, type: 2}
-  - {fileID: 11400000, guid: 2d2c30616c7e2fa4f84a1bbf12aa85f9, type: 2}
-  - {fileID: 11400000, guid: 082d28d2ef0a29d40ad676d95d71e707, type: 2}
-  enemyParty:
-  - {fileID: 11400000, guid: 6311736b9a6337649b0a4bc38e6a5336, type: 2}
-  - {fileID: 11400000, guid: 7f9e7c6e9531cdc4cbd1504691745ae7, type: 2}
+  EntityObj:
+  - {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978, type: 3}
+  - {fileID: 1209568149458620216, guid: d7c76ddf655361540888a28f109b1570, type: 3}
+  - {fileID: 1209568149458620216, guid: e07012d961bff114a846567471d7d20f, type: 3}
+  EntityScripts: []
   currentEntity: {fileID: 0}
   targetEntity: {fileID: 0}
+  currentEnemyObj: {fileID: 0}
+  currentEnemyScript: {fileID: 0}
   TotalDMG: 0
   statusTxt: {fileID: 1035696464}
   DMGTxt: {fileID: 2091968206}

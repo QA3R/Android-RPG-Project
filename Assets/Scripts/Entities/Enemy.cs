@@ -20,6 +20,7 @@ namespace Entities
         //Selects the Ally with the lowest current HP and calculates DMG dealt based on the enemy's ATK
         public override void Attack(EntityScriptableObject enemy) 
         {
+            /*
             if (battleManager = null)
             {
                 battleManager = GameObject.FindObjectOfType<BattleManager>();
@@ -50,6 +51,7 @@ namespace Entities
 
                 //Ping to do DMG to party members when DMG is calculated
             }
+            */
         }
 
         public override void AtkSkill()
