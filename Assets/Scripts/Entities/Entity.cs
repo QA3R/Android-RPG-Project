@@ -19,7 +19,7 @@ namespace Entities
         public float _res;
         public float _hp;
 
-        private void Start()
+        public virtual void Start()
         {
             _name = _entityType.Name;
             _hp = _entityType.MaxHP;
@@ -31,7 +31,7 @@ namespace Entities
             
         }
         #region Action Methods
-        public virtual void Attack(EntityScriptableObject entity)
+        public virtual void Attack(Entity entity)
         {
 
         }

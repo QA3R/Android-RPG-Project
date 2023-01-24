@@ -14,20 +14,17 @@ namespace Managers
     {
         #region Variables
         [SerializeField] private List<GameObject> EntityObjToSpawn;
-        [SerializeField] private List <Entity> EntityScripts;
+        [SerializeField] public List <Entity> EntityScripts;
 
         [SerializeField] private Entity currentEntityScript;
-        [SerializeField] private Entity targetEntity;
 
-        [SerializeField] private GameObject currentEnemyObj;
         [SerializeField] private GameObject currentEntity;
-
-        [SerializeField] private Enemy currentEnemyScript;
-       
-        [SerializeField]private float TotalDMG;
-        
+                
         [SerializeField] private TextMeshProUGUI statusTxt;
         [SerializeField] private TextMeshProUGUI DMGTxt;
+
+        public delegate void OnEnemyAttack(Entity entity);
+        public OnEnemyAttack AttackAlly;
 
         [SerializeField] GameObject battlePanel;
         #endregion
@@ -66,20 +63,20 @@ namespace Managers
                 }
                 else
                 {
-                    //CalculateATK();  
-                    ClearTurnPos();
+                    //CalculateATK();
                     //SetBattleStatus();
+
+                    
+                    ClearTurnPos();
                 }
             }
         }
 
-        //Clears the current playable party member from the turn order (sets them to the back of the turn order)
+        //Clears and adds the current playable party member from the turn order (sets them to the back of the turn order)
         public void ClearTurnPos()
-        {
+        {   
             EntityScripts.Remove(currentEntityScript);
             EntityScripts.Add(currentEntityScript);
-            //currentEntity= null;
-            //targetEntity = null;
         }
         #endregion
 

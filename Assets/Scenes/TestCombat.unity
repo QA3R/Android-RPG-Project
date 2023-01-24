@@ -152,16 +152,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2425bcf2c09eda47a92626f06316763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EntityObj:
+  EntityObjToSpawn:
   - {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978, type: 3}
+  - {fileID: 1209568149458620216, guid: 85888485772060f419e05ce0f0c749c3, type: 3}
   - {fileID: 1209568149458620216, guid: d7c76ddf655361540888a28f109b1570, type: 3}
   - {fileID: 1209568149458620216, guid: e07012d961bff114a846567471d7d20f, type: 3}
   EntityScripts: []
+  currentEntityScript: {fileID: 0}
   currentEntity: {fileID: 0}
-  targetEntity: {fileID: 0}
-  currentEnemyObj: {fileID: 0}
-  currentEnemyScript: {fileID: 0}
-  TotalDMG: 0
   statusTxt: {fileID: 1035696464}
   DMGTxt: {fileID: 2091968206}
   battlePanel: {fileID: 768383502}
@@ -681,32 +679,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 340862738}
         m_TargetAssemblyTypeName: Managers.BattleManager, Assembly-CSharp
-        m_MethodName: CalculateATK
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 340862738}
-        m_TargetAssemblyTypeName: Managers.BattleManager, Assembly-CSharp
         m_MethodName: ClearTurnPos
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 768383502}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

@@ -10,9 +10,9 @@ namespace Entities
     public class Agent : Entity
     {
         // Start is called before the first frame update
-        void Start()
+        public override void Start()
         {
-
+            base.Start();
         }
 
         // Update is called once per frame
@@ -22,7 +22,7 @@ namespace Entities
         }
 
         #region Action Methods
-        public override void Attack(EntityScriptableObject entity)
+        public override void Attack(Entity entity)
         {
 
         }

@@ -9,18 +9,33 @@ namespace Entities
 {
     public class Enemy : Entity
     {
-        [SerializeField] private EntityScriptableObject currentEntity;
-        [SerializeField] private EntityScriptableObject targetEntity;
+        private Entity currentEntity;
+        private Entity targetEntity;
 
-        [SerializeField] private float TotalDMG;
+        private float TotalDMG;
 
-        [SerializeField] BattleManager battleManager;
+        BattleManager battleManager;
+
+        public override void Start()
+        {
+            base.Start();
+            battleManager = GameObject.FindObjectOfType<BattleManager>();
+            battleManager.AttackAlly += Attack;
+        }
+
+        private void OnDisable()
+        {
+            if (battleManager != null)
+            {
+                battleManager.AttackAlly -= Attack;
+            }
+        }
 
         #region Action Methods
         //Selects the Ally with the lowest current HP and calculates DMG dealt based on the enemy's ATK
-        public override void Attack(EntityScriptableObject enemy) 
+        public override void Attack(Entity enemy) 
         {
-            /*
+            
             if (battleManager = null)
             {
                 battleManager = GameObject.FindObjectOfType<BattleManager>();
@@ -30,15 +45,15 @@ namespace Entities
             currentEntity = enemy;
 
             //Get the partymember with the least HP to the top of the list
-            battleManager.party.Sort((Ent1, Ent2) => Ent1.currentHP.CompareTo(Ent2.currentHP));
+            battleManager.EntityScripts.Sort((Ent1, Ent2) => Ent1._hp.CompareTo(Ent2._hp));
 
             //Assign the party member with the lowest SPD to be the targetEntity
-            if (battleManager.party.Count > 0)
+            if (battleManager.EntityScripts.Count > 0)
             {
-                targetEntity = battleManager.party[0];
+                targetEntity = battleManager.EntityScripts[0];
 
                 //Get the dmg that will be dealt to the target assigned to this int
-                TotalDMG = TotalDMG - targetEntity.Def;
+                TotalDMG = TotalDMG - targetEntity._def;
 
                 if (TotalDMG < 0)
                 {
@@ -46,12 +61,13 @@ namespace Entities
                 }
 
                 //Subtract the hp from the dmg dealt to the target
-                targetEntity.currentHP = targetEntity.currentHP - TotalDMG;
-                //DMGTxt.text = targetEntity.Name + " Took " + TotalDMG + "DMG";
+                targetEntity._hp = targetEntity._hp - TotalDMG;
+
+                Debug.Log("Attack");
 
                 //Ping to do DMG to party members when DMG is calculated
             }
-            */
+            
         }
 
         public override void AtkSkill()
