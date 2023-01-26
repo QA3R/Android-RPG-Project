@@ -19,6 +19,17 @@ namespace Entities.Enemies
         {
 
         }
+
+        public override void Attack(Entity enemy)
+        {
+            base.Attack(enemy);
+        }
+
+        public override void AtkSkill()
+        {
+            //New code
+            //Debuff enemy
+        }
     }
 }
 

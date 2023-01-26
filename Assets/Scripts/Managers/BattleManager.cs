@@ -63,10 +63,7 @@ namespace Managers
                 }
                 else
                 {
-                    //CalculateATK();
-                    //SetBattleStatus();
-
-                    
+                    AttackAlly(entity);
                     ClearTurnPos();
                 }
             }
@@ -79,36 +76,6 @@ namespace Managers
             EntityScripts.Add(currentEntityScript);
         }
         #endregion
-
-        /// <summary>
-        /// This method should calculate the total ATK... 
-        /// -This should be from the currentEntity's equiped artifacts, buffs, debuffs, passives, etc...
-        /// -This currently only takes the ATK value from the currentEntity.ATK and multiplies it by all the ATK% increases from the list of currentEntity.EquipedArtifacts
-        /// -Does not currently take into account for buffs that could be in effect
-        /// </summary>
-        /// <param name="attackingEntity"></param>
-        //public void CalculateATK()
-        //{            
-        //    //Local variable used when we need to calculate the Total Atk% modifier
-        //    float TotalDMGModifier = 1;
-
-        //    //Check if the currentEntity does not have any Artifacts equipped
-        //    if (currentEntity.EquipedArtifacts != null || currentEntity!=null)
-        //    {
-        //        List<ArtifactScriptableObject> entityEquipedArtifacts   = currentEntity.EquipedArtifacts;
-                
-        //        //Get the total Percentage ATK modifier from the Atifacts equiped on the Agent
-        //        foreach(ArtifactScriptableObject AtkModifier in currentEntity.EquipedArtifacts)
-        //        {
-        //            //Add the ATK% from the current artifact in the loop to the TotalDMGModifier
-        //            TotalDMGModifier = TotalDMGModifier + AtkModifier.AtKPercent/100;
-        //        }
-        //    }
-
-        //    //Sets the TotalDMG to the current Entity's ATK multiplied by the ATK% modifier from the Artifacts
-        //    TotalDMG = currentEntity.Atk * TotalDMGModifier;
-        //    //Debug.Log(currentEntity.name + TotalDMG);
-        //}
     }
 }
 

@@ -12,6 +12,11 @@ public class RogueAgent : Enemy
         base.Start();
     }
 
-    
+
+    public override void Attack(Entity enemy)
+    {
+        base.Attack(enemy);
+    }
+
 
 }

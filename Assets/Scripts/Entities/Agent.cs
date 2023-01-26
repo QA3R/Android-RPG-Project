@@ -24,7 +24,7 @@ namespace Entities
         #region Action Methods
         public override void Attack(Entity entity)
         {
-
+            //Attack code to attack enemies
         }
 
         public override void AtkSkill()
