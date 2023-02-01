@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef75bda879f97fe4da5365bc321841b5, type: 3}
   m_Name: SlowWalker
   m_EditorClassIdentifier: 
-  controlable: 0
   Name: SlowWalker
   EntityModel: {fileID: 1209568149458620216, guid: e07012d961bff114a846567471d7d20f,
     type: 3}
-  currentHP: 0
-  MaxHP: 352
+  MaxHP: 53
   Atk: 12
   Spd: 1
   Def: 5

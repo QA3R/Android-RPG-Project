@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef75bda879f97fe4da5365bc321841b5, type: 3}
   m_Name: AgentZero
   m_EditorClassIdentifier: 
-  controlable: 1
   Name: AgentZero
   EntityModel: {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978,
     type: 3}
-  MaxHP: 791
+  MaxHP: 120
   Atk: 25.5
   Spd: 22.5
   Def: 47.27

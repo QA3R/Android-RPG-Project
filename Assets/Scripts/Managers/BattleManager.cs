@@ -14,6 +14,8 @@ namespace Managers
     {
         #region Variables
         [SerializeField] private List<GameObject> EntityObjToSpawn;
+        [SerializeField] private List<GameObject> _allySpawnPoints;
+        [SerializeField] private List<GameObject> _enemySpawnPoints;
         [SerializeField] public List <Entity> EntityScripts;
 
         [SerializeField] private Entity currentEntityScript;
@@ -32,11 +34,37 @@ namespace Managers
         // Start is called before the first frame update
         void Start()
         {
+            int _allySpawnPointNum = 0;
+            int _enemySpawnPointNum = 0;
+
             //Spawns the Gameobject from the list of Entities in the Battelfield and Sorts the list of EntityScripts based on the spd value on it
             foreach (GameObject entity in EntityObjToSpawn)
             {
-                currentEntity = Instantiate(entity);
-                EntityScripts.Add(currentEntity.GetComponent<Entity>());
+                if (entity != null)
+                {
+                    currentEntity = Instantiate(entity);
+                    EntityScripts.Add(currentEntity.GetComponent<Entity>());
+                }
+            }   
+
+            //Set the postions of each ally entity to the ally spawn positions
+            foreach (Entity entity in EntityScripts)
+            {
+                if (entity._isControlable)
+                {
+                    entity.gameObject.transform.position = _allySpawnPoints[_allySpawnPointNum].transform.position;
+                    _allySpawnPointNum++;
+                }
+            }
+
+            //Sets the positions of each enemy entity to the enemy spawn positions
+            foreach (Entity entity in EntityScripts)
+            {
+                if (!entity._isControlable)
+                {
+                    entity.gameObject.transform.position = _enemySpawnPoints[_enemySpawnPointNum].transform.position;
+                    _enemySpawnPointNum++;
+                }
             }
 
             //Sorts the list of Entity scripts by the speed value on each one
