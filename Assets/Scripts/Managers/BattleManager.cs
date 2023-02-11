@@ -74,7 +74,7 @@ namespace Managers
             SetBattleStatus();
         }
 
-        #region Methods
+        #region Turn-Order Regulation Methods
         public void SetBattleStatus()
         {
             foreach (Entity entity in EntityScripts.ToList())

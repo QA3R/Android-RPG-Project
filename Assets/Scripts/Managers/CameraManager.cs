@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Unity.VisualScripting;
 
 namespace Managers
 {
     public class CameraManager : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private List<CinemachineVirtualCamera> virtualCameras;
+        [SerializeField] private List<CinemachineVirtualCamera> allyOneVCs;
+        [SerializeField] private List<CinemachineVirtualCamera> allyFourVCs;
+        [SerializeField] private List<CinemachineVirtualCamera> currentVirtualCameras;
         [SerializeField] private Camera cam;
         [SerializeField] private InputHandler inputHandler;
 
@@ -24,6 +27,8 @@ namespace Managers
             inputHandler.swipeRight = CameraChnageTargetRight;
             inputHandler.swipeLeft = CameraChnageTargetLeft;
 
+            currentVirtualCameras = new List<CinemachineVirtualCamera>();
+            currentVirtualCameras = allyFourVCs;
         }
 
         private void OnEnable()
@@ -44,17 +49,17 @@ namespace Managers
         [ContextMenu("Move Camera Right")]
         void CameraChnageTargetRight()
         {
-            if (cameraIndex < virtualCameras.Count - 1)
+            if (cameraIndex < currentVirtualCameras.Count - 1)
             {
                 cameraIndex++;
 
-                foreach (var cam in virtualCameras)
+                foreach (var cam in currentVirtualCameras)
                 {
                     cam.GetComponent<CinemachineVirtualCamera>().Priority = 0;
 
                 }
 
-                virtualCameras[cameraIndex].GetComponent<CinemachineVirtualCamera>().Priority = 1;
+                currentVirtualCameras[cameraIndex].GetComponent<CinemachineVirtualCamera>().Priority = 1;
             }
         }
 
@@ -65,14 +70,20 @@ namespace Managers
             {
                 cameraIndex--;
 
-                foreach (var cam in virtualCameras)
+                foreach (var cam in currentVirtualCameras)
                 {
                     cam.GetComponent<CinemachineVirtualCamera>().Priority = 0;
 
                 }
 
-                virtualCameras[cameraIndex].GetComponent<CinemachineVirtualCamera>().Priority = 1;
+                currentVirtualCameras[cameraIndex].GetComponent<CinemachineVirtualCamera>().Priority = 1;
             }
+        }
+
+        [ContextMenu ("Test Camera chang    e")]
+        void VCTestChange(List<CinemachineVirtualCamera> currentVC)
+        {
+            currentVirtualCameras = currentVC;
         }
         #endregion
     }
