@@ -25,6 +25,7 @@ namespace Managers
         [SerializeField] private TextMeshProUGUI statusTxt;
         [SerializeField] private TextMeshProUGUI DMGTxt;
 
+        private CameraManager cameraManager;
         public delegate void OnEnemyAttack(Entity entity);
         public OnEnemyAttack AttackAlly;
 
@@ -37,6 +38,9 @@ namespace Managers
             int _allySpawnPointNum = 0;
             int _enemySpawnPointNum = 0;
 
+            cameraManager = GameObject.FindObjectOfType<CameraManager>();
+
+            #region Unit Spawning 
             //Spawns the Gameobject from the list of Entities in the Battelfield and Sorts the list of EntityScripts based on the spd value on it
             foreach (GameObject entity in EntityObjToSpawn)
             {
@@ -50,6 +54,7 @@ namespace Managers
             //Set the postions of each ally entity to the ally spawn positions
             foreach (Entity entity in EntityScripts)
             {
+                //Is it our turn?
                 if (entity._isControlable)
                 {
                     entity.gameObject.transform.position = _allySpawnPoints[_allySpawnPointNum].transform.position;
@@ -66,6 +71,7 @@ namespace Managers
                     _enemySpawnPointNum++;
                 }
             }
+            #endregion
 
             //Sorts the list of Entity scripts by the speed value on each one
             EntityScripts.Sort((Ent1, Ent2) => Ent1._spd.CompareTo(Ent2._spd));
@@ -77,20 +83,24 @@ namespace Managers
         #region Turn-Order Regulation Methods
         public void SetBattleStatus()
         {
+            //Cylcle through the turn-system til we find a player controlled unit
             foreach (Entity entity in EntityScripts.ToList())
             {
                 //Updates the currentEntity to the entity whose turn it is
                 currentEntityScript = entity;
                 
-                //If the player is controlable, we give player controls and sends that entity to the bottom of the list
+                //Is the current unit controllable?
                 if (currentEntityScript._isControlable)
                 {
+                    cameraManager.IsControllable = true;
                     battlePanel.SetActive(true);
                     statusTxt.text = "It is " + currentEntityScript.name + " turn";
                     break;
                 }
+                //Is the current unit an enemy?
                 else
                 {
+                    cameraManager.IsControllable = false;
                     AttackAlly(entity);
                     ClearTurnPos();
                 }
