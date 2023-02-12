@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef75bda879f97fe4da5365bc321841b5, type: 3}
   m_Name: RogueAgent
   m_EditorClassIdentifier: 
-  controlable: 0
   Name: RogueAgent
   EntityModel: {fileID: 1209568149458620216, guid: d7c76ddf655361540888a28f109b1570,
     type: 3}
-  currentHP: 400
-  MaxHP: 400
+  MaxHP: 43
   Atk: 36
   Spd: 20
   Def: 11

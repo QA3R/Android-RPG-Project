@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 1209568149458620221}
   - component: {fileID: 1209568149458620218}
   - component: {fileID: 1209568149458620219}
-  - component: {fileID: 8947939161972563307}
+  - component: {fileID: 4693422176962984256}
   m_Layer: 0
-  m_Name: RogueAgent_Model
-  m_TagString: Untagged
+  m_Name: SlowWalker
+  m_TagString: Entity
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,7 +98,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8947939161972563307
+--- !u!114 &4693422176962984256
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,13 +107,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1209568149458620216}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a278712ceff1e784a914d2d47d664719, type: 3}
+  m_Script: {fileID: 11500000, guid: f2fedfe600877d941ae1abe7b76ae52e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentEntity: {fileID: 0}
-  targetEntity: {fileID: 0}
-  TotalDMG: 0
-  statusTxt: {fileID: 0}
-  DMGTxt: {fileID: 0}
-  battlePanel: {fileID: 0}
-  battleManager: {fileID: 0}
+  _entityType: {fileID: 11400000, guid: 7f9e7c6e9531cdc4cbd1504691745ae7, type: 2}
+  _isControlable: 0
+  _name: 
+  _atk: 0
+  _def: 0
+  _spd: 0
+  _res: 0
+  _hp: 0

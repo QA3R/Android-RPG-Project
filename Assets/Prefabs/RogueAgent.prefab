@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 1209568149458620221}
   - component: {fileID: 1209568149458620218}
   - component: {fileID: 1209568149458620219}
+  - component: {fileID: 6604052832293780820}
   m_Layer: 0
-  m_Name: Agent_Model
-  m_TagString: Untagged
+  m_Name: RogueAgent
+  m_TagString: Entity
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1209568149458620216}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: 0, z: 2}
+  m_LocalPosition: {x: 2, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -62,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c0b30b14b7e2e91419c9daaebba5dbfc, type: 2}
+  - {fileID: 2100000, guid: 7c0cd998e15f83345a4af445b1edb23d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,3 +98,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6604052832293780820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209568149458620216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84fab0de9bc0d9943ad1aee7953457a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _entityType: {fileID: 11400000, guid: 6311736b9a6337649b0a4bc38e6a5336, type: 2}
+  _isControlable: 0
+  _name: 
+  _atk: 0
+  _def: 0
+  _spd: 0
+  _res: 0
+  _hp: 0
