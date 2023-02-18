@@ -14,8 +14,6 @@ namespace Managers
         [SerializeField] private InputHandler inputHandler;
         private BattleManager battleManager;
         
-        public List<CinemachineVirtualCamera> AllyVirtualCameras;
-        public List<CinemachineVirtualCamera> EnemyVirtualCameras;
         [SerializeField] private List<Transform> Targets;
      
 
@@ -24,14 +22,9 @@ namespace Managers
         private int cameraIndex;
         #endregion
 
-        #region Start, OnEnable, and OnDisable Methods
-        //Subscribe to the SwipeRight and SwipeLeft methods
-        private void Start()
+        #region OnEnable, OnDisable, and Start Methods
+        private void OnEnable()
         {
-            cameraIndex = 0;
-            //activeVC.LookAt = Targets[0];
-
-            //Subscribe to the 
             inputHandler = GameObject.FindObjectOfType<InputHandler>();
             inputHandler.swipeRight = CameraChnageTargetRight;
             inputHandler.swipeLeft = CameraChnageTargetLeft;
@@ -40,14 +33,8 @@ namespace Managers
             battleManager = GameObject.FindObjectOfType<BattleManager>();
             battleManager.onUnitTurn = ChangeCamera;
 
-            battleManager.ResetCameraPriority += ResetCameraPriority;
-        }
-
-        private void OnEnable()
-        {
-            inputHandler = GameObject.FindObjectOfType<InputHandler>();
-            inputHandler.swipeRight = CameraChnageTargetRight;
-            inputHandler.swipeLeft = CameraChnageTargetLeft;
+            battleManager.onUnitSpawn = SetupVCList;
+            //battleManager.ResetCameraPriority += ResetCameraPriority;
         }
 
         private void OnDisable()
@@ -56,8 +43,16 @@ namespace Managers
             inputHandler.swipeLeft -= CameraChnageTargetLeft;
 
             battleManager.onUnitTurn -= ChangeCamera;
-            battleManager.ResetCameraPriority -= ResetCameraPriority;
 
+            battleManager.onUnitSpawn -= SetupVCList;
+            //battleManager.ResetCameraPriority -= ResetCameraPriority;
+
+        }
+
+        //Subscribe to the SwipeRight and SwipeLeft methods
+        private void Start()
+        {
+            cameraIndex = 0;
         }
         #endregion
 
@@ -88,22 +83,38 @@ namespace Managers
             }
         }
 
-        void ChangeCamera(CinemachineVirtualCamera inputVC)
+        void ChangeCamera()
         {
+            CinemachineVirtualCamera currentEntityVC = battleManager.ChildObj.GetComponent<CinemachineVirtualCamera>(); ;
+            
             Debug.Log("SetupUnitCam was invoked");
-            if (inputVC !=null)
+            if (currentEntityVC != null)
             {
-                activeVC = inputVC;
+                activeVC = currentEntityVC;
                 activeVC.Priority = 11;
                 activeVC.LookAt = Targets[0];
+                cameraIndex = 0;
             }
         }
 
-        public void ResetCameraPriority(CinemachineVirtualCamera unitVC)
+        public void ResetCameraPriority()
         {
-            unitVC.Priority = 0;
+            activeVC.Priority = 0;
         }
         #endregion
+
+        void SetupVCList(GameObject unitToSpawn)
+        {
+            try 
+            {
+                Targets.Add(unitToSpawn.transform);
+            }
+            catch
+            {
+                
+            }
+            
+        }
     }
 }
 
