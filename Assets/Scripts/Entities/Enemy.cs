@@ -22,7 +22,7 @@ namespace Entities
         {
             base.Start();
             battleManager = GameObject.FindObjectOfType<BattleManager>();
-            battleManager.AttackAlly = Attack;
+            battleManager.onEnemyAttack = Attack;
 
             _hpList = new List<Entity>(battleManager.EntityScripts);
             _hpList.Sort((Ent1, Ent2) => Ent1._hp.CompareTo(Ent2._hp));
@@ -41,7 +41,7 @@ namespace Entities
         {
             if (battleManager != null)
             {
-                battleManager.AttackAlly -= Attack;
+                battleManager.onEnemyAttack -= Attack;
             }
         }
 

@@ -9,41 +9,38 @@ namespace Managers
     public class CameraManager : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private List<Transform> allyOneTargets;
-        //[SerializeField] private List<CinemachineVirtualCamera> allyFourVC;
-        //[SerializeField] private List<CinemachineVirtualCamera> currentVirtualCameras;
-        [SerializeField] private Camera cam;
-        [SerializeField] private InputHandler inputHandler;
-
-        [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
-
-        private int cameraIndex;
-        private BattleManager battleManager;
-
         public bool IsControllable;
-   
+        
+        [SerializeField] private InputHandler inputHandler;
+        private BattleManager battleManager;
+        
+        public List<CinemachineVirtualCamera> AllyVirtualCameras;
+        public List<CinemachineVirtualCamera> EnemyVirtualCameras;
+        [SerializeField] private List<Transform> Targets;
+     
 
+        [SerializeField] private Camera cam;
+        [SerializeField] private CinemachineVirtualCamera activeVC;
+        private int cameraIndex;
         #endregion
 
         #region Start, OnEnable, and OnDisable Methods
         //Subscribe to the SwipeRight and SwipeLeft methods
-
-
         private void Start()
         {
             cameraIndex = 0;
-            cinemachineVirtualCamera.LookAt = allyOneTargets[0];
+            //activeVC.LookAt = Targets[0];
 
+            //Subscribe to the 
             inputHandler = GameObject.FindObjectOfType<InputHandler>();
             inputHandler.swipeRight = CameraChnageTargetRight;
             inputHandler.swipeLeft = CameraChnageTargetLeft;
 
+            //Subscribe to the OnUnitTurn delegate: will change the Main Camera to the correct unit's VirtualCamera 
             battleManager = GameObject.FindObjectOfType<BattleManager>();
+            battleManager.onUnitTurn = ChangeCamera;
 
-            //currentVirtualCameras = new List<CinemachineVirtualCamera>();
-            //currentVirtualCameras = allyFourVC;
-
-            //cinemachineVirtualCamera = GameObject.FindObjectOfType<CinemachineVirtualCamera>();
+            battleManager.ResetCameraPriority += ResetCameraPriority;
         }
 
         private void OnEnable()
@@ -57,6 +54,10 @@ namespace Managers
         {
             inputHandler.swipeRight -= CameraChnageTargetRight;
             inputHandler.swipeLeft -= CameraChnageTargetLeft;
+
+            battleManager.onUnitTurn -= ChangeCamera;
+            battleManager.ResetCameraPriority -= ResetCameraPriority;
+
         }
         #endregion
 
@@ -66,21 +67,10 @@ namespace Managers
         {
             if (IsControllable == true)
             {
-                if (cameraIndex < allyOneTargets.Count - 1)
+                if (cameraIndex < Targets.Count - 1 && activeVC !=null)
                 {
                     cameraIndex++;
-                    cinemachineVirtualCamera.LookAt = allyOneTargets[cameraIndex];
-
-                    #region Old Code
-                    /*
-                    foreach (var cam in currentVirtualCameras)
-                    {
-                        cam.GetComponent<CinemachineVirtualCamera>().Priority = 0;
-                    }
-
-                    currentVirtualCameras[cameraIndex].GetComponent<CinemachineVirtualCamera>().Priority = 1;
-                    */
-                    #endregion
+                    activeVC.LookAt = Targets[cameraIndex];
                 }
             }
         }
@@ -93,27 +83,25 @@ namespace Managers
                 if (cameraIndex > 0)
                 {
                     cameraIndex--;
-                    cinemachineVirtualCamera.LookAt = allyOneTargets[cameraIndex];
-
-                    #region Old Code
-                    /*
-                    foreach (var cam in currentVirtualCameras)
-                    {
-                        cam.GetComponent<CinemachineVirtualCamera>().Priority = 0;
-                    }
-
-                    currentVirtualCameras[cameraIndex].GetComponent<CinemachineVirtualCamera>().Priority = 1;
-                    */
-                    #endregion
+                    activeVC.LookAt = Targets[cameraIndex];
                 }
             }
         }
 
-        [ContextMenu ("Test Camera chang." +
-            "e")]
-        void VCTestChange(List<CinemachineVirtualCamera> currentVC)
+        void ChangeCamera(CinemachineVirtualCamera inputVC)
         {
-            //currentVirtualCameras = currentVC;
+            Debug.Log("SetupUnitCam was invoked");
+            if (inputVC !=null)
+            {
+                activeVC = inputVC;
+                activeVC.Priority = 11;
+                activeVC.LookAt = Targets[0];
+            }
+        }
+
+        public void ResetCameraPriority(CinemachineVirtualCamera unitVC)
+        {
+            unitVC.Priority = 0;
         }
         #endregion
     }
