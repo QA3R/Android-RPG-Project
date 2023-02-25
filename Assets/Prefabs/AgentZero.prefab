@@ -112,13 +112,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entityType: {fileID: 11400000, guid: 6d25748d7ac012641bc74315a4d2cdb5, type: 2}
-  _isControlable: 1
-  _name: 
-  _atk: 0
-  _def: 0
-  _spd: 0
-  _res: 0
-  _hp: 0
+  IsControlable: 1
+  Name: 
+  Atk: 0
+  Def: 0
+  Spd: 0
+  Res: 0
+  Hp: 0
 --- !u!1 &7032732743925099521
 GameObject:
   m_ObjectHideFlags: 0

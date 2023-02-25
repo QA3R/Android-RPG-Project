@@ -24,9 +24,23 @@ namespace Managers
         #region Variables
         //Lists for Units to spawn, ally spawn locations, and enemy spawn locations
         [SerializeField] private List<GameObject> EntityObjToSpawn;
+
         [SerializeField] private List<GameObject> _allySpawnPoints;
+        public List<GameObject> AllySpawnPoints => _allySpawnPoints;
+
         [SerializeField] private List<GameObject> _enemySpawnPoints;
-        [SerializeField] public List <Entity> EntityScripts;
+        public List<GameObject> EnemeySpawnPoints => _enemySpawnPoints;
+
+        private int allySpawnPointNum = 0;
+        public int AllySpawnPointNum { get => allySpawnPointNum; set => allySpawnPointNum = value; }
+        
+        private int enemySpawnPointNum = 0;
+        public int EnemySpawnPointNum { get => enemySpawnPointNum; set => enemySpawnPointNum = value; }
+
+        public List <Entity> EntityScripts;
+        public List<Entity> AlliesInParty;
+        public List<Entity> EnemiesInBattle;
+
 
         //Variable for the currentEntity and its script
         private Entity currentEntityScript;
@@ -47,9 +61,13 @@ namespace Managers
         public OnUnitTurn onUnitTurn;
         public GameObject ChildObj;
 
+        //Pings when a unit dies
+        public delegate void OnUnitDeath();
+        public OnUnitDeath onUnitDeath;
+
         //Pings when it is an enemies turn to attack the target that is passed
         public delegate void OnEnemyAttack(Entity target);
-        public OnEnemyAttack onEnemyAttack;
+        public OnEnemyAttack onEnemyTurn;
 
         //Pings to reset all Vitual Cameras' Priority
         public delegate void OnBetweenTurn (CinemachineVirtualCamera cinemachineVC);
@@ -57,7 +75,6 @@ namespace Managers
 
         [SerializeField] GameObject battlePanel;
         #endregion
-
 
         #region Awake & Start
         private void Awake()
@@ -72,7 +89,7 @@ namespace Managers
             //Spawn all untis involved in the battle
             SpawnUnits();
             //Sorts the list of Entity scripts by the speed value on each one
-            EntityScripts.Sort((Ent1, Ent2) => Ent1._spd.CompareTo(Ent2._spd));
+            EntityScripts.Sort((Ent1, Ent2) => Ent1.Spd.CompareTo(Ent2.Spd));
 
             //Startup the Battle System
             SetBattleStatus();
@@ -88,9 +105,6 @@ namespace Managers
         //Takes the list of EntityObjToSpawn and sets them up in the battlefield
         void SpawnUnits()
         {
-            int allySpawnPointNum = 0;
-            int enemySpawnPointNum = 0;
-
             //Spawns the Gameobject from the list of Entities in the Battelfield and Sorts the list of EntityScripts based on the spd value on it
             foreach (GameObject entity in EntityObjToSpawn)
             {
@@ -105,20 +119,14 @@ namespace Managers
             //Set the postions of each entity to its correct spawn location
             foreach (Entity entity in EntityScripts)
             {
-                if (entity._isControlable)
-                {   
-                    //Set the ally to the next available ally spawn point
-                    entity.gameObject.transform.position = _allySpawnPoints[allySpawnPointNum].transform.position;
-                    allySpawnPointNum++;
-                    //cameraManager.AllyVirtualCameras.Add(entity.gameObject.GetComponentInChildren<CinemachineVirtualCamera>());
-                }
-                else if (!entity._isControlable)
+                entity.SetSpawnPoint(this, cameraManager);
+                if(entity.IsControlable)
                 {
-                    //Set the enemy to the next available enemy spawn point
-                    entity.gameObject.transform.position = _enemySpawnPoints[enemySpawnPointNum].transform.position;
-                    enemySpawnPointNum++;
-                    onUnitSpawn(entity.gameObject);
-                    //cameraManager.EnemyVirtualCameras.Add(entity.gameObject.GetComponentInChildren<CinemachineVirtualCamera>());
+                    AlliesInParty.Add(entity);
+                }
+                else
+                {
+                    EnemiesInBattle.Add(entity);
                 }
             }
         }
@@ -133,9 +141,8 @@ namespace Managers
                 currentEntityScript = entity;
                 currentEntity = entity.gameObject;
 
-
                 //Is the current unit controllable?
-                if (currentEntityScript._isControlable)
+                if (currentEntityScript.IsControlable)
                 {
                     //Pass the CinemachineVirtualCamera to the CameraManager to set the MainCamera to use the correct VirtualCamera
                     ChildObj = EntityScripts[0].transform.GetChild(0).gameObject;
@@ -143,10 +150,13 @@ namespace Managers
    
                     //Enable camera controls for the player
                     cameraManager.IsControllable = true;
+
                     //Toggle the controls panels for the player
                     battlePanel.SetActive(true);
+
                     //Set the text to the person's turn (Remove this function later)
                     statusTxt.text = "It is " + currentEntityScript.name + " turn";
+
                     break;
                 }
                 //Is the current unit an enemy?
@@ -154,8 +164,8 @@ namespace Managers
                 {
                     //Disable the camera controls for the player
                     cameraManager.IsControllable = false;
-                    //Ping the AttackAlly delegate for the enemy to attack
-                    onEnemyAttack(entity);
+                    //Ping the AttackAlly delegate for the enemy to attack (NEEDS TO BE FIXED)
+                    onEnemyTurn(entity);
                     //Move to the next turn
                     ClearTurnPos();
                 }

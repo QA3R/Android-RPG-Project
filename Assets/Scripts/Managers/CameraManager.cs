@@ -14,7 +14,7 @@ namespace Managers
         [SerializeField] private InputHandler inputHandler;
         private BattleManager battleManager;
         
-        [SerializeField] private List<Transform> Targets;
+        public List<Transform> Targets;
      
 
         [SerializeField] private Camera cam;
@@ -103,17 +103,9 @@ namespace Managers
         }
         #endregion
 
-        void SetupVCList(GameObject unitToSpawn)
+        public void SetupVCList(GameObject unitToSpawn)
         {
-            try 
-            {
-                Targets.Add(unitToSpawn.transform);
-            }
-            catch
-            {
-                
-            }
-            
+            Targets.Add(unitToSpawn.transform);
         }
     }
 }

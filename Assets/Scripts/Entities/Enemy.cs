@@ -22,15 +22,15 @@ namespace Entities
         {
             base.Start();
             battleManager = GameObject.FindObjectOfType<BattleManager>();
-            battleManager.onEnemyAttack = Attack;
+            battleManager.onEnemyTurn = Attack;
 
             _hpList = new List<Entity>(battleManager.EntityScripts);
-            _hpList.Sort((Ent1, Ent2) => Ent1._hp.CompareTo(Ent2._hp));
+            _hpList.Sort((Ent1, Ent2) => Ent1.Hp.CompareTo(Ent2.Hp));
 
             //remove all uncontrolable entities
             foreach (Entity entity in _hpList.ToList())
             {
-                if (entity._isControlable == false)
+                if (entity.IsControlable == false)
                 {
                     _hpList.Remove(entity);
                 }
@@ -41,37 +41,45 @@ namespace Entities
         {
             if (battleManager != null)
             {
-                battleManager.onEnemyAttack -= Attack;
+                battleManager.onEnemyTurn -= Attack;
             }
+        }
+
+        public override void SetSpawnPoint(BattleManager bManager, CameraManager cManager)
+        {
+            base.SetSpawnPoint(bManager, cManager);
+            transform.position = bManager.EnemeySpawnPoints[bManager.EnemySpawnPointNum].transform.position;
+            cManager.SetupVCList(gameObject);
+            bManager.EnemySpawnPointNum++;
         }
 
         #region Action Methods
         //Selects the Ally with the lowest current HP and calculates DMG dealt based on the enemy's ATK
         public override void Attack(Entity enemy) 
         {
-            if (enemy._atk - _hpList[0]._def < enemy._atk * .3f)
+            if (enemy.Atk - _hpList[0].Def < enemy.Def * .3f)
             {
                 //Set the dmg dealt to be 30% of the enemy's ATK
-                TotalDMG = enemy._atk * (0.3f);
+                TotalDMG = enemy.Atk * (0.3f);
 
                 //Subtract the hp from the dmg dealt to the target
-                _hpList[0]._hp = _hpList[0]._hp - TotalDMG;
+                _hpList[0].Hp = _hpList[0].Hp - TotalDMG;
 
-                Debug.Log(enemy._name + " dealt " + TotalDMG + " DMG to " + _hpList[0]._name);
+                Debug.Log(enemy.Name + " dealt " + TotalDMG + " DMG to " + _hpList[0].Name);
             }
             else
             {
                 //Set the DMG based on the regular calculations
-                TotalDMG = enemy._atk - _hpList[0]._def;
+                TotalDMG = enemy.Atk - _hpList[0].Def;
 
                 //Subtract the hp from the dmg dealt to the target
-                _hpList[0]._hp = _hpList[0]._hp - TotalDMG;
+                _hpList[0].Hp = _hpList[0].Hp - TotalDMG;
 
-                Debug.Log(enemy._name + " dealt " + TotalDMG + " DMG to " + _hpList[0]._name);
+                Debug.Log(enemy.Name + " dealt " + TotalDMG + " DMG to " + _hpList[0].Name);
             }
 
             //Update the list of target HP's
-            _hpList.Sort((Ent1, Ent2) => Ent1._hp.CompareTo(Ent2._hp));
+            _hpList.Sort((Ent1, Ent2) => Ent1.Hp.CompareTo(Ent2.Hp));
         }
 
         public override void AtkSkill()

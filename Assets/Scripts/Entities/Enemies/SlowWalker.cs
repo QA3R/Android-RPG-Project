@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ScriptableObjects;
+using Managers;
 
 namespace Entities.Enemies
 {
@@ -14,10 +15,9 @@ namespace Entities.Enemies
             base.Start();
         }
 
-        // Update is called once per frame
-        void Update()
+        public override void SetSpawnPoint(BattleManager bManager, CameraManager cManager)
         {
-
+            base.SetSpawnPoint(bManager, cManager);
         }
 
         public override void Attack(Entity enemy)

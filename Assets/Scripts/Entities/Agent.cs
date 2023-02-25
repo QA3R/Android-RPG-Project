@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ScriptableObjects;
+using Managers;
 
 namespace Entities
 {
@@ -15,10 +16,11 @@ namespace Entities
             base.Start();
         }
 
-        // Update is called once per frame
-        void Update()
+        public override void SetSpawnPoint(BattleManager bManager, CameraManager cManager)
         {
-
+            base.SetSpawnPoint(bManager, cManager);
+            transform.position = bManager.AllySpawnPoints[bManager.AllySpawnPointNum].transform.position;
+            bManager.AllySpawnPointNum++;
         }
 
         #region Action Methods
