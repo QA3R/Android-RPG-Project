@@ -14,7 +14,7 @@ namespace Managers
         [SerializeField] private InputHandler inputHandler;
         private BattleManager battleManager;
         
-        public List<Transform> Targets;
+        public List<GameObject> Targets;
      
 
         [SerializeField] private Camera cam;
@@ -65,7 +65,8 @@ namespace Managers
                 if (cameraIndex < Targets.Count - 1 && activeVC !=null)
                 {
                     cameraIndex++;
-                    activeVC.LookAt = Targets[cameraIndex];
+                    activeVC.LookAt = Targets[cameraIndex].transform;
+                    
                 }
             }
         }
@@ -78,13 +79,14 @@ namespace Managers
                 if (cameraIndex > 0)
                 {
                     cameraIndex--;
-                    activeVC.LookAt = Targets[cameraIndex];
+                    activeVC.LookAt = Targets[cameraIndex].transform;
                 }
             }
         }
 
         void ChangeCamera()
         {
+            GameObject ChildObj = battleManager.EntityScripts[0].transform.GetChild(0).gameObject;
             CinemachineVirtualCamera currentEntityVC = battleManager.ChildObj.GetComponent<CinemachineVirtualCamera>(); ;
             
             Debug.Log("SetupUnitCam was invoked");
@@ -92,7 +94,7 @@ namespace Managers
             {
                 activeVC = currentEntityVC;
                 activeVC.Priority = 11;
-                activeVC.LookAt = Targets[0];
+                activeVC.LookAt = Targets[0].transform;
                 cameraIndex = 0;
             }
         }
@@ -105,7 +107,7 @@ namespace Managers
 
         public void SetupVCList(GameObject unitToSpawn)
         {
-            Targets.Add(unitToSpawn.transform);
+            Targets.Add(unitToSpawn);
         }
     }
 }

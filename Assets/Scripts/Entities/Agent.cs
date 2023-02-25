@@ -7,9 +7,11 @@ using Managers;
 
 namespace Entities
 {
-
     public class Agent : Entity
     {
+        //private CameraManager cManager;
+        private GameObject target;
+
         // Start is called before the first frame update
         public override void Start()
         {

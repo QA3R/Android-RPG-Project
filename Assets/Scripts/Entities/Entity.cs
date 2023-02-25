@@ -6,10 +6,9 @@ using Managers;
 
 namespace Entities
 {
-    public class Entity : MonoBehaviour
+    public class Entity : MonoBehaviour, IDamageable
     {
-
-        [SerializeField] private EntityScriptableObject _entityType;
+        [SerializeField] private EntityScriptableObject entityType;
         
         public bool IsControlable;
         public string Name;
@@ -21,12 +20,12 @@ namespace Entities
 
         public virtual void Start()
         {
-            Name = _entityType.Name;
-            Hp = _entityType.MaxHP;
-            Atk = _entityType.Atk;
-            Spd = _entityType.Spd;
-            Def = _entityType.Def;
-            Res = _entityType.Res;
+            Name = entityType.Name;
+            Hp = entityType.MaxHP;
+            Atk = entityType.Atk;
+            Spd = entityType.Spd;
+            Def = entityType.Def;
+            Res = entityType.Res;
         }
         
         public virtual void SetSpawnPoint(BattleManager bManager, CameraManager cManager)
