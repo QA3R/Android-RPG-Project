@@ -8,5 +8,6 @@ public class EventHandler : MonoBehaviour
     public delegate void DamageReceived(Entity entityTakingDmg, float damageReceived);
     public DamageReceived OnDamageReceived;
 
-    
+    public delegate void CameraTargetChanged();
+    public CameraTargetChanged OnTargetChanged;
 }

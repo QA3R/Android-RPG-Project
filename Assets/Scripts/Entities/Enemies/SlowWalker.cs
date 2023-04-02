@@ -15,17 +15,12 @@ namespace Entities.Enemies
             base.Start();
         }
 
-        public override void SetSpawnPoint(BattleManager bManager, CameraManager cManager)
-        {
-            base.SetSpawnPoint(bManager, cManager);
-        }
-
         public override void Attack(Entity enemy)
         {
             base.Attack(enemy);
         }
 
-        public override void AtkSkill()
+        public void AtkSkill()
         {
             //New code
             //Debuff enemy

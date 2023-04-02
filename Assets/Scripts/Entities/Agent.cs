@@ -9,46 +9,54 @@ namespace Entities
 {
     public class Agent : Entity
     {
-        //private CameraManager cManager;
-        private GameObject target;
+        private CameraManager cManager;
+       
+        public Entity target;
+        float TotalDmg;
 
+        #region OnEnable, OnDisable, Start
+        void OnDisable()
+        {
+            eHandler.OnDamageReceived -= Attack;
+            eHandler.OnTargetChanged -= SetTarget;
+        }
+
+        private void OnEnable()
+        {
+        }
         // Start is called before the first frame update
         public override void Start()
         {
             base.Start();
+            eHandler.OnTargetChanged = SetTarget;
+  
         }
-
+        #endregion
         public override void SetSpawnPoint(BattleManager bManager, CameraManager cManager)
         {
-            base.SetSpawnPoint(bManager, cManager);
             transform.position = bManager.AllySpawnPoints[bManager.AllySpawnPointNum].transform.position;
             bManager.AllySpawnPointNum++;
         }
 
+        void SetTarget()
+        {
+            target = cManager.Targets[cManager.cameraIndex].GetComponent<Entity>();
+        }
+
         #region Action Methods
-        public override void Attack(Entity entity)
+        public virtual void Attack(Entity entity, float dmgTaken)
         {
+            if (this.Atk - target.Def < 0.3f)
+            {
+                TotalDmg = battleManager.EntityScripts[0].Atk * 0.3f;
+                eHandler.OnDamageReceived.Invoke(target, TotalDmg);
+            }
+            else
+            {
+                TotalDmg = this.Atk - target.Def;
+                eHandler.OnDamageReceived.Invoke(target, TotalDmg);
+            }
             //Attack code to attack enemies
-        }
-
-        public override void AtkSkill()
-        {
-
-        }
-
-        public override void BuffSKill()
-        {
-
-        }
-
-        public override void DebuffSkill()
-        {
-
-        }
-
-        public override void HealSkill()
-        {
-
         }
         #endregion
     }

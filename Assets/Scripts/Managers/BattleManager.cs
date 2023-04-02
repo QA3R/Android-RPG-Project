@@ -52,6 +52,9 @@ namespace Managers
         //CameraManager
         private CameraManager cameraManager;
 
+        //EventHandler
+        private EventHandler eventHandler;
+
         //Pings when units are spawning into the battle
         public delegate void OnUnitSpawn(GameObject unitToSapwn);
         public OnUnitSpawn onUnitSpawn;
@@ -100,6 +103,7 @@ namespace Managers
         void GetReferences()
         {
             cameraManager = GameObject.FindObjectOfType<CameraManager>();
+            eventHandler = GameObject.FindObjectOfType<EventHandler>();
         }
 
         //Takes the list of EntityObjToSpawn and sets them up in the battlefield
@@ -161,7 +165,8 @@ namespace Managers
                 }
                 //Is the current unit an enemy?
                 else
-                {
+                {   //Sets up the OnDamageReceived to take the IDamageable TakeDmg method when pinged
+                    eventHandler.OnDamageReceived = entity.iDamageable.TakeDmg;
                     //Disable the camera controls for the player
                     cameraManager.IsControllable = false;
                     //Ping the AttackAlly delegate for the enemy to attack (NEEDS TO BE FIXED)

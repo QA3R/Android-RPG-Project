@@ -13,13 +13,13 @@ namespace Managers
         
         [SerializeField] private InputHandler inputHandler;
         private BattleManager battleManager;
-        
+        private EventHandler eventHandler;
         public List<GameObject> Targets;
      
 
         [SerializeField] private Camera cam;
-        [SerializeField] private CinemachineVirtualCamera activeVC;
-        private int cameraIndex;
+        public CinemachineVirtualCamera activeVC;
+        public int cameraIndex;
         #endregion
 
         #region OnEnable, OnDisable, and Start Methods
@@ -28,6 +28,8 @@ namespace Managers
             inputHandler = GameObject.FindObjectOfType<InputHandler>();
             inputHandler.swipeRight = CameraChnageTargetRight;
             inputHandler.swipeLeft = CameraChnageTargetLeft;
+
+            eventHandler = GameObject.FindObjectOfType<EventHandler>();
 
             //Subscribe to the OnUnitTurn delegate: will change the Main Camera to the correct unit's VirtualCamera 
             battleManager = GameObject.FindObjectOfType<BattleManager>();
@@ -66,7 +68,7 @@ namespace Managers
                 {
                     cameraIndex++;
                     activeVC.LookAt = Targets[cameraIndex].transform;
-                    
+                    eventHandler.OnTargetChanged.Invoke();
                 }
             }
         }
@@ -80,6 +82,7 @@ namespace Managers
                 {
                     cameraIndex--;
                     activeVC.LookAt = Targets[cameraIndex].transform;
+                    eventHandler.OnTargetChanged.Invoke();
                 }
             }
         }
@@ -96,6 +99,7 @@ namespace Managers
                 activeVC.Priority = 11;
                 activeVC.LookAt = Targets[0].transform;
                 cameraIndex = 0;
+                //eventHandler.OnTargetChanged.Invoke();
             }
         }
 

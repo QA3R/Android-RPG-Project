@@ -3,6 +3,8 @@ using ScriptableObjects;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Managers;
+
 
 
 namespace Entities.Agents
@@ -24,28 +26,28 @@ namespace Entities.Agents
         }
 
         #region Action Methods
-        public override void Attack(Entity entity)
+        public override void Attack(Entity entity, float dmgTaken)
         {
-            base.Attack(entity);
+            //base.Attack();
             //reduce def by 30%
         }
 
-        public override void AtkSkill()
+        public void AtkSkill()
         {
 
         }
 
-        public override void BuffSKill()
+        public void BuffSKill()
         {
 
         }
 
-        public override void DebuffSkill()
+        public void DebuffSkill()
         {
 
         }
 
-        public override void HealSkill()
+        public void HealSkill()
         {
 
         }
