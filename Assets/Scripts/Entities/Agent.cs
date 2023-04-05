@@ -18,17 +18,16 @@ namespace Entities
         void OnDisable()
         {
             eHandler.OnDamageReceived -= Attack;
-            eHandler.OnTargetChanged -= SetTarget;
         }
 
         private void OnEnable()
         {
+
         }
         // Start is called before the first frame update
         public override void Start()
         {
             base.Start();
-            eHandler.OnTargetChanged = SetTarget;
   
         }
         #endregion
@@ -38,7 +37,7 @@ namespace Entities
             bManager.AllySpawnPointNum++;
         }
 
-        void SetTarget()
+        private void SetTarget()
         {
             target = cManager.Targets[cManager.cameraIndex].GetComponent<Entity>();
         }

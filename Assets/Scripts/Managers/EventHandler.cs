@@ -10,4 +10,7 @@ public class EventHandler : MonoBehaviour
 
     public delegate void CameraTargetChanged();
     public CameraTargetChanged OnTargetChanged;
+
+    public delegate void UnitDeath();
+    public UnitDeath OnUnitDeath;
 }

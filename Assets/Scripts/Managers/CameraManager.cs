@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using Unity.VisualScripting;
+using Entities;
 
 namespace Managers
 {
@@ -15,7 +16,8 @@ namespace Managers
         private BattleManager battleManager;
         private EventHandler eventHandler;
         public List<GameObject> Targets;
-     
+
+        private Entity target;
 
         [SerializeField] private Camera cam;
         public CinemachineVirtualCamera activeVC;
@@ -43,7 +45,7 @@ namespace Managers
         {
             inputHandler.swipeRight -= CameraChnageTargetRight;
             inputHandler.swipeLeft -= CameraChnageTargetLeft;
-
+            eventHandler.OnTargetChanged -= SetTarget;
             battleManager.onUnitTurn -= ChangeCamera;
 
             battleManager.onUnitSpawn -= SetupVCList;
@@ -55,10 +57,17 @@ namespace Managers
         private void Start()
         {
             cameraIndex = 0;
+            eventHandler.OnTargetChanged = SetTarget;
         }
         #endregion
 
         #region Camera Control Methods
+
+        private void SetTarget()
+        {
+            target = Targets[cameraIndex].GetComponent<Entity>();
+        }
+
         [ContextMenu("Move Camera Right")]
         void CameraChnageTargetRight()
         {
