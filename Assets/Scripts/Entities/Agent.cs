@@ -47,7 +47,7 @@ namespace Entities
         {
             if (this.Atk - target.Def < 0.3f)
             {
-                TotalDmg = battleManager.EntityScripts[0].Atk * 0.3f;
+                TotalDmg = battleManager.UnitsInBattle[0].Atk * 0.3f;
                 eHandler.OnDealDMG.Invoke(target, TotalDmg);
             }
             else

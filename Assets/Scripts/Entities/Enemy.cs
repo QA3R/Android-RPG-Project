@@ -30,11 +30,11 @@ namespace Entities
 
             battleManager.onEnemyTurn = Attack;
             //remove all uncontrolable entities
-            foreach (Entity entity in battleManager._hpList.ToList())
+            foreach (Entity entity in battleManager.unitHPList.ToList())
             {
                 if (entity.IsControlable == false)
                 {
-                    battleManager._hpList.Remove(entity);
+                    battleManager.unitHPList.Remove(entity);
                 }
             }   
         }
@@ -54,7 +54,7 @@ namespace Entities
         //Selects the Ally with the lowest current HP and calculates DMG dealt based on the enemy's ATK
         public virtual void Attack(Entity enemy) 
         {
-            if (enemy.Atk - battleManager._hpList[0].Def < enemy.Def * .3f)
+            if (enemy.Atk - battleManager.unitHPList[0].Def < enemy.Def * .3f)
             {
                 //Set the dmg dealt to be 30% of the enemy's ATK
                 TotalDMG = enemy.Atk * (0.3f);
@@ -62,22 +62,22 @@ namespace Entities
 
                 //Invoke the IDamageable TakeDmg method
                 if(eHandler.OnDealDMG !=null)
-                eHandler.OnDealDMG.Invoke(battleManager._hpList[0], TotalDMG);
+                eHandler.OnDealDMG.Invoke(battleManager.unitHPList[0], TotalDMG);
             }
             else
             {
                 //Set the DMG based on the regular calculations
-                TotalDMG = enemy.Atk - battleManager._hpList[0].Def;
+                TotalDMG = enemy.Atk - battleManager.unitHPList[0].Def;
 
                 //Invoke the IDamageable TakeDmg method
                 if (eHandler.OnDealDMG != null)
-                    eHandler.OnDealDMG.Invoke(battleManager._hpList[0], TotalDMG);
+                    eHandler.OnDealDMG.Invoke(battleManager.unitHPList[0], TotalDMG);
 
-                Debug.Log(enemy.Name + " dealt " + TotalDMG + " DMG to " + battleManager._hpList[0].Name);
+                Debug.Log(enemy.Name + " dealt " + TotalDMG + " DMG to " + battleManager.unitHPList[0].Name);
             }
 
             //Update the list of target HP's
-            battleManager._hpList.Sort((Ent1, Ent2) => Ent1.Hp.CompareTo(Ent2.Hp));
+            battleManager.unitHPList.Sort((Ent1, Ent2) => Ent1.Hp.CompareTo(Ent2.Hp));
         }
 
         #endregion

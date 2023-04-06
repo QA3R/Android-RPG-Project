@@ -47,7 +47,6 @@ namespace Entities
 
         public virtual void SetSpawnPoint(BattleManager bManager, CameraManager cManager)
         {
-
         }
 
         public virtual void CheckEntityStatus()
@@ -61,10 +60,8 @@ namespace Entities
 
         public virtual void RemoveEntity() 
         {
-
-            battleManager.EntityScripts.Remove(gameObject.GetComponent<Entity>());
-            battleManager._hpList.Remove(gameObject.GetComponent<Entity>());
-
+            battleManager.UnitsInBattle.Remove(gameObject.GetComponent<Entity>());
+            battleManager.unitHPList.Remove(gameObject.GetComponent<Entity>());
         }
     }
 }

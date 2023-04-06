@@ -37,15 +37,14 @@ namespace Managers
         private int enemySpawnPointNum = 0;
         public int EnemySpawnPointNum { get => enemySpawnPointNum; set => enemySpawnPointNum = value; }
 
-        public List <Entity> EntityScripts;
+        public List <Entity> UnitsInBattle;
         public List<Entity> AlliesInParty;
         public List<Entity> EnemiesInBattle;
 
-        public List<Entity> _hpList;
+        public List<Entity> unitHPList;
 
         //Variable for the currentEntity and its script
-        private Entity currentEntityScript;
-        private GameObject currentEntity;
+        private GameObject currentUnit;
                 
         [SerializeField] private TextMeshProUGUI statusTxt;
         [SerializeField] private TextMeshProUGUI DMGTxt;
@@ -92,8 +91,9 @@ namespace Managers
         {
             //Spawn all untis involved in the battle
             SpawnUnits();
+
             //Sorts the list of Entity scripts by the speed value on each one
-            EntityScripts.Sort((Ent1, Ent2) => Ent1.Spd.CompareTo(Ent2.Spd));
+            UnitsInBattle.Sort((Ent1, Ent2) => Ent1.Spd.CompareTo(Ent2.Spd));
 
             //Startup the Battle System
             SetBattleStatus();
@@ -115,48 +115,38 @@ namespace Managers
             {
                 if (entity != null)
                 //Spawn the entity 
-                currentEntity = Instantiate(entity);
+                currentUnit = Instantiate(entity);
                 //Add the Entity Script from currentEntity to the EntityScripts List
-                EntityScripts.Add(currentEntity.GetComponent<Entity>());
-                //Ping delegate that a unit has spawned
+                UnitsInBattle.Add(currentUnit.GetComponent<Entity>());
             }
 
             //Set the postions of each entity to its correct spawn location
-            foreach (Entity entity in EntityScripts)
+            foreach (Entity unit in UnitsInBattle)
             {
-                entity.SetSpawnPoint(this, cameraManager);
-                if(entity.IsControlable)
-                {
-                    AlliesInParty.Add(entity);
-                }
-                else
-                {
-                    EnemiesInBattle.Add(entity);
-                }
+                unit.SetSpawnPoint(this, cameraManager);
             }
 
             //Create a list of Entities sorted on their HP values
-            _hpList = new List<Entity>(EntityScripts);
+            unitHPList = new List<Entity>(UnitsInBattle);
         }
         
         //Checks which phase of the battle we are currently in (Player turn or Enemy turn)
         public void SetBattleStatus()
         {
             //Sorts the list of allies by their HP value
-            _hpList.Sort((Ent1, Ent2) => Ent1.Hp.CompareTo(Ent2.Hp));
+            unitHPList.Sort((Ent1, Ent2) => Ent1.Hp.CompareTo(Ent2.Hp));
 
             //Cylcle through the turn-system til we find a player controlled unit
-            foreach (Entity entity in EntityScripts.ToList())
+            foreach (Entity entity in UnitsInBattle.ToList())
             {
                 //Updates the currentEntity to the entity whose turn it is
-                currentEntityScript = entity;
-                currentEntity = entity.gameObject;
+                currentUnit = entity.gameObject;
 
                 //Is the current unit controllable?
-                if (currentEntityScript.IsControlable)
+                if (currentUnit.GetComponent<Entity>().IsControlable && currentUnit.GetComponent<Entity>().IsDead == false)
                 {
                     //Pass the CinemachineVirtualCamera to the CameraManager to set the MainCamera to use the correct VirtualCamera
-                    ChildObj = EntityScripts[0].transform.GetChild(0).gameObject;
+                    ChildObj = UnitsInBattle[0].transform.GetChild(0).gameObject;
                     onUnitTurn();
    
                     //Enable camera controls for the player
@@ -166,12 +156,12 @@ namespace Managers
                     battlePanel.SetActive(true);
 
                     //Set the text to the person's turn (Remove this function later)
-                    statusTxt.text = "It is " + currentEntityScript.name + " turn";
+                    statusTxt.text = "It is " + currentUnit.GetComponent<Entity>().name + " turn";
 
                     break;
                 }
                 //Is the current unit an enemy?
-                else
+                else if (currentUnit.GetComponent<Entity>().IsDead == false)
                 {   //Sets up the OnDealDMG to take the IDamageable TakeDmg method when pinged
                     eventHandler.OnDealDMG = entity.iDamageable.DealDMG;
                     //Disable the camera controls for the player
@@ -180,6 +170,7 @@ namespace Managers
                     onEnemyTurn(entity);
                     //Move to the next turn
                     eventHandler.OnActionMade.Invoke();
+
                     ClearTurnPos();
                 }
             }
@@ -188,9 +179,8 @@ namespace Managers
         //Clears and adds the current playable party member from the turn order (sets them to the back of the turn order)
         public void ClearTurnPos()
         {   
-            EntityScripts.Remove(currentEntityScript);
-            EntityScripts.Add(currentEntityScript);
-
+            UnitsInBattle.Remove(currentUnit.GetComponent<Entity>());
+            UnitsInBattle.Add(currentUnit.GetComponent<Entity>());
         }
         #endregion
 

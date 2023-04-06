@@ -98,7 +98,7 @@ namespace Managers
 
         void ChangeCamera()
         {
-            GameObject ChildObj = battleManager.EntityScripts[0].transform.GetChild(0).gameObject;
+            GameObject ChildObj = battleManager.UnitsInBattle[0].transform.GetChild(0).gameObject;
             CinemachineVirtualCamera currentEntityVC = battleManager.ChildObj.GetComponent<CinemachineVirtualCamera>(); ;
             
             Debug.Log("SetupUnitCam was invoked");
