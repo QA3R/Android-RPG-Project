@@ -41,6 +41,7 @@ namespace Managers
         public List<Entity> AlliesInParty;
         public List<Entity> EnemiesInBattle;
 
+        public List<Entity> _hpList;
 
         //Variable for the currentEntity and its script
         private Entity currentEntityScript;
@@ -133,11 +134,17 @@ namespace Managers
                     EnemiesInBattle.Add(entity);
                 }
             }
+
+            //Create a list of Entities sorted on their HP values
+            _hpList = new List<Entity>(EntityScripts);
         }
         
         //Checks which phase of the battle we are currently in (Player turn or Enemy turn)
         public void SetBattleStatus()
         {
+            //Sorts the list of allies by their HP value
+            _hpList.Sort((Ent1, Ent2) => Ent1.Hp.CompareTo(Ent2.Hp));
+
             //Cylcle through the turn-system til we find a player controlled unit
             foreach (Entity entity in EntityScripts.ToList())
             {
@@ -165,13 +172,14 @@ namespace Managers
                 }
                 //Is the current unit an enemy?
                 else
-                {   //Sets up the OnDamageReceived to take the IDamageable TakeDmg method when pinged
-                    eventHandler.OnDamageReceived = entity.iDamageable.TakeDmg;
+                {   //Sets up the OnDealDMG to take the IDamageable TakeDmg method when pinged
+                    eventHandler.OnDealDMG = entity.iDamageable.DealDMG;
                     //Disable the camera controls for the player
                     cameraManager.IsControllable = false;
                     //Ping the AttackAlly delegate for the enemy to attack (NEEDS TO BE FIXED)
                     onEnemyTurn(entity);
                     //Move to the next turn
+                    eventHandler.OnActionMade.Invoke();
                     ClearTurnPos();
                 }
             }
@@ -182,6 +190,7 @@ namespace Managers
         {   
             EntityScripts.Remove(currentEntityScript);
             EntityScripts.Add(currentEntityScript);
+
         }
         #endregion
 

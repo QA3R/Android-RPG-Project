@@ -37,10 +37,33 @@ namespace Entities
             battleManager = GameObject.FindObjectOfType<BattleManager>();
             eHandler = GameObject.FindObjectOfType<EventHandler>();
             iDamageable = this;
+            eHandler.OnActionMade += CheckEntityStatus;
+        }
+
+        private void OnDisable()
+        {
+            eHandler.OnActionMade -= CheckEntityStatus;
         }
 
         public virtual void SetSpawnPoint(BattleManager bManager, CameraManager cManager)
         {
+
+        }
+
+        public virtual void CheckEntityStatus()
+        {
+            if (IsDead)
+            {
+                RemoveEntity();
+                gameObject.GetComponent<MeshRenderer>().enabled = false;
+            }
+        }
+
+        public virtual void RemoveEntity() 
+        {
+
+            battleManager.EntityScripts.Remove(gameObject.GetComponent<Entity>());
+            battleManager._hpList.Remove(gameObject.GetComponent<Entity>());
 
         }
     }

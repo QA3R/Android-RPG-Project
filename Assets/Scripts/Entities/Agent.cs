@@ -17,7 +17,7 @@ namespace Entities
         #region OnEnable, OnDisable, Start
         void OnDisable()
         {
-            eHandler.OnDamageReceived -= Attack;
+            eHandler.OnDealDMG -= Attack;
         }
 
         private void OnEnable()
@@ -48,12 +48,12 @@ namespace Entities
             if (this.Atk - target.Def < 0.3f)
             {
                 TotalDmg = battleManager.EntityScripts[0].Atk * 0.3f;
-                eHandler.OnDamageReceived.Invoke(target, TotalDmg);
+                eHandler.OnDealDMG.Invoke(target, TotalDmg);
             }
             else
             {
                 TotalDmg = this.Atk - target.Def;
-                eHandler.OnDamageReceived.Invoke(target, TotalDmg);
+                eHandler.OnDealDMG.Invoke(target, TotalDmg);
             }
             //Attack code to attack enemies
         }

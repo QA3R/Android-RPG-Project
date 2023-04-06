@@ -13,7 +13,6 @@ namespace Entities
     public class Enemy : Entity
     {
         private float TotalDMG;
-        List <Entity> _hpList;
 
         #region OnEnable, OnDisable, Start
         private void OnDisable()
@@ -21,7 +20,7 @@ namespace Entities
             if (battleManager != null)
             {
                 battleManager.onEnemyTurn -= Attack;
-                eHandler.OnDamageReceived -= iDamageable.TakeDmg;
+                eHandler.OnDealDMG -= iDamageable.DealDMG;
             }
         }
 
@@ -30,17 +29,12 @@ namespace Entities
             base.Start();
 
             battleManager.onEnemyTurn = Attack;
-
-            //Sorts the list of allies by their HP value
-            _hpList = new List<Entity>(battleManager.EntityScripts);
-            _hpList.Sort((Ent1, Ent2) => Ent1.Hp.CompareTo(Ent2.Hp));
-
             //remove all uncontrolable entities
-            foreach (Entity entity in _hpList.ToList())
+            foreach (Entity entity in battleManager._hpList.ToList())
             {
                 if (entity.IsControlable == false)
                 {
-                    _hpList.Remove(entity);
+                    battleManager._hpList.Remove(entity);
                 }
             }   
         }
@@ -60,30 +54,30 @@ namespace Entities
         //Selects the Ally with the lowest current HP and calculates DMG dealt based on the enemy's ATK
         public virtual void Attack(Entity enemy) 
         {
-            if (enemy.Atk - _hpList[0].Def < enemy.Def * .3f)
+            if (enemy.Atk - battleManager._hpList[0].Def < enemy.Def * .3f)
             {
                 //Set the dmg dealt to be 30% of the enemy's ATK
                 TotalDMG = enemy.Atk * (0.3f);
                 Debug.Log("Total Dmg is " + TotalDMG);
 
                 //Invoke the IDamageable TakeDmg method
-                if(eHandler.OnDamageReceived !=null)
-                eHandler.OnDamageReceived.Invoke(_hpList[0], TotalDMG);
+                if(eHandler.OnDealDMG !=null)
+                eHandler.OnDealDMG.Invoke(battleManager._hpList[0], TotalDMG);
             }
             else
             {
                 //Set the DMG based on the regular calculations
-                TotalDMG = enemy.Atk - _hpList[0].Def;
+                TotalDMG = enemy.Atk - battleManager._hpList[0].Def;
 
                 //Invoke the IDamageable TakeDmg method
-                if (eHandler.OnDamageReceived != null)
-                    eHandler.OnDamageReceived.Invoke(_hpList[0], TotalDMG);
+                if (eHandler.OnDealDMG != null)
+                    eHandler.OnDealDMG.Invoke(battleManager._hpList[0], TotalDMG);
 
-                Debug.Log(enemy.Name + " dealt " + TotalDMG + " DMG to " + _hpList[0].Name);
+                Debug.Log(enemy.Name + " dealt " + TotalDMG + " DMG to " + battleManager._hpList[0].Name);
             }
 
             //Update the list of target HP's
-            _hpList.Sort((Ent1, Ent2) => Ent1.Hp.CompareTo(Ent2.Hp));
+            battleManager._hpList.Sort((Ent1, Ent2) => Ent1.Hp.CompareTo(Ent2.Hp));
         }
 
         #endregion

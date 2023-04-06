@@ -5,7 +5,7 @@ using Entities;
 
 public interface IDamageable
 {
-    void TakeDmg(Entity entityDamaged, float dmgTaken)
+    void DealDMG(Entity entityDamaged, float dmgTaken)
     {
         if (entityDamaged.Hp <= 0)
         {

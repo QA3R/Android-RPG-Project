@@ -11,8 +11,6 @@ namespace Entities.Agents
 {
     public class AgentZero : Agent
     {
-       
-
         // Start is called before the first frame update
         public override void Start()
         {
