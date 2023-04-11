@@ -55,16 +55,7 @@ namespace Managers
         //EventHandler
         private EventHandler eventHandler;
 
-        //Pings when units are spawning into the battle
-        public delegate void OnUnitSpawn(GameObject unitToSapwn);
-        public OnUnitSpawn onUnitSpawn;
-
         public GameObject ChildObj;
-
-
-        //Pings to reset all Vitual Cameras' Priority
-        public delegate void OnBetweenTurn (CinemachineVirtualCamera cinemachineVC);
-        public OnBetweenTurn ResetCameraPriority;
 
         [SerializeField] GameObject battlePanel;
         #endregion
@@ -132,12 +123,12 @@ namespace Managers
                 //Updates the currentEntity to the entity whose turn it is
                 currentUnit = entity.gameObject;
 
-                //Is the current unit controllable?
+                //Is the current unit controllable and not dead?
                 if (currentUnit.GetComponent<Entity>().IsControlable && currentUnit.GetComponent<Entity>().IsDead == false)
                 {
                     //Pass the CinemachineVirtualCamera to the CameraManager to set the MainCamera to use the correct VirtualCamera
                     ChildObj = UnitsInBattle[0].transform.GetChild(0).gameObject;
-                    eventHandler.onUnitTurn();
+                    eventHandler.onPlayerTurn();
    
                     //Enable camera controls for the player
                     cameraManager.IsControllable = true;
