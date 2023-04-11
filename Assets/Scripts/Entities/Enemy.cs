@@ -19,7 +19,7 @@ namespace Entities
         {
             if (battleManager != null)
             {
-                battleManager.onEnemyTurn -= Attack;
+                eHandler.onEnemyTurn -= Attack;
                 eHandler.OnDealDMG -= iDamageable.DealDMG;
             }
         }
@@ -28,7 +28,7 @@ namespace Entities
         {
             base.Start();
 
-            battleManager.onEnemyTurn = Attack;
+            eHandler.onEnemyTurn = Attack;
             //remove all uncontrolable entities
             foreach (Entity entity in battleManager.unitHPList.ToList())
             {

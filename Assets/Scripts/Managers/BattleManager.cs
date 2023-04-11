@@ -59,18 +59,8 @@ namespace Managers
         public delegate void OnUnitSpawn(GameObject unitToSapwn);
         public OnUnitSpawn onUnitSpawn;
 
-        //Pings to set the Main Camera to the correct unit's Camera
-        public delegate void OnUnitTurn();
-        public OnUnitTurn onUnitTurn;
         public GameObject ChildObj;
 
-        //Pings when a unit dies
-        public delegate void OnUnitDeath();
-        public OnUnitDeath onUnitDeath;
-
-        //Pings when it is an enemies turn to attack the target that is passed
-        public delegate void OnEnemyAttack(Entity target);
-        public OnEnemyAttack onEnemyTurn;
 
         //Pings to reset all Vitual Cameras' Priority
         public delegate void OnBetweenTurn (CinemachineVirtualCamera cinemachineVC);
@@ -147,7 +137,7 @@ namespace Managers
                 {
                     //Pass the CinemachineVirtualCamera to the CameraManager to set the MainCamera to use the correct VirtualCamera
                     ChildObj = UnitsInBattle[0].transform.GetChild(0).gameObject;
-                    onUnitTurn();
+                    eventHandler.onUnitTurn();
    
                     //Enable camera controls for the player
                     cameraManager.IsControllable = true;
@@ -167,7 +157,7 @@ namespace Managers
                     //Disable the camera controls for the player
                     cameraManager.IsControllable = false;
                     //Ping the AttackAlly delegate for the enemy to attack (NEEDS TO BE FIXED)
-                    onEnemyTurn(entity);
+                    eventHandler.onEnemyTurn(entity);
                     //Move to the next turn
                     eventHandler.OnActionMade.Invoke();
 

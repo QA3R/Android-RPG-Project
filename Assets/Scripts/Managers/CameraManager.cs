@@ -35,7 +35,7 @@ namespace Managers
 
             //Subscribe to the OnUnitTurn delegate: will change the Main Camera to the correct unit's VirtualCamera 
             battleManager = GameObject.FindObjectOfType<BattleManager>();
-            battleManager.onUnitTurn = ChangeCamera;
+            eventHandler.onUnitTurn = ChangeCamera;
 
             battleManager.onUnitSpawn = SetupVCList;
             //battleManager.ResetCameraPriority += ResetCameraPriority;
@@ -46,7 +46,7 @@ namespace Managers
             inputHandler.swipeRight -= CameraChnageTargetRight;
             inputHandler.swipeLeft -= CameraChnageTargetLeft;
             eventHandler.OnTargetChanged -= SetTarget;
-            battleManager.onUnitTurn -= ChangeCamera;
+            eventHandler.onUnitTurn -= ChangeCamera;
 
             battleManager.onUnitSpawn -= SetupVCList;
             //battleManager.ResetCameraPriority -= ResetCameraPriority;

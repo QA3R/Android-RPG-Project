@@ -13,4 +13,12 @@ public class EventHandler : MonoBehaviour
 
     public delegate void ActionMade();
     public ActionMade OnActionMade;
+
+    //Pings to set the Main Camera to the correct unit's Camera
+    public delegate void UnitTurn();
+    public UnitTurn onUnitTurn;
+
+    public delegate void EnemyTurn(Entity entity);
+    public EnemyTurn onEnemyTurn;
+
 }
