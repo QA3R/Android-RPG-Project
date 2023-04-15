@@ -9,17 +9,20 @@ namespace Managers
 {
     public class CameraManager : MonoBehaviour
     {
+        #region Singleton Implementation
+        private static CameraManager instance;
+        public static CameraManager Instance => instance;
+        #endregion
+
         #region Variables
         public bool IsControllable;
         
-        [SerializeField] private InputHandler inputHandler;
-        private BattleManager battleManager;
-        private EventHandler eventHandler;
         public List<GameObject> Targets;
 
         private Entity target;
 
         [SerializeField] private Camera cam;
+        private CinemachineVirtualCamera currentEntityVC;
         public CinemachineVirtualCamera activeVC;
         public int cameraIndex;
         #endregion
@@ -27,34 +30,44 @@ namespace Managers
         #region OnEnable, OnDisable, and Start Methods
         private void OnEnable()
         {
-            inputHandler = GameObject.FindObjectOfType<InputHandler>();
-            inputHandler.swipeRight = CameraChnageTargetRight;
-            inputHandler.swipeLeft = CameraChnageTargetLeft;
-
-            eventHandler = GameObject.FindObjectOfType<EventHandler>();
+            //Subscribe the CameraManager's methods to move the camera right and left to the InputHandler's events
+            EventHandler.Instance.swipeRight = CameraChnageTargetRight;
+            EventHandler.Instance.swipeLeft = CameraChnageTargetLeft;
 
             //Subscribe to the OnUnitTurn delegate: will change the Main Camera to the correct unit's VirtualCamera 
-            battleManager = GameObject.FindObjectOfType<BattleManager>();
-            eventHandler.onPlayerTurn = ChangeCamera;
+            EventHandler.Instance.onPlayerTurn = ChangeCamera;
 
-            eventHandler.onUnitSpawn = SetupVCList;
+            EventHandler.Instance.onUnitSpawn = SetupVCList;
         }
 
         private void OnDisable()
         {
-            inputHandler.swipeRight -= CameraChnageTargetRight;
-            inputHandler.swipeLeft -= CameraChnageTargetLeft;
-            eventHandler.OnTargetChanged -= SetTarget;
-            eventHandler.onPlayerTurn -= ChangeCamera;
+            EventHandler.Instance.swipeRight -= CameraChnageTargetRight;
+            EventHandler.Instance.swipeLeft -= CameraChnageTargetLeft;
+            EventHandler.Instance.OnTargetChanged -= SetTarget;
+            EventHandler.Instance.onPlayerTurn -= ChangeCamera;
 
-            eventHandler.onUnitSpawn -= SetupVCList;
+            EventHandler.Instance.onUnitSpawn -= SetupVCList;
+        }
+
+        private void Awake()
+        {
+            //Singleton Implementation
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Destroy(this.gameObject);
+            }
         }
 
         //Subscribe to the SwipeRight and SwipeLeft methods
         private void Start()
         {
             cameraIndex = 0;
-            eventHandler.OnTargetChanged = SetTarget;
+            EventHandler.Instance.OnTargetChanged = SetTarget;
         }
         #endregion
 
@@ -74,7 +87,7 @@ namespace Managers
                 {
                     cameraIndex++;
                     activeVC.LookAt = Targets[cameraIndex].transform;
-                    eventHandler.OnTargetChanged.Invoke();
+                    EventHandler.Instance.OnTargetChanged.Invoke();
                 }
             }
         }
@@ -88,16 +101,23 @@ namespace Managers
                 {
                     cameraIndex--;
                     activeVC.LookAt = Targets[cameraIndex].transform;
-                    eventHandler.OnTargetChanged.Invoke();
+                    EventHandler.Instance.OnTargetChanged.Invoke();
                 }
             }
         }
 
         void ChangeCamera()
         {
-            GameObject ChildObj = battleManager.UnitsInBattle[0].transform.GetChild(0).gameObject;
-            CinemachineVirtualCamera currentEntityVC = battleManager.ChildObj.GetComponent<CinemachineVirtualCamera>(); ;
+            //If there is a currentEntityVC (We have gone pass one PlayerTurn, we will set the previous Player Unit's VC priorty to 0)
+            if (currentEntityVC != null)
+            {
+                currentEntityVC.Priority = 0;
+            }
+
+            GameObject ChildObj = BattleManager.Instance.UnitsInBattle[BattleManager.Instance.UnitIndex].transform.GetChild(0).gameObject;
+            currentEntityVC = BattleManager.Instance.ChildObj.GetComponent<CinemachineVirtualCamera>(); ;
             
+
             Debug.Log("SetupUnitCam was invoked");
             if (currentEntityVC != null)
             {

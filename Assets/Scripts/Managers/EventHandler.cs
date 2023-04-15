@@ -6,6 +6,25 @@ using Cinemachine;
 
 public class EventHandler : MonoBehaviour
 {
+    #region Singleton Implementation
+    private static EventHandler instance;
+    public static EventHandler Instance => instance;
+    #endregion 
+
+    #region InputHandler delegates
+    //Pings when swiping left on the device
+    public delegate void SwipeLeft();
+    public SwipeLeft swipeLeft;
+    
+    //Pings when swiping right on the device
+    public delegate void SwipeRight();
+    public SwipeRight swipeRight;
+    #endregion
+
+    #region BattleManager related delegates
+    public delegate void StateEnd();
+    public StateEnd OnStateEnd;
+
     //Pings when units are spawning into the battle
     public delegate void OnUnitSpawn(GameObject unitToSapwn);
     public OnUnitSpawn onUnitSpawn;
@@ -14,17 +33,34 @@ public class EventHandler : MonoBehaviour
     public delegate void PlayerTurn();
     public PlayerTurn onPlayerTurn;
 
+    //The Enemy.cs script will invoke the Attack Method to attack the lowest HP ally unit
     public delegate void EnemyTurn(Entity entity);
     public EnemyTurn onEnemyTurn;
 
     //Event for when something takes dmg
     public delegate void DamageReceived(Entity entityTakingDmg, float damageReceived);
     public DamageReceived OnDealDMG;
-
-    public delegate void CameraTargetChanged();
-    public CameraTargetChanged OnTargetChanged;
-
+    //The Entity.cs Script will invoke its CheckEntityStatus method to determine if it is dead or not
     public delegate void ActionMade();
     public ActionMade OnActionMade;
+    #endregion
 
+    #region CameraManager related delegates
+    public delegate void CameraTargetChanged();
+    public CameraTargetChanged OnTargetChanged;
+    #endregion 
+
+
+    //Singleton Implementation
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
 }

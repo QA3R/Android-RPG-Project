@@ -6,14 +6,27 @@ namespace Managers
 {
     public class InputHandler : MonoBehaviour
     {
+        #region Singleton Implementation
+        private static InputHandler instance;
+        public static InputHandler Instance => instance;
+        #endregion
+
         private Vector2 startPos;
         private Vector2 endPos;
 
-        public delegate void SwipeLeft();
-        public SwipeLeft swipeLeft;
-
-        public delegate void SwipeRight();
-        public SwipeRight swipeRight;
+        private void Awake()
+        {
+            #region Singleton Implementation
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Destroy(this.gameObject);
+            }
+            #endregion
+        }
 
         // Update is called once per frame
         void Update()
@@ -56,14 +69,12 @@ namespace Managers
                             //Are we swiping right?
                             if (x > 0)
                             {
-                                swipeRight?.Invoke();
-                                Debug.Log("Right swipe detected");
+                                EventHandler.Instance.swipeRight?.Invoke();
                             }
                             //Are we swiping left?
                             else if (x < 0)
                             {
-                                swipeLeft?.Invoke();
-                                Debug.Log("Left swipe detected");
+                                EventHandler.Instance.swipeLeft?.Invoke();
                             }
                         }
                         //Is the vertical movement greater than the horizontal?
@@ -72,12 +83,12 @@ namespace Managers
                             //Are we swiping up?
                             if (y > 0)
                             {
-                                Debug.Log("Up swipe detected");
+
                             }
                             //Are we swiping down?
                             else if (y < 0)
                             {
-                                Debug.Log("Down swipe detected");
+
                             }
                         }
                         #endregion

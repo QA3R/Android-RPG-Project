@@ -9,9 +9,6 @@ namespace Entities
     public class Entity : MonoBehaviour, IDamageable, IUnit
     {
         [SerializeField] private EntityScriptableObject entityType;
-
-        protected BattleManager battleManager;
-        protected EventHandler eHandler;
         public IDamageable iDamageable;
         
         public bool IsControlable;
@@ -33,19 +30,19 @@ namespace Entities
             Res = entityType.Res;
             IsDead = false;
            
-            //Get Reference to BattleManager, EventHandler, and IDamageable
-            battleManager = GameObject.FindObjectOfType<BattleManager>();
-            eHandler = GameObject.FindObjectOfType<EventHandler>();
+            //Get Reference to IDamageable
             iDamageable = this;
-            eHandler.OnActionMade += CheckEntityStatus;
+
+            //Subscribe to the OnActionMade Event
+            EventHandler.Instance.OnActionMade += CheckEntityStatus;
         }
 
         private void OnDisable()
         {
-            eHandler.OnActionMade -= CheckEntityStatus;
+            EventHandler.Instance.OnActionMade -= CheckEntityStatus;
         }
 
-        public virtual void SetSpawnPoint(BattleManager bManager, CameraManager cManager)
+        public virtual void SetSpawnPoint()
         {
         }
 
@@ -60,8 +57,8 @@ namespace Entities
 
         public virtual void RemoveEntity() 
         {
-            battleManager.UnitsInBattle.Remove(gameObject.GetComponent<Entity>());
-            battleManager.unitHPList.Remove(gameObject.GetComponent<Entity>());
+            BattleManager.Instance.UnitsInBattle.Remove(gameObject.GetComponent<Entity>());
+            BattleManager.Instance.unitHPList.Remove(gameObject.GetComponent<Entity>());
         }
     }
 }

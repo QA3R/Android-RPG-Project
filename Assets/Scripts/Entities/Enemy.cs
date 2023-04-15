@@ -17,10 +17,10 @@ namespace Entities
         #region OnEnable, OnDisable, Start
         private void OnDisable()
         {
-            if (battleManager != null)
+            if (EventHandler.Instance != null)
             {
-                eHandler.onEnemyTurn -= Attack;
-                eHandler.OnDealDMG -= iDamageable.DealDMG;
+                EventHandler.Instance.onEnemyTurn -= Attack;
+                EventHandler.Instance.OnDealDMG -= iDamageable.DealDMG;
             }
         }
 
@@ -28,24 +28,24 @@ namespace Entities
         {
             base.Start();
 
-            eHandler.onEnemyTurn = Attack;
+            EventHandler.Instance.onEnemyTurn = Attack;
             //remove all uncontrolable entities
-            foreach (Entity entity in battleManager.unitHPList.ToList())
+            foreach (Entity entity in BattleManager.Instance.unitHPList.ToList())
             {
                 if (entity.IsControlable == false)
                 {
-                    battleManager.unitHPList.Remove(entity);
+                    BattleManager.Instance.unitHPList.Remove(entity);
                 }
             }   
         }
         #endregion
 
-        public override void SetSpawnPoint(BattleManager bManager, CameraManager cManager)
+        public override void SetSpawnPoint()
         {
             //base.SetSpawnPoint(bManager, cManager);
-            transform.position = bManager.EnemeySpawnPoints[bManager.EnemySpawnPointNum].transform.position;
-            cManager.SetupVCList(gameObject);
-            bManager.EnemySpawnPointNum++;
+            transform.position = BattleManager.Instance.EnemySpawnPoints[BattleManager.Instance.EnemySpawnPointNum].transform.position;
+            CameraManager.Instance.SetupVCList(this.gameObject);
+            BattleManager.Instance.EnemySpawnPointNum++;
         }
 
  
@@ -54,30 +54,30 @@ namespace Entities
         //Selects the Ally with the lowest current HP and calculates DMG dealt based on the enemy's ATK
         public virtual void Attack(Entity enemy) 
         {
-            if (enemy.Atk - battleManager.unitHPList[0].Def < enemy.Def * .3f)
+            if (enemy.Atk - BattleManager.Instance.unitHPList[0].Def < enemy.Def * .3f)
             {
                 //Set the dmg dealt to be 30% of the enemy's ATK
                 TotalDMG = enemy.Atk * (0.3f);
                 Debug.Log("Total Dmg is " + TotalDMG);
 
                 //Invoke the IDamageable TakeDmg method
-                if(eHandler.OnDealDMG !=null)
-                eHandler.OnDealDMG.Invoke(battleManager.unitHPList[0], TotalDMG);
+                if(EventHandler.Instance.OnDealDMG !=null)
+                    EventHandler.Instance.OnDealDMG.Invoke(BattleManager.Instance.unitHPList[0], TotalDMG);
             }
             else
             {
                 //Set the DMG based on the regular calculations
-                TotalDMG = enemy.Atk - battleManager.unitHPList[0].Def;
+                TotalDMG = enemy.Atk - BattleManager.Instance.unitHPList[0].Def;
 
                 //Invoke the IDamageable TakeDmg method
-                if (eHandler.OnDealDMG != null)
-                    eHandler.OnDealDMG.Invoke(battleManager.unitHPList[0], TotalDMG);
+                if (EventHandler.Instance.OnDealDMG != null)
+                    EventHandler.Instance.OnDealDMG.Invoke(BattleManager.Instance.unitHPList[0], TotalDMG);
 
-                Debug.Log(enemy.Name + " dealt " + TotalDMG + " DMG to " + battleManager.unitHPList[0].Name);
+                Debug.Log(enemy.Name + " dealt " + TotalDMG + " DMG to " + BattleManager.Instance.unitHPList[0].Name);
             }
 
             //Update the list of target HP's
-            battleManager.unitHPList.Sort((Ent1, Ent2) => Ent1.Hp.CompareTo(Ent2.Hp));
+            BattleManager.Instance.unitHPList.Sort((Ent1, Ent2) => Ent1.Hp.CompareTo(Ent2.Hp));
         }
 
         #endregion

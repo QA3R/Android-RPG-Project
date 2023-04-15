@@ -9,21 +9,15 @@ namespace Entities
 {
     public class Agent : Entity
     {
-        private CameraManager cManager;
-       
         public Entity target;
         float TotalDmg;
 
         #region OnEnable, OnDisable, Start
         void OnDisable()
         {
-            eHandler.OnDealDMG -= Attack;
+            EventHandler.Instance.OnDealDMG -= Attack;
         }
 
-        private void OnEnable()
-        {
-
-        }
         // Start is called before the first frame update
         public override void Start()
         {
@@ -31,15 +25,15 @@ namespace Entities
   
         }
         #endregion
-        public override void SetSpawnPoint(BattleManager bManager, CameraManager cManager)
+        public override void SetSpawnPoint()
         {
-            transform.position = bManager.AllySpawnPoints[bManager.AllySpawnPointNum].transform.position;
-            bManager.AllySpawnPointNum++;
+            transform.position = BattleManager.Instance.AllySpawnPoints[BattleManager.Instance.AllySpawnPointNum].transform.position;
+            BattleManager.Instance.AllySpawnPointNum++;
         }
 
         private void SetTarget()
         {
-            target = cManager.Targets[cManager.cameraIndex].GetComponent<Entity>();
+            target = CameraManager.Instance.Targets[CameraManager.Instance.cameraIndex].GetComponent<Entity>();
         }
 
         #region Action Methods
@@ -47,13 +41,13 @@ namespace Entities
         {
             if (this.Atk - target.Def < 0.3f)
             {
-                TotalDmg = battleManager.UnitsInBattle[0].Atk * 0.3f;
-                eHandler.OnDealDMG.Invoke(target, TotalDmg);
+                TotalDmg = BattleManager.Instance.UnitsInBattle[0].Atk * 0.3f;
+                EventHandler.Instance.OnDealDMG.Invoke(target, TotalDmg);
             }
             else
             {
                 TotalDmg = this.Atk - target.Def;
-                eHandler.OnDealDMG.Invoke(target, TotalDmg);
+                EventHandler.Instance.OnDealDMG.Invoke(target, TotalDmg);
             }
             //Attack code to attack enemies
         }

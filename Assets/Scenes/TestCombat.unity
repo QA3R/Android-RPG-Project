@@ -308,9 +308,10 @@ MonoBehaviour:
   - {fileID: 1298627127}
   - {fileID: 878159801}
   - {fileID: 2117568596}
-  EntityScripts: []
+  UnitsInBattle: []
   AlliesInParty: []
   EnemiesInBattle: []
+  unitHPList: []
   statusTxt: {fileID: 1035696464}
   DMGTxt: {fileID: 0}
   ChildObj: {fileID: 0}
@@ -1230,9 +1231,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1610603109}
-        m_TargetAssemblyTypeName: Managers.CameraManager, Assembly-CSharp
-        m_MethodName: ResetCameraPriority
+      - m_Target: {fileID: 340862738}
+        m_TargetAssemblyTypeName: Managers.BattleManager, Assembly-CSharp
+        m_MethodName: SetStateBetween
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1244,19 +1245,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 340862738}
         m_TargetAssemblyTypeName: Managers.BattleManager, Assembly-CSharp
-        m_MethodName: ClearTurnPos
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 340862738}
-        m_TargetAssemblyTypeName: Managers.BattleManager, Assembly-CSharp
-        m_MethodName: SetBattleStatus
+        m_MethodName: InvokeStateEnd
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2229,7 +2218,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsControllable: 0
-  inputHandler: {fileID: 1243788877}
   Targets: []
   cam: {fileID: 1363647140}
   activeVC: {fileID: 0}
