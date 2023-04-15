@@ -114,11 +114,17 @@ namespace Managers
                 currentEntityVC.Priority = 0;
             }
 
+            //Find the current player's VC and attach it to the currentEntityVC
             GameObject ChildObj = BattleManager.Instance.UnitsInBattle[BattleManager.Instance.UnitIndex].transform.GetChild(0).gameObject;
             currentEntityVC = BattleManager.Instance.ChildObj.GetComponent<CinemachineVirtualCamera>(); ;
-            
 
-            Debug.Log("SetupUnitCam was invoked");
+            ///<Summary> 
+            ///If we have a currentEntityVC:
+            ///we are going to assign it to the activeVC so that the camera can move to the corerct positon
+            ///Set the activeVC priority to the highest value
+            ///Set the activeVC's LookAt target to the first enemy in our Targets list
+            ///Reset the cameraIndex
+            ///</Summary>
             if (currentEntityVC != null)
             {
                 activeVC = currentEntityVC;
