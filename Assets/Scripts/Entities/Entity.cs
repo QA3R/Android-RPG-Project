@@ -34,31 +34,42 @@ namespace Entities
             iDamageable = this;
 
             //Subscribe to the OnActionMade Event
-            EventHandler.Instance.OnActionMade += CheckEntityStatus;
+            EventHandler.Instance.OnDeathCheck += CheckEntityStatus;
         }
 
         private void OnDisable()
         {
-            EventHandler.Instance.OnActionMade -= CheckEntityStatus;
+            EventHandler.Instance.OnDeathCheck -= CheckEntityStatus;
         }
 
         public virtual void SetSpawnPoint()
         {
+
         }
 
         public virtual void CheckEntityStatus()
         {
-            if (IsDead)
+            if (Hp <= 0)
             {
+                IsDead = true;
                 RemoveEntity();
-                gameObject.GetComponent<MeshRenderer>().enabled = false;
             }
         }
 
+        public virtual void MakeAction()
+        {
+
+        }
+
+        public virtual void Attack()
+        {
+
+        }
+
+        //FIGURE OUT WHAT TO DO HERE
         public virtual void RemoveEntity() 
         {
-            BattleManager.Instance.UnitsInBattle.Remove(gameObject.GetComponent<Entity>());
-            BattleManager.Instance.unitHPList.Remove(gameObject.GetComponent<Entity>());
+            gameObject.GetComponent<MeshRenderer>().enabled = false;
         }
     }
 }

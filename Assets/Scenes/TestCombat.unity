@@ -309,9 +309,6 @@ MonoBehaviour:
   - {fileID: 878159801}
   - {fileID: 2117568596}
   UnitsInBattle: []
-  AlliesInParty: []
-  EnemiesInBattle: []
-  unitHPList: []
   statusTxt: {fileID: 1035696464}
   DMGTxt: {fileID: 0}
   ChildObj: {fileID: 0}
@@ -1184,7 +1181,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -25, y: 25}
+  m_AnchoredPosition: {x: -250, y: 200}
   m_SizeDelta: {x: 250, y: 250}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1007369818

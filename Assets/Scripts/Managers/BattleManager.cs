@@ -65,12 +65,10 @@ namespace Managers
 
         //Lists of Units in battle, only Allies, and only Enemies
         public List <Entity> UnitsInBattle;
-        public List<Entity> AlliesInParty;
-        public List<Entity> EnemiesInBattle;
-
+   
         //List of Allies sorted by HP 
         //(TO DO: Move this functionality to Enemy script)
-        public List<Entity> unitHPList;
+
         #endregion
 
         //Variable for the currentEntity and its script
@@ -145,7 +143,7 @@ namespace Managers
                     
                     //Set the State to Between Turns
                     currentGameState = GameState.BetweenTurn;
-                    Debug.Log (currentGameState);
+
                     //Invoke the OnCheckState Event
                     EventHandler.Instance.OnStateEnd.Invoke();
 
@@ -156,7 +154,6 @@ namespace Managers
                 ///and will handle all logic related to this case (which state comes next? Player:Enemy:GameLoss:GameWon?)
                 #region State: BetweenTurn
                 case GameState.BetweenTurn:
-                    Debug.Log(currentGameState);
                     ///If we are at the end of the list of UnitsInBattle
                     ///reset the unitIndex counter and increase our roundIndex tracker
                     if (unitIndex >= UnitsInBattle.Count)
@@ -179,6 +176,11 @@ namespace Managers
                         
                         EventHandler.Instance.OnStateEnd.Invoke();
                     }
+                    else
+                    {
+                        unitIndex++;
+                        EventHandler.Instance.OnStateEnd.Invoke();
+                    }
 
                     break;
                 #endregion
@@ -191,7 +193,7 @@ namespace Managers
                 ///<summary>
                 #region State: PlayerTurn
                 case GameState.PlayerTurn:
-                    Debug.Log(currentGameState);
+                    Debug.Log(BattleManager.instance.UnitsInBattle[UnitIndex].name);
                     
                     ///<summary>
                     ///
@@ -221,36 +223,38 @@ namespace Managers
                 ///<summary>
                 #region State: EnemyTurn
                 case GameState.EnemyTurn:
-                    Debug.Log(currentGameState);
                     ///<summary>
                     ///
                     ///Disable the camera controls for the player 
                     ///
                     ///TO DO: 
                     ///Move this functionality to the CameraManager
-                    ///create a delegate for when the state changes
                     ///and have the CameraManager change the IsControlable based on the state we are in
                     ///
                     ///<summary>
                     CameraManager.Instance.IsControllable = false;
-                    
+
+                    Debug.Log("It is now " + UnitsInBattle[UnitIndex].name + " turn.");
+
+                    //Setup Enemy Action
+                    UnitsInBattle[unitIndex].MakeAction();
+
                     //Ping the AttackAlly delegate for the enemy to attack (NEEDS TO BE FIXED)
-                    //EventHandler.Instance.onEnemyTurn(entity);
+                    EventHandler.Instance.onEnemyTurn?.Invoke();
                     
                     //Check for dead units
-                    //EventHandler.Instance.OnActionMade.Invoke();
+                    EventHandler.Instance.OnDeathCheck?.Invoke();
 
                     currentGameState = GameState.BetweenTurn;
 
                     unitIndex++;
                     
                     //Cycle to the next State
-                    EventHandler.Instance.OnStateEnd.Invoke();
+                    //EventHandler.Instance.OnStateEnd.Invoke();
                     
                     
                     break;
                 #endregion
-
 
                 //When this state is called, we will invoke all methods related to ending the battle such as: bringing the Player back the Main Menu, removing all Player control functionality, etc.. (NEEDS TO BE IMPLEMENTED)
                 #region State: GameLoss
@@ -297,9 +301,6 @@ namespace Managers
             {
                 unit.SetSpawnPoint();
             }
-
-            //Create a list of Entities sorted on their HP values
-            unitHPList = new List<Entity>(UnitsInBattle);
         }
        
         #endregion

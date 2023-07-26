@@ -7,14 +7,7 @@ public interface IDamageable
 {
     void DealDMG(Entity entityDamaged, float dmgTaken)
     {
-        if (entityDamaged.Hp <= 0)
-        {
-            entityDamaged.IsDead = true;
-        }
-        else if (entityDamaged.IsDead == false)
-        {
-            entityDamaged.Hp = entityDamaged.Hp - dmgTaken;
-            Debug.Log(entityDamaged.Name + " was damaged for " + dmgTaken);
-        }
+        entityDamaged.Hp = entityDamaged.Hp - dmgTaken;
+        Debug.Log(entityDamaged.Name + " was damaged for " + dmgTaken);
     }
 }

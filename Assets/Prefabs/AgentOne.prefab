@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -2996885315083913039}
   - component: {fileID: 1209568149458620219}
   m_Layer: 0
-  m_Name: Agent1
+  m_Name: AgentOne
   m_TagString: Entity
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,14 +98,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 980752edc6f179947a93b9a1a384e8ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityType: {fileID: 11400000, guid: 6d25748d7ac012641bc74315a4d2cdb5, type: 2}
+  entityType: {fileID: 11400000, guid: 78f8ca7b827d7c14f8d74b81a0a10162, type: 2}
   IsControlable: 1
+  IsDead: 0
   Name: 
   Atk: 0
   Def: 0
   Spd: 0
   Res: 0
   Hp: 0
+  target: {fileID: 0}
 --- !u!65 &1209568149458620219
 BoxCollider:
   m_ObjectHideFlags: 0

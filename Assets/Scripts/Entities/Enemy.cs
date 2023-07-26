@@ -15,28 +15,10 @@ namespace Entities
         private float TotalDMG;
 
         #region OnEnable, OnDisable, Start
-        private void OnDisable()
-        {
-            if (EventHandler.Instance != null)
-            {
-                EventHandler.Instance.onEnemyTurn -= Attack;
-                EventHandler.Instance.OnDealDMG -= iDamageable.DealDMG;
-            }
-        }
 
         public override void Start()
         {
             base.Start();
-
-            EventHandler.Instance.onEnemyTurn = Attack;
-            //remove all uncontrolable entities
-            foreach (Entity entity in BattleManager.Instance.unitHPList.ToList())
-            {
-                if (entity.IsControlable == false)
-                {
-                    BattleManager.Instance.unitHPList.Remove(entity);
-                }
-            }   
         }
         #endregion
 
@@ -47,37 +29,13 @@ namespace Entities
             CameraManager.Instance.SetupVCList(this.gameObject);
             BattleManager.Instance.EnemySpawnPointNum++;
         }
-
- 
+        
 
         #region Action Methods
         //Selects the Ally with the lowest current HP and calculates DMG dealt based on the enemy's ATK
-        public virtual void Attack(Entity enemy) 
+        public override void Attack() 
         {
-            if (enemy.Atk - BattleManager.Instance.unitHPList[0].Def < enemy.Def * .3f)
-            {
-                //Set the dmg dealt to be 30% of the enemy's ATK
-                TotalDMG = enemy.Atk * (0.3f);
-                Debug.Log("Total Dmg is " + TotalDMG);
 
-                //Invoke the IDamageable TakeDmg method
-                if(EventHandler.Instance.OnDealDMG !=null)
-                    EventHandler.Instance.OnDealDMG.Invoke(BattleManager.Instance.unitHPList[0], TotalDMG);
-            }
-            else
-            {
-                //Set the DMG based on the regular calculations
-                TotalDMG = enemy.Atk - BattleManager.Instance.unitHPList[0].Def;
-
-                //Invoke the IDamageable TakeDmg method
-                if (EventHandler.Instance.OnDealDMG != null)
-                    EventHandler.Instance.OnDealDMG.Invoke(BattleManager.Instance.unitHPList[0], TotalDMG);
-
-                Debug.Log(enemy.Name + " dealt " + TotalDMG + " DMG to " + BattleManager.Instance.unitHPList[0].Name);
-            }
-
-            //Update the list of target HP's
-            BattleManager.Instance.unitHPList.Sort((Ent1, Ent2) => Ent1.Hp.CompareTo(Ent2.Hp));
         }
 
         #endregion

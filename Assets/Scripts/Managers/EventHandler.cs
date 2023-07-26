@@ -34,15 +34,15 @@ public class EventHandler : MonoBehaviour
     public PlayerTurn onPlayerTurn;
 
     //The Enemy.cs script will invoke the Attack Method to attack the lowest HP ally unit
-    public delegate void EnemyTurn(Entity entity);
+    public delegate void EnemyTurn();
     public EnemyTurn onEnemyTurn;
 
     //Event for when something takes dmg
     public delegate void DamageReceived(Entity entityTakingDmg, float damageReceived);
     public DamageReceived OnDealDMG;
     //The Entity.cs Script will invoke its CheckEntityStatus method to determine if it is dead or not
-    public delegate void ActionMade();
-    public ActionMade OnActionMade;
+    public delegate void DeathCheck();
+    public DeathCheck OnDeathCheck;
     #endregion
 
     #region CameraManager related delegates
