@@ -10,6 +10,7 @@ namespace Entities.Enemies
     public class SlowWalker : Enemy
     {
         private float dmgToDeal;
+        Entity minDefEntity;
 
         private void OnDisable()
         {
@@ -42,33 +43,41 @@ namespace Entities.Enemies
             for (int i = 0; i < BattleManager.Instance.UnitsInBattle.Count; i++)
             {
                 //CHECK IF UNIT IN THE LIST AT THE ARRAY IS CONTROLABLE
-                if (BattleManager.Instance.UnitsInBattle[i].IsControlable)
+                if (BattleManager.Instance.UnitsInBattle[i].IsControlable && !IsDead)
                 {
                     //ADD THE UNIT TO MY LIST OF TARGETHPS
-                    targetDefs.Add(BattleManager.Instance.UnitsInBattle[i]);
+                    targetDefs.Add(BattleManager.Instance.UnitsInBattle[i   ]);
                 }
             }
 
-            Entity minDefEntity = targetDefs[0];
-
-            //FIND THE MIN VALUE ON THE LIST
-            for (int i = 0; i < targetDefs.Count; i++)
+            
+            if (targetDefs != null)
             {
-                if (targetDefs[i].Def < minDefEntity.Def)
+                minDefEntity= targetDefs[0];
+
+                //FIND THE MIN VALUE ON THE LIST
+                for (int i = 0; i < targetDefs.Count; i++)
                 {
-                    minDefEntity = targetDefs[i];
+                    if (targetDefs[i].Def < minDefEntity.Def)
+                    {
+                        minDefEntity = targetDefs[i];
+                    }
                 }
+
+                //TAKE THE MIN VALUE UNIT AND CALCULATE DMG
+                dmgToDeal = Mathf.Abs(this.Atk - minDefEntity.Def);
+                Debug.Log(minDefEntity.name + " should take " + dmgToDeal + " damage");
+
+                //INVOKE THE TARGETHPS UNIT'S IDAMAGABLE'S TAKE DMG METHOD
+                minDefEntity.iDamageable.DealDMG(minDefEntity, dmgToDeal);
+
+                //REMOVE THIS ENEMY FROM THE onEnemyTurn event
+
+                //Reset the target for the next turn
+                minDefEntity = null;
             }
 
-            //TAKE THE MIN VALUE UNIT AND CALCULATE DMG
-            dmgToDeal = Mathf.Abs(this.Atk - minDefEntity.Def);
-            Debug.Log(minDefEntity.name + " should take " + dmgToDeal + " damage");
-
-            //INVOKE THE TARGETHPS UNIT'S IDAMAGABLE'S TAKE DMG METHOD
-            minDefEntity.iDamageable.DealDMG(minDefEntity, dmgToDeal);
-
-            //REMOVE THIS ENEMY FROM THE onEnemyTurn event
-            EventHandler.Instance.onEnemyTurn -= Attack;
+                EventHandler.Instance.onEnemyTurn -= Attack;
         }
 
         public void AtkSkill()

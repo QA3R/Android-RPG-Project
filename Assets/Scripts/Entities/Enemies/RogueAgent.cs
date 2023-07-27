@@ -8,7 +8,7 @@ using UnityEngine;
 public class RogueAgent : Enemy
 {
     private float dmgToDeal;
-
+    Entity minHpEntity;
     private void OnDisable()
     {
         if (EventHandler.Instance != null)
@@ -46,27 +46,33 @@ public class RogueAgent : Enemy
             }
         }
 
-
-        Entity minHpEntity = targetHps[0];
-
         //FIND THE MIN VALUE ON THE LIST
-        for (int i=0; i< targetHps.Count; i++)
+        if (targetHps != null)
         {
-            if (targetHps[i].Hp < minHpEntity.Hp)
+            minHpEntity= targetHps[0];
+
+            for (int i = 0; i < targetHps.Count; i++)
             {
-                minHpEntity = targetHps[i];
+                if (targetHps[i].Hp < minHpEntity.Hp)
+                {
+                        minHpEntity = targetHps[i];
+                }
             }
+
+            //TAKE THE MIN VALUE UNIT AND CALCULATE DMG
+            dmgToDeal = Mathf.Abs(this.Atk - minHpEntity.Def);
+            Debug.Log(minHpEntity.name + " should take " + dmgToDeal + " damage");
+
+            //INVOKE THE TARGETHPS UNIT'S IDAMAGABLE'S TAKE DMG METHOD
+            minHpEntity.iDamageable.DealDMG(minHpEntity, dmgToDeal);
+
+
+            //Reset the minHpEntity for the next turn
+            minHpEntity = null;
+            
+            //REMOVE THIS ENEMY FROM THE onEnemyTurn event
+            EventHandler.Instance.onEnemyTurn -= Attack;
         }
-
-        //TAKE THE MIN VALUE UNIT AND CALCULATE DMG
-        dmgToDeal = Mathf.Abs(this.Atk - minHpEntity.Def);
-        Debug.Log(minHpEntity.name + " should take " + dmgToDeal + " damage");
-
-        //INVOKE THE TARGETHPS UNIT'S IDAMAGABLE'S TAKE DMG METHOD
-        minHpEntity.iDamageable.DealDMG(minHpEntity, dmgToDeal);
-
-        //REMOVE THIS ENEMY FROM THE onEnemyTurn event
-        EventHandler.Instance.onEnemyTurn -= Attack;
 
     }
 

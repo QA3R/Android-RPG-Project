@@ -154,32 +154,39 @@ namespace Managers
                 ///and will handle all logic related to this case (which state comes next? Player:Enemy:GameLoss:GameWon?)
                 #region State: BetweenTurn
                 case GameState.BetweenTurn:
-                    ///If we are at the end of the list of UnitsInBattle
-                    ///reset the unitIndex counter and increase our roundIndex tracker
+
+                    if (HasPlayerLost())
+                    {
+                        currentGameState = GameState.GameLoss;
+                    }
+
+                    //If we are at the end of the list of UnitsInBattle reset the unitIndex counter and increase our roundIndex tracker
                     if (unitIndex >= UnitsInBattle.Count)
                     {
                         unitIndex = 0;
                         roundIndex++;
                     }
 
+                    //Set the currentUnit to the the entity at the unitIndex of the UnitsInBattle list
                     currentUnit = UnitsInBattle[unitIndex];
 
+                    //If the current unit is controllable and alive, set currentGameState to the PlayerTurnState
                     if (currentUnit.IsControlable && !currentUnit.IsDead)
                     {
                         currentGameState = GameState.PlayerTurn;
-
-                        EventHandler.Instance.OnStateEnd.Invoke();
+                        EventHandler.Instance.OnStateEnd?.Invoke();
                     }
+                    //if the current unit is not controlable and alive, set currentGameState to the EnemyTurn state
                     else if (!currentUnit.IsControlable && !currentUnit.IsDead)
                     {
                         currentGameState = GameState.EnemyTurn;
-                        
-                        EventHandler.Instance.OnStateEnd.Invoke();
+                        EventHandler.Instance.OnStateEnd?.Invoke();
                     }
+                    //If the current unit is not alive, loop the State Machine by invoking the OnStateEnd delegate
                     else
                     {
                         unitIndex++;
-                        EventHandler.Instance.OnStateEnd.Invoke();
+                        EventHandler.Instance.OnStateEnd?.Invoke();
                     }
 
                     break;
@@ -193,14 +200,15 @@ namespace Managers
                 ///<summary>
                 #region State: PlayerTurn
                 case GameState.PlayerTurn:
-                    Debug.Log(BattleManager.instance.UnitsInBattle[UnitIndex].name);
-                    
+                    Debug.Log("It is now " + UnitsInBattle[UnitIndex].name + " turn.");
+
                     ///<summary>
                     ///
                     /// Pass the CinemachineVirtualCamera to the CameraManager 
                     ///to set the MainCamera to use the correct VirtualCamera
                     ///
                     ///<summary>
+
                     ChildObj = UnitsInBattle[unitIndex].transform.GetChild(0).gameObject;
                     EventHandler.Instance.onPlayerTurn.Invoke();
 
@@ -232,9 +240,9 @@ namespace Managers
                     ///and have the CameraManager change the IsControlable based on the state we are in
                     ///
                     ///<summary>
-                    CameraManager.Instance.IsControllable = false;
-
                     Debug.Log("It is now " + UnitsInBattle[UnitIndex].name + " turn.");
+
+                    CameraManager.Instance.IsControllable = false;
 
                     //Setup Enemy Action
                     UnitsInBattle[unitIndex].MakeAction();
@@ -250,7 +258,7 @@ namespace Managers
                     unitIndex++;
                     
                     //Cycle to the next State
-                    //EventHandler.Instance.OnStateEnd.Invoke();
+                    EventHandler.Instance.OnStateEnd.Invoke();
                     
                     
                     break;
@@ -259,6 +267,7 @@ namespace Managers
                 //When this state is called, we will invoke all methods related to ending the battle such as: bringing the Player back the Main Menu, removing all Player control functionality, etc.. (NEEDS TO BE IMPLEMENTED)
                 #region State: GameLoss
                 case GameState.GameLoss:
+                    Debug.Log("You lose. The game is now over.");
                     break;
                 #endregion
 
@@ -268,6 +277,14 @@ namespace Managers
                     break;
                     #endregion
             }
+        }
+
+        bool HasPlayerLost()
+        {
+            //Check if all allies are dead
+            bool anyPlayerUnitNotDead = UnitsInBattle.Any(Entity => Entity.IsControlable && !Entity.IsDead);
+
+            return !anyPlayerUnitNotDead;
         }
 
         //Forces the EventHandler to invoke the OnStateEnd delegate (TO DO: Move this functionality to the agent script)
