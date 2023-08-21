@@ -22,17 +22,28 @@ public class RogueAgent : Enemy
     {
         base.Start();
 
-        EventHandler.Instance.onEnemyTurn = Attack;
+        //EventHandler.Instance.onEnemyTurn = Attack;
     }
 
 
     public override void MakeAction()
     {
-        EventHandler.Instance.onEnemyTurn = Attack;
+        EventHandler.Instance.onEnemyTurn += Attack;
     }
 
     public override void Attack()
     {
+        StartCoroutine(StartAttack());
+
+     
+
+    }
+
+    IEnumerator StartAttack()
+    {
+        yield return new WaitForSeconds(2f);
+        Debug.Log("Starting Attack");
+
         List<Entity> targetHps = new List<Entity>() { };
 
         //ADD ALL UNITS IN BATTLE TO THE TARGETHPS LIST
@@ -49,13 +60,13 @@ public class RogueAgent : Enemy
         //FIND THE MIN VALUE ON THE LIST
         if (targetHps != null)
         {
-            minHpEntity= targetHps[0];
+            minHpEntity = targetHps[0];
 
             for (int i = 0; i < targetHps.Count; i++)
             {
                 if (targetHps[i].Hp < minHpEntity.Hp)
                 {
-                        minHpEntity = targetHps[i];
+                    minHpEntity = targetHps[i];
                 }
             }
 
@@ -69,12 +80,12 @@ public class RogueAgent : Enemy
 
             //Reset the minHpEntity for the next turn
             minHpEntity = null;
-            
+
             //REMOVE THIS ENEMY FROM THE onEnemyTurn event
             EventHandler.Instance.onEnemyTurn -= Attack;
+
+            //Cycle to the next State
+            EventHandler.Instance.OnStateEnd.Invoke();
         }
-
     }
-
-
 }

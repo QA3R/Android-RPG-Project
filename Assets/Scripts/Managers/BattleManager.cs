@@ -216,7 +216,7 @@ namespace Managers
                     CameraManager.Instance.IsControllable = true;
 
                     //Toggle the controls panels for the player
-                    battlePanel.SetActive(true);
+                    //battlePanel.SetActive(true);
 
                     unitIndex++;
                   
@@ -255,12 +255,7 @@ namespace Managers
 
                     currentGameState = GameState.BetweenTurn;
 
-                    unitIndex++;
-                    
-                    //Cycle to the next State
-                    EventHandler.Instance.OnStateEnd.Invoke();
-                    
-                    
+                    unitIndex++;                
                     break;
                 #endregion
 
