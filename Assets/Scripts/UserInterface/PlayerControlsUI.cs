@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Managers
+namespace UserInterface
 {
-    public class UIManager : MonoBehaviour
+    public class PlayerControlsUI : MonoBehaviour
     {
-        [SerializeField] private GameObject playerControlsUI;
+        [SerializeField] private GameObject controlsUI;
 
         //Subscribe to the EventHandler's onPlayerTurn & onEnemyTurn
         private void Start()
@@ -25,19 +25,19 @@ namespace Managers
 
         void DisablePlayerControls()
         {
-            if (playerControlsUI != null)
+            if (controlsUI != null)
             {
                 Debug.Log("Player Controls Enabled");
-                playerControlsUI.SetActive(false);
+                controlsUI.SetActive(false);
             }
         }
 
         void EnablePlayerControls()
         {
-            if(playerControlsUI != null)
+            if(controlsUI != null)
             {
                 Debug.Log("Player Controls Disabled");
-                playerControlsUI.SetActive(true);   
+                controlsUI.SetActive(true);   
             }
         }
     }

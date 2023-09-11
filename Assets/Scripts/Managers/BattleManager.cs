@@ -155,6 +155,7 @@ namespace Managers
                 #region State: BetweenTurn
                 case GameState.BetweenTurn:
 
+                    //When the HasPlayerLost condition has been met, end the battle
                     if (HasPlayerLost())
                     {
                         currentGameState = GameState.GameLoss;
