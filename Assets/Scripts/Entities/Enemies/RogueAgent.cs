@@ -21,8 +21,6 @@ public class RogueAgent : Enemy
     public override void Start()
     {
         base.Start();
-
-        //EventHandler.Instance.onEnemyTurn = Attack;
     }
 
 
@@ -34,8 +32,6 @@ public class RogueAgent : Enemy
     public override void Attack()
     {
         StartCoroutine(StartAttack());
-
-     
 
     }
 

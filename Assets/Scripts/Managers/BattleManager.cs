@@ -65,10 +65,6 @@ namespace Managers
 
         //Lists of Units in battle, only Allies, and only Enemies
         public List <Entity> UnitsInBattle;
-   
-        //List of Allies sorted by HP 
-        //(TO DO: Move this functionality to Enemy script)
-
         #endregion
 
         //Variable for the currentEntity and its script
@@ -78,10 +74,8 @@ namespace Managers
         [SerializeField] private TextMeshProUGUI statusTxt;
         [SerializeField] private TextMeshProUGUI DMGTxt;
 
-        //TO DO: Make this a get/set
         public GameObject ChildObj;
 
-        //TO DO: Move this to a separate UIController script
         [SerializeField] GameObject battlePanel;
         #endregion
 
@@ -109,7 +103,6 @@ namespace Managers
         //Unsubscribe to OnBattleStart when disabled
         void OnDisable()
         {
-            //EventHandler.Instance.OnStateEnd += ClearTurnPos;
             EventHandler.Instance.OnStateEnd -= CheckState;
 
         }
@@ -203,21 +196,11 @@ namespace Managers
                 case GameState.PlayerTurn:
                     Debug.Log("It is now " + UnitsInBattle[UnitIndex].name + " turn.");
 
-                    ///<summary>
-                    ///
-                    /// Pass the CinemachineVirtualCamera to the CameraManager 
-                    ///to set the MainCamera to use the correct VirtualCamera
-                    ///
-                    ///<summary>
-
                     ChildObj = UnitsInBattle[unitIndex].transform.GetChild(0).gameObject;
                     EventHandler.Instance.onPlayerTurn.Invoke();
 
                     //Enable camera controls for the player
                     CameraManager.Instance.IsControllable = true;
-
-                    //Toggle the controls panels for the player
-                    //battlePanel.SetActive(true);
 
                     unitIndex++;
                   
@@ -232,15 +215,7 @@ namespace Managers
                 ///<summary>
                 #region State: EnemyTurn
                 case GameState.EnemyTurn:
-                    ///<summary>
-                    ///
-                    ///Disable the camera controls for the player 
-                    ///
-                    ///TO DO: 
-                    ///Move this functionality to the CameraManager
-                    ///and have the CameraManager change the IsControlable based on the state we are in
-                    ///
-                    ///<summary>
+               
                     Debug.Log("It is now " + UnitsInBattle[UnitIndex].name + " turn.");
 
                     CameraManager.Instance.IsControllable = false;

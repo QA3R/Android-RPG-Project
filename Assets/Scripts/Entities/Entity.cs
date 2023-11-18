@@ -6,7 +6,7 @@ using Managers;
 
 namespace Entities
 {
-    public class Entity : MonoBehaviour, IDamageable, IUnit
+    public class Entity : MonoBehaviour, IDamageable
     {
         [SerializeField] private EntityScriptableObject entityType;
         public IDamageable iDamageable;

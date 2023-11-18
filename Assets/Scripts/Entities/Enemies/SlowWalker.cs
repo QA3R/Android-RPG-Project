@@ -25,8 +25,6 @@ namespace Entities.Enemies
         public override void Start()
         {
             base.Start();
-
-            //EventHandler.Instance.onEnemyTurn = Attack;
         }
 
         //This method will be used to assign a new Action to be invoked during onEnemyTurn
@@ -38,14 +36,6 @@ namespace Entities.Enemies
         public override void Attack()
         {
             StartCoroutine(StartAttack());
-
-            
-        }
-
-        public void AtkSkill()
-        {
-            //New code
-            //Debuff enemy
         }
 
         IEnumerator StartAttack()
@@ -86,8 +76,6 @@ namespace Entities.Enemies
 
                 //INVOKE THE TARGETHPS UNIT'S IDAMAGABLE'S TAKE DMG METHOD
                 minDefEntity.iDamageable.DealDMG(minDefEntity, dmgToDeal);
-
-                //REMOVE THIS ENEMY FROM THE onEnemyTurn event
 
                 //Reset the target for the next turn
                 minDefEntity = null;

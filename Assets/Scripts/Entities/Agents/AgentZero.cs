@@ -24,11 +24,6 @@ namespace Entities.Agents
         }
 
         #region Action Methods
-        public override void Attack(Entity entity, float dmgTaken)
-        {
-            //base.Attack();
-            //reduce def by 30%
-        }
 
         public void AtkSkill()
         {

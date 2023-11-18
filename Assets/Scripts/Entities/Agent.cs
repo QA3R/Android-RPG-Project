@@ -13,10 +13,6 @@ namespace Entities
         float TotalDmg;
 
         #region OnEnable, OnDisable, Start
-        void OnDisable()
-        {
-            EventHandler.Instance.OnDealDMG -= Attack;
-        }
 
         // Start is called before the first frame update
         public override void Start()
@@ -35,22 +31,5 @@ namespace Entities
         {
             target = CameraManager.Instance.Targets[CameraManager.Instance.cameraIndex].GetComponent<Entity>();
         }
-
-        #region Action Methods
-        public virtual void Attack(Entity entity, float dmgTaken)
-        {
-            if (this.Atk - target.Def < 0.3f)
-            {
-                TotalDmg = BattleManager.Instance.UnitsInBattle[0].Atk * 0.3f;
-                EventHandler.Instance.OnDealDMG.Invoke(target, TotalDmg);
-            }
-            else
-            {
-                TotalDmg = this.Atk - target.Def;
-                EventHandler.Instance.OnDealDMG.Invoke(target, TotalDmg);
-            }
-            //Attack code to attack enemies
-        }
-        #endregion
     }
 }
