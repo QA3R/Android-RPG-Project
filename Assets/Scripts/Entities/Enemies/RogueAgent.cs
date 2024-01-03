@@ -14,7 +14,7 @@ public class RogueAgent : Enemy
         if (EventHandler.Instance != null)
         {
             EventHandler.Instance.onEnemyTurn -= Attack;
-            EventHandler.Instance.OnDealDMG -= iDamageable.DealDMG;
+            EventHandler.Instance.OnDealDMG -= DealDMG;
         }
     }
 
@@ -71,7 +71,7 @@ public class RogueAgent : Enemy
             Debug.Log(minHpEntity.name + " should take " + dmgToDeal + " damage");
 
             //INVOKE THE TARGETHPS UNIT'S IDAMAGABLE'S TAKE DMG METHOD
-            minHpEntity.iDamageable.DealDMG(minHpEntity, dmgToDeal);
+            minHpEntity.DealDMG(minHpEntity, dmgToDeal);
 
 
             //Reset the minHpEntity for the next turn

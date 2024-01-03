@@ -5,9 +5,6 @@ using Entities;
 
 public interface IDamageable
 {
-    void DealDMG(Entity entityDamaged, float dmgTaken)
-    {
-        entityDamaged.Hp = entityDamaged.Hp - dmgTaken;
-        Debug.Log(entityDamaged.Name + " was damaged for " + dmgTaken);
-    }
+    void DealDMG<T>() { }
+    
 }

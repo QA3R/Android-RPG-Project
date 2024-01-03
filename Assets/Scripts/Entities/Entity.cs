@@ -9,7 +9,6 @@ namespace Entities
     public class Entity : MonoBehaviour, IDamageable
     {
         [SerializeField] private EntityScriptableObject entityType;
-        public IDamageable iDamageable;
         
         public bool IsControlable;
         public bool IsDead;
@@ -29,9 +28,6 @@ namespace Entities
             Def = entityType.Def;
             Res = entityType.Res;
             IsDead = false;
-           
-            //Get Reference to IDamageable
-            iDamageable = this;
 
             //Subscribe to the OnActionMade Event
             EventHandler.Instance.OnDeathCheck += CheckEntityStatus;
@@ -40,6 +36,12 @@ namespace Entities
         private void OnDisable()
         {
             EventHandler.Instance.OnDeathCheck -= CheckEntityStatus;
+        }
+
+        public void DealDMG(Entity entityDamaged, float dmgTaken)
+        {
+            entityDamaged.Hp = entityDamaged.Hp - dmgTaken;
+            Debug.Log(entityDamaged.Name + " was damaged for " + dmgTaken);
         }
 
         public virtual void SetSpawnPoint()

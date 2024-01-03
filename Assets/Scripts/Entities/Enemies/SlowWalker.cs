@@ -17,7 +17,7 @@ namespace Entities.Enemies
             if (EventHandler.Instance != null)
             {
                 EventHandler.Instance.onEnemyTurn -= Attack;
-                EventHandler.Instance.OnDealDMG -= iDamageable.DealDMG;
+                EventHandler.Instance.OnDealDMG -= DealDMG;
             }
         }
 
@@ -75,7 +75,7 @@ namespace Entities.Enemies
                 Debug.Log(minDefEntity.name + " should take " + dmgToDeal + " damage");
 
                 //INVOKE THE TARGETHPS UNIT'S IDAMAGABLE'S TAKE DMG METHOD
-                minDefEntity.iDamageable.DealDMG(minDefEntity, dmgToDeal);
+                minDefEntity.DealDMG(minDefEntity, dmgToDeal);
 
                 //Reset the target for the next turn
                 minDefEntity = null;
