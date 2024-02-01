@@ -17,34 +17,6 @@ namespace Entities.Agents
             base.Start(); 
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-        #region Action Methods
-
-        public void AtkSkill()
-        {
-
-        }
-
-        public void BuffSKill()
-        {
-
-        }
-
-        public void DebuffSkill()
-        {
-
-        }
-
-        public void HealSkill()
-        {
-
-        }
-        #endregion
     }
 }
 

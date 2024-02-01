@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: AgentOne
   m_EditorClassIdentifier: 
   Name: AgentOne
-  EntityModel: {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978,
+  EntityModel: {fileID: 1209568149458620216, guid: 85888485772060f419e05ce0f0c749c3,
     type: 3}
   MaxHP: 98
   Atk: 25.5
-  Spd: 22.5
+  Spd: 55
   Def: 47.27
   Res: 85.7
   EquipedArtifacts:

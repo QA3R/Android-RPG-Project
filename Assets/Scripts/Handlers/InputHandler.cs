@@ -14,6 +14,16 @@ namespace Managers
         private Vector2 startPos;
         private Vector2 endPos;
 
+        #region InputHandler delegates
+        //Pings when swiping left on the device
+        public delegate void SwipeLeft();
+        public SwipeLeft swipeLeft;
+
+        //Pings when swiping right on the device
+        public delegate void SwipeRight();
+        public SwipeRight swipeRight;
+        #endregion
+
         private void Awake()
         {
             #region Singleton Implementation
@@ -69,12 +79,12 @@ namespace Managers
                             //Are we swiping right?
                             if (x > 0)
                             {
-                                EventHandler.Instance.swipeRight?.Invoke();
+                                swipeRight?.Invoke();
                             }
                             //Are we swiping left?
                             else if (x < 0)
                             {
-                                EventHandler.Instance.swipeLeft?.Invoke();
+                                swipeLeft?.Invoke();
                             }
                         }
                         //Is the vertical movement greater than the horizontal?

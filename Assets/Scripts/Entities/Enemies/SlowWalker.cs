@@ -14,10 +14,10 @@ namespace Entities.Enemies
 
         private void OnDisable()
         {
-            if (EventHandler.Instance != null)
+            if (BattleHandler.Instance != null)
             {
-                EventHandler.Instance.onEnemyTurn -= Attack;
-                EventHandler.Instance.OnDealDMG -= DealDMG;
+                BattleHandler.Instance.onEnemyTurn -= Attack;
+                BattleHandler.Instance.OnDealDMG -= DealDMG;
             }
         }
 
@@ -30,7 +30,7 @@ namespace Entities.Enemies
         //This method will be used to assign a new Action to be invoked during onEnemyTurn
         public override void MakeAction()
         {
-            EventHandler.Instance.onEnemyTurn += Attack;
+            BattleHandler.Instance.onEnemyTurn += Attack;
         }
 
         public override void Attack()
@@ -43,48 +43,9 @@ namespace Entities.Enemies
             yield return new WaitForSeconds(2f);
             Debug.Log("Starting Attack");
 
-            List<Entity> targetDefs = new List<Entity>() { };
-
-            //ADD ALL UNITS IN BATTLE TO THE TARGETHPS LIST
-            for (int i = 0; i < BattleManager.Instance.UnitsInBattle.Count; i++)
-            {
-                //CHECK IF UNIT IN THE LIST AT THE ARRAY IS CONTROLABLE
-                if (BattleManager.Instance.UnitsInBattle[i].IsControlable && !IsDead)
-                {
-                    //ADD THE UNIT TO MY LIST OF TARGETHPS
-                    targetDefs.Add(BattleManager.Instance.UnitsInBattle[i]);
-                }
-            }
-
-
-            if (targetDefs != null)
-            {
-                minDefEntity = targetDefs[0];
-
-                //FIND THE MIN VALUE ON THE LIST
-                for (int i = 0; i < targetDefs.Count; i++)
-                {
-                    if (targetDefs[i].Def < minDefEntity.Def)
-                    {
-                        minDefEntity = targetDefs[i];
-                    }
-                }
-
-                //TAKE THE MIN VALUE UNIT AND CALCULATE DMG
-                dmgToDeal = Mathf.Abs(this.Atk - minDefEntity.Def);
-                Debug.Log(minDefEntity.name + " should take " + dmgToDeal + " damage");
-
-                //INVOKE THE TARGETHPS UNIT'S IDAMAGABLE'S TAKE DMG METHOD
-                minDefEntity.DealDMG(minDefEntity, dmgToDeal);
-
-                //Reset the target for the next turn
-                minDefEntity = null;
-            }
-
-            EventHandler.Instance.onEnemyTurn -= Attack;
 
             //Cycle to the next State
-            EventHandler.Instance.OnStateEnd.Invoke();
+            BattleHandler.Instance.OnStateEnd.Invoke();
         }
     }
 }

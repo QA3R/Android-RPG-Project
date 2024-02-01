@@ -17,7 +17,7 @@ namespace UserInterface
         // Start is called before the first frame update
         void Start()
         {
-            EventHandler.Instance.OnStateEnd += UpdateHealthText;
+            BattleHandler.Instance.OnStateEnd += UpdateHealthText;
 
             //Fetch the MainCamera component
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
@@ -41,7 +41,7 @@ namespace UserInterface
         private void OnDisable()
         {
 
-            EventHandler.Instance.OnStateEnd -= UpdateHealthText;
+            BattleHandler.Instance.OnStateEnd -= UpdateHealthText;
         }
 
         // Update is called once per frame

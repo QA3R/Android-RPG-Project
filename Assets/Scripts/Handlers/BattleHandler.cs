@@ -1,24 +1,13 @@
+using Entities;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Entities;
-using Cinemachine;
 
-public class EventHandler : MonoBehaviour
+public class BattleHandler : MonoBehaviour
 {
     #region Singleton Implementation
-    private static EventHandler instance;
-    public static EventHandler Instance => instance;
-    #endregion 
-
-    #region InputHandler delegates
-    //Pings when swiping left on the device
-    public delegate void SwipeLeft();
-    public SwipeLeft swipeLeft;
-    
-    //Pings when swiping right on the device
-    public delegate void SwipeRight();
-    public SwipeRight swipeRight;
+    private static BattleHandler instance;
+    public static BattleHandler Instance => instance;
     #endregion
 
     #region BattleManager related delegates
@@ -43,12 +32,11 @@ public class EventHandler : MonoBehaviour
     //The Entity.cs Script will invoke its CheckEntityStatus method to determine if it is dead or not
     public delegate void DeathCheck();
     public DeathCheck OnDeathCheck;
-    #endregion
 
-    #region CameraManager related delegates
-    public delegate void CameraTargetChanged();
-    public CameraTargetChanged OnTargetChanged;
-    #endregion 
+    public delegate void EntityTimerReady(Entity entityTakingTurn);
+    public EntityTimerReady OnTimerReady;
+
+    #endregion
 
 
     //Singleton Implementation

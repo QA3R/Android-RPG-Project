@@ -25,9 +25,9 @@ namespace Entities
         public override void SetSpawnPoint()
         {
             //base.SetSpawnPoint(bManager, cManager);
-            transform.position = BattleManager.Instance.EnemySpawnPoints[BattleManager.Instance.EnemySpawnPointNum].transform.position;
-            CameraManager.Instance.SetupVCList(this.gameObject);
-            BattleManager.Instance.EnemySpawnPointNum++;
+            transform.position = TurnManager.Instance.EnemySpawnPoints[TurnManager.Instance.EnemySpawnPointNum].transform.position;
+            BattleCameraHandler.Instance.SetupVCList(this.gameObject);
+            TurnManager.Instance.EnemySpawnPointNum++;
         }
         
 

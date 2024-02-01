@@ -11,7 +11,7 @@ using Cinemachine;
 
 namespace Managers
 {
-    public class BattleManager : MonoBehaviour
+    public class TurnManager : MonoBehaviour
     {
         /// <summary>
         /// This script is responsible for managing the battle status. It will keep track of:
@@ -24,8 +24,8 @@ namespace Managers
         #region Variables
         //Instance implementation
         #region Instance Implmentation
-        private static BattleManager instance;
-        public static BattleManager Instance => instance;
+        private static TurnManager instance;
+        public static TurnManager Instance => instance;
         #endregion
 
         //The GameState will dictate what events needs to be called (i.e Giving player functionality, Passing to an EnemyTurn, ending the battle, etc..)
@@ -39,13 +39,16 @@ namespace Managers
             GameLoss
         };
 
-        //The currentGameState will be a static variable that all scripts will get access to in order to determine which GameState we are in during a battle
         private static GameState currentGameState;
 
+        #region Turn Tracker Variables
         private int unitIndex;
         public int UnitIndex => unitIndex;
 
         private int roundIndex;
+        
+        private Entity currentUnit;
+        #endregion 
 
         //Lists for Units to spawn, ally spawn locations, and enemy spawn locations
         #region Lists of Units
@@ -67,16 +70,8 @@ namespace Managers
         public List <Entity> UnitsInBattle;
         #endregion
 
-        //Variable for the currentEntity and its script
-        private Entity currentUnit;
-                
-        //UI Elements to display DMG text and turn status (TO DO: Remove this later)
-        [SerializeField] private TextMeshProUGUI statusTxt;
-        [SerializeField] private TextMeshProUGUI DMGTxt;
-
+        //Used by the BattleCameraHandler to change target 
         public GameObject ChildObj;
-
-        [SerializeField] GameObject battlePanel;
         #endregion
 
         #region Awake & Start
@@ -97,20 +92,21 @@ namespace Managers
         private void OnEnable()
         {
             currentGameState = GameState.BattleStart;
-            EventHandler.Instance.OnStateEnd += CheckState;
+            BattleHandler.Instance.OnStateEnd += CheckState;
+            BattleHandler.Instance.OnTimerReady += SetEntityTurn;
         }
 
         //Unsubscribe to OnBattleStart when disabled
         void OnDisable()
         {
-            EventHandler.Instance.OnStateEnd -= CheckState;
-
+            BattleHandler.Instance.OnStateEnd -= CheckState;
+            BattleHandler.Instance.OnTimerReady -= SetEntityTurn;
         }
 
         // Start is called before the first frame update
         void Start()
         {
-            EventHandler.Instance.OnStateEnd.Invoke();
+            BattleHandler.Instance.OnStateEnd.Invoke();
         }
         #endregion
 
@@ -128,121 +124,36 @@ namespace Managers
                     Debug.Log(currentGameState);
                     //Setup all Allies and Enemies in scene
                     SpawnUnits();
-
-                    unitIndex = 0;
-
-                    //Sorts the list of Entity scripts by the speed value on each one
-                    UnitsInBattle.Sort((Ent1, Ent2) => Ent1.Spd.CompareTo(Ent2.Spd));
-                    
-                    //Set the State to Between Turns
-                    currentGameState = GameState.BetweenTurn;
-
-                    //Invoke the OnCheckState Event
-                    EventHandler.Instance.OnStateEnd.Invoke();
-
                     break;
                 #endregion
 
-                ///This State will be responsible for determining which state to move to next
-                ///and will handle all logic related to this case (which state comes next? Player:Enemy:GameLoss:GameWon?)
                 #region State: BetweenTurn
                 case GameState.BetweenTurn:
-
-                    //When the HasPlayerLost condition has been met, end the battle
-                    if (HasPlayerLost())
-                    {
-                        currentGameState = GameState.GameLoss;
-                    }
-
-                    //If we are at the end of the list of UnitsInBattle reset the unitIndex counter and increase our roundIndex tracker
-                    if (unitIndex >= UnitsInBattle.Count)
-                    {
-                        unitIndex = 0;
-                        roundIndex++;
-                    }
-
-                    //Set the currentUnit to the the entity at the unitIndex of the UnitsInBattle list
-                    currentUnit = UnitsInBattle[unitIndex];
-
-                    //If the current unit is controllable and alive, set currentGameState to the PlayerTurnState
-                    if (currentUnit.IsControlable && !currentUnit.IsDead)
-                    {
-                        currentGameState = GameState.PlayerTurn;
-                        EventHandler.Instance.OnStateEnd?.Invoke();
-                    }
-                    //if the current unit is not controlable and alive, set currentGameState to the EnemyTurn state
-                    else if (!currentUnit.IsControlable && !currentUnit.IsDead)
-                    {
-                        currentGameState = GameState.EnemyTurn;
-                        EventHandler.Instance.OnStateEnd?.Invoke();
-                    }
-                    //If the current unit is not alive, loop the State Machine by invoking the OnStateEnd delegate
-                    else
-                    {
-                        unitIndex++;
-                        EventHandler.Instance.OnStateEnd?.Invoke();
-                    }
-
                     break;
                 #endregion
 
-                ///<summary>
-                ///
-                ///The PlayerTurn state will handle invoking all methods related to 
-                ///enabling the Player's ability to control and make their action on their turn
-                ///
-                ///<summary>
                 #region State: PlayerTurn
                 case GameState.PlayerTurn:
-                    Debug.Log("It is now " + UnitsInBattle[UnitIndex].name + " turn.");
-
-                    ChildObj = UnitsInBattle[unitIndex].transform.GetChild(0).gameObject;
-                    EventHandler.Instance.onPlayerTurn.Invoke();
+                    Debug.Log("It is now the player turn.");
 
                     //Enable camera controls for the player
-                    CameraManager.Instance.IsControllable = true;
-
-                    unitIndex++;
-                  
+                    ChildObj = UnitsInBattle[unitIndex].transform.GetChild(0).gameObject;
+                    BattleCameraHandler.Instance.IsControllable = true;
                     break;
                 #endregion
 
-                ///<summary>
-                ///
-                /// The EnemyTurn state will invoke the Enemy whose turn it is to make it's action 
-                ///(NEED TO PROPER IMPLEMENT ENEMY AI)
-                ///
-                ///<summary>
                 #region State: EnemyTurn
                 case GameState.EnemyTurn:
-               
-                    Debug.Log("It is now " + UnitsInBattle[UnitIndex].name + " turn.");
-
-                    CameraManager.Instance.IsControllable = false;
-
-                    //Setup Enemy Action
-                    UnitsInBattle[unitIndex].MakeAction();
-
-                    //Ping the AttackAlly delegate for the enemy to attack (NEEDS TO BE FIXED)
-                    EventHandler.Instance.onEnemyTurn?.Invoke();
-                    
-                    //Check for dead units
-                    EventHandler.Instance.OnDeathCheck?.Invoke();
-
-                    currentGameState = GameState.BetweenTurn;
-
-                    unitIndex++;                
+                    Debug.Log("It is now the enemy turn.");
                     break;
                 #endregion
 
-                //When this state is called, we will invoke all methods related to ending the battle such as: bringing the Player back the Main Menu, removing all Player control functionality, etc.. (NEEDS TO BE IMPLEMENTED)
                 #region State: GameLoss
                 case GameState.GameLoss:
                     Debug.Log("You lose. The game is now over.");
                     break;
                 #endregion
 
-                //When this state is called, we will invoke all methods related to ending the battle and rewarding the Player for winning (NEEDS TO BE IMPLEMENTED)
                 #region State: GameWon
                 case GameState.GameWon:
                     break;
@@ -261,7 +172,7 @@ namespace Managers
         //Forces the EventHandler to invoke the OnStateEnd delegate (TO DO: Move this functionality to the agent script)
         public void InvokeStateEnd()
         {
-            EventHandler.Instance.OnStateEnd.Invoke();            
+            BattleHandler.Instance.OnStateEnd.Invoke();            
         }
 
         public void SetStateBetween()
@@ -291,6 +202,27 @@ namespace Managers
             }
         }
        
+        //Once an Entity's Timer reaches its max value, pause all entity timers and set the GameState to the corresponding state
+        void SetEntityTurn(Entity entityTakingTurn)
+        {
+            //Pause all Entities' timer in UnitsInBattle
+            foreach (Entity entity in UnitsInBattle)
+            {
+                entity.PauseEntityTimer();
+            } 
+
+            //Set the currentGameState based on weather the passsed entity is controlable
+            if (entityTakingTurn.IsControlable)
+            {
+                currentGameState = GameState.PlayerTurn;
+                Debug.Log(entityTakingTurn.name);
+            }
+            else
+            {
+                currentGameState = GameState.EnemyTurn;
+            }
+        }
+
         #endregion
 
     }

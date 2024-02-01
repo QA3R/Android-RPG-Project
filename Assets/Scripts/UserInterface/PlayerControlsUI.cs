@@ -12,15 +12,15 @@ namespace UserInterface
         //Subscribe to the EventHandler's onPlayerTurn & onEnemyTurn
         private void Start()
         {
-            EventHandler.Instance.onPlayerTurn += EnablePlayerControls;
-            EventHandler.Instance.onEnemyTurn += DisablePlayerControls;
+            BattleHandler.Instance.onPlayerTurn += EnablePlayerControls;
+            BattleHandler.Instance.onEnemyTurn += DisablePlayerControls;
         }
 
         //Unsubscribe to the EventHandler's onPlayerTurn & onEnemyTurn
         private void OnDisable()
         {
-            EventHandler.Instance.onPlayerTurn -= EnablePlayerControls;
-            EventHandler.Instance.onEnemyTurn -= DisablePlayerControls;
+            BattleHandler.Instance.onPlayerTurn -= EnablePlayerControls;
+            BattleHandler.Instance.onEnemyTurn -= DisablePlayerControls;
         }
 
         void DisablePlayerControls()

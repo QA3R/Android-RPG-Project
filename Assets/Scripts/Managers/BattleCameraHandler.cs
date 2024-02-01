@@ -7,11 +7,11 @@ using Entities;
 
 namespace Managers
 {
-    public class CameraManager : MonoBehaviour
+    public class BattleCameraHandler : MonoBehaviour
     {
         #region Singleton Implementation
-        private static CameraManager instance;
-        public static CameraManager Instance => instance;
+        private static BattleCameraHandler instance;
+        public static BattleCameraHandler Instance => instance;
         #endregion
 
         #region Variables
@@ -27,27 +27,33 @@ namespace Managers
         public int cameraIndex;
         #endregion
 
+
+        #region BattleCameraHandler related delegates
+        public delegate void CameraTargetChanged();
+        public CameraTargetChanged OnTargetChanged;
+        #endregion
+
         #region OnEnable, OnDisable, and Start Methods
         private void OnEnable()
         {
-            //Subscribe the CameraManager's methods to move the camera right and left to the InputHandler's events
-            EventHandler.Instance.swipeRight = CameraChnageTargetRight;
-            EventHandler.Instance.swipeLeft = CameraChnageTargetLeft;
+            //Subscribe the BattleCameraHandler's methods to move the camera right and left to the InputHandler's events
+            InputHandler.Instance.swipeRight = CameraChnageTargetRight;
+            InputHandler.Instance.swipeLeft = CameraChnageTargetLeft;
 
             //Subscribe to the OnUnitTurn delegate: will change the Main Camera to the correct unit's VirtualCamera 
-            EventHandler.Instance.onPlayerTurn = ChangeCamera;
+            BattleHandler.Instance.onPlayerTurn = ChangeCamera;
 
-            EventHandler.Instance.onUnitSpawn = SetupVCList;
+            BattleHandler.Instance.onUnitSpawn = SetupVCList;
         }
 
         private void OnDisable()
         {
-            EventHandler.Instance.swipeRight -= CameraChnageTargetRight;
-            EventHandler.Instance.swipeLeft -= CameraChnageTargetLeft;
-            EventHandler.Instance.OnTargetChanged -= SetTarget;
-            EventHandler.Instance.onPlayerTurn -= ChangeCamera;
+            InputHandler.Instance.swipeRight -= CameraChnageTargetRight;
+            InputHandler.Instance.swipeLeft -= CameraChnageTargetLeft;
+            BattleHandler.Instance.onPlayerTurn -= ChangeCamera;
+            OnTargetChanged -= SetTarget;
 
-            EventHandler.Instance.onUnitSpawn -= SetupVCList;
+            BattleHandler.Instance.onUnitSpawn -= SetupVCList;
         }
 
         private void Awake()
@@ -67,7 +73,7 @@ namespace Managers
         private void Start()
         {
             cameraIndex = 0;
-            EventHandler.Instance.OnTargetChanged = SetTarget;
+            OnTargetChanged = SetTarget;
         }
         #endregion
 
@@ -87,7 +93,7 @@ namespace Managers
                 {
                     cameraIndex++;
                     activeVC.LookAt = Targets[cameraIndex].transform;
-                    EventHandler.Instance.OnTargetChanged.Invoke();
+                    OnTargetChanged.Invoke();
                 }
             }
         }
@@ -101,7 +107,7 @@ namespace Managers
                 {
                     cameraIndex--;
                     activeVC.LookAt = Targets[cameraIndex].transform;
-                    EventHandler.Instance.OnTargetChanged.Invoke();
+                    OnTargetChanged.Invoke();
                 }
             }
         }
@@ -115,8 +121,8 @@ namespace Managers
             }
 
             //Find the current player's VC and attach it to the currentEntityVC
-            GameObject ChildObj = BattleManager.Instance.UnitsInBattle[BattleManager.Instance.UnitIndex].transform.GetChild(0).gameObject;
-            currentEntityVC = BattleManager.Instance.ChildObj.GetComponent<CinemachineVirtualCamera>(); ;
+            GameObject ChildObj = TurnManager.Instance.UnitsInBattle[TurnManager.Instance.UnitIndex].transform.GetChild(0).gameObject;
+            currentEntityVC = TurnManager.Instance.ChildObj.GetComponent<CinemachineVirtualCamera>(); ;
 
             ///<Summary> 
             ///If we have a currentEntityVC:

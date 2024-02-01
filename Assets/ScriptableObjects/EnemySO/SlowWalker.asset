@@ -17,7 +17,7 @@ MonoBehaviour:
     type: 3}
   MaxHP: 53
   Atk: 12
-  Spd: 1
+  Spd: 12
   Def: 5
   Res: 8
   EquipedArtifacts: []

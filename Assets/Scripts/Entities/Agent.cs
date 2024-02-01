@@ -9,7 +9,7 @@ namespace Entities
 {
     public class Agent : Entity
     {
-        public Entity target;
+        private Entity target;
         float TotalDmg;
 
         #region OnEnable, OnDisable, Start
@@ -23,13 +23,13 @@ namespace Entities
         #endregion
         public override void SetSpawnPoint()
         {
-            transform.position = BattleManager.Instance.AllySpawnPoints[BattleManager.Instance.AllySpawnPointNum].transform.position;
-            BattleManager.Instance.AllySpawnPointNum++;
+            transform.position = TurnManager.Instance.AllySpawnPoints[TurnManager.Instance.AllySpawnPointNum].transform.position;
+            TurnManager.Instance.AllySpawnPointNum++;
         }
 
         private void SetTarget()
         {
-            target = CameraManager.Instance.Targets[CameraManager.Instance.cameraIndex].GetComponent<Entity>();
+            target = BattleCameraHandler.Instance.Targets[BattleCameraHandler.Instance.cameraIndex].GetComponent<Entity>();
         }
     }
 }
