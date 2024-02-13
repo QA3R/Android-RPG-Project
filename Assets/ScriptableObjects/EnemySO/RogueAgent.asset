@@ -20,4 +20,6 @@ MonoBehaviour:
   Spd: 33
   Def: 11
   Res: 8
-  EquipedArtifacts: []
+  BasicAtk: {fileID: 0}
+  Skill:
+  - {fileID: 11400000, guid: b173db530e7418c4e8c552dcbf33ccfb, type: 2}

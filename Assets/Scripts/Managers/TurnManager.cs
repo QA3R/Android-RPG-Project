@@ -42,7 +42,7 @@ namespace Managers
         private static GameState currentGameState;
 
         #region Turn Tracker Variables
-        private int unitIndex;
+        private int unitIndex =0;
         public int UnitIndex => unitIndex;
 
         private int roundIndex;
@@ -216,6 +216,7 @@ namespace Managers
             {
                 currentGameState = GameState.PlayerTurn;
                 Debug.Log(entityTakingTurn.name);
+                BattleHandler.Instance.OnStateEnd?.Invoke();
             }
             else
             {

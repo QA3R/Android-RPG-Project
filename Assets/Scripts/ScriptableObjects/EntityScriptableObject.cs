@@ -17,6 +17,7 @@ namespace ScriptableObjects
         public float Def;
         public float Res;
 
-        public List<ArtifactScriptableObject> EquipedArtifacts;
+        public ScriptableObject BasicAtk;
+        public List <ScriptableObject> Skill;
     }
 }

@@ -9,7 +9,8 @@ namespace Entities
     public class Entity : MonoBehaviour, IDamageable
     {
         [SerializeField] private EntityScriptableObject entityType;
-        
+
+        public bool IsAlliedEntity;
         public bool IsControlable;
         public bool IsDead;
         public string Name;
@@ -47,12 +48,12 @@ namespace Entities
         {
             if (IsTimerRunning)
             {
-                CurrentTimerVal += Time.deltaTime * (10 + (Spd/100));
+                CurrentTimerVal += Time.deltaTime * (Spd/10);
             }
 
-            if (CurrentTimerVal >=10 && IsTimerRunning) 
+            if (CurrentTimerVal >=1 && IsTimerRunning) 
             {
-                BattleHandler.Instance.OnTimerReady.Invoke(GetComponent<Entity>());
+                BattleHandler.Instance.OnTimerReady?.Invoke(this);
             }
         }
 
@@ -91,6 +92,8 @@ namespace Entities
             }
         }
 
+
+        //This is used for any non-controlled entity
         public virtual void MakeAction()
         {
 

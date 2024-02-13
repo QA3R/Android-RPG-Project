@@ -20,8 +20,5 @@ MonoBehaviour:
   Spd: 55
   Def: 47.27
   Res: 85.7
-  EquipedArtifacts:
-  - {fileID: 11400000, guid: bbd897e687cba04408b15329d1796c8d, type: 2}
-  - {fileID: 11400000, guid: 5042403a60d1f824db4fdd61bea90c0f, type: 2}
-  - {fileID: 11400000, guid: 1a269f4a4d5814d458c45a5497dabbbd, type: 2}
-  - {fileID: 11400000, guid: 1b2a9192aaf000f448eaea6204a7f32a, type: 2}
+  BasicAtk: {fileID: 11400000, guid: b173db530e7418c4e8c552dcbf33ccfb, type: 2}
+  Skill: {fileID: 11400000, guid: 73cde3d326084a74b924339c7764362c, type: 2}
