@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Entities;
 using TMPro;
+using Managers;
 
 namespace UserInterface
 {
