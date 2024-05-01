@@ -7,7 +7,7 @@ using Managers;
 
 namespace Entities
 {
-    public class Agent : Entity
+    public class AllyEntity : Entity
     {
         private Entity target;
         float TotalDmg;

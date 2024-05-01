@@ -45,7 +45,7 @@ namespace Managers
 
         private int roundIndex;
         
-        private Entity currentUnit;
+        private Entities.Entity currentUnit;
         #endregion 
         #endregion
 
@@ -133,10 +133,10 @@ namespace Managers
         }
 
         //Once an Entity's Timer reaches its max value, pause all entity timers and set the GameState to the corresponding state
-        void SetEntityTurn(Entity entityTakingTurn)
+        void SetEntityTurn(Entities.Entity entityTakingTurn)
         {
             //Pause all Entities' timer in UnitsInBattle
-            foreach (Entity entity in BattleHandler.Instance.UnitsInBattle)
+            foreach (Entities.Entity entity in BattleHandler.Instance.UnitsInBattle)
             {
                 entity.PauseEntityTimer();
             } 

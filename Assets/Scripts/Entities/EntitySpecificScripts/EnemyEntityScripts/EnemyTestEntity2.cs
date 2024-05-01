@@ -7,7 +7,7 @@ using Managers;
 
 namespace Entities.Enemies
 {
-    public class SlowWalker : Enemy
+    public class EnemyTestEntity2 : EnemyEntity
     {
         private float dmgToDeal;
         Entity minDefEntity;

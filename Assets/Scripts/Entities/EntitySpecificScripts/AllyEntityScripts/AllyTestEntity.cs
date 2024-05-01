@@ -7,9 +7,9 @@ using Managers;
 
 
 
-namespace Entities.Agents
+namespace Entities.Playable
 {
-    public class AgentZero : Agent
+    public class AllyTestEntity : AllyEntity
     {
         // Start is called before the first frame update
         public override void Start()

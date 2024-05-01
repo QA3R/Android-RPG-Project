@@ -10,7 +10,7 @@ using ScriptableObjects;
 
 namespace Entities
 {
-    public class Enemy : Entity
+    public class EnemyEntity : Entity
     {
         private float TotalDMG;
 

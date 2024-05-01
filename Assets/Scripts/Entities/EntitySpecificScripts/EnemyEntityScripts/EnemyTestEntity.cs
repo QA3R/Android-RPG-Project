@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RogueAgent : Enemy
+public class EnemyTestEntity : EnemyEntity
 {
     private float dmgToDeal;
     Entity minHpEntity;
