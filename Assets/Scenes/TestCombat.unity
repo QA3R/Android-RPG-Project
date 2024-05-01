@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 164743517}
   - component: {fileID: 164743516}
   m_Layer: 3
-  m_Name: Cube
+  m_Name: Ally_Spawn_Point_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -296,7 +296,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EntityObjToSpawn:
   - {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978, type: 3}
-  - {fileID: 1209568149458620216, guid: 85888485772060f419e05ce0f0c749c3, type: 3}
   - {fileID: 1209568149458620216, guid: d7c76ddf655361540888a28f109b1570, type: 3}
   - {fileID: 1209568149458620216, guid: e07012d961bff114a846567471d7d20f, type: 3}
   _allySpawnPoints:
@@ -339,7 +338,7 @@ GameObject:
   - component: {fileID: 369299431}
   - component: {fileID: 369299430}
   m_Layer: 3
-  m_Name: Cube (2)
+  m_Name: Ally_Spawn_Point_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1062,7 +1061,7 @@ GameObject:
   - component: {fileID: 878159803}
   - component: {fileID: 878159802}
   m_Layer: 3
-  m_Name: Cube (6)
+  m_Name: Enemy_Spawn_Point_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1413,7 +1412,7 @@ GameObject:
   - component: {fileID: 1015546162}
   - component: {fileID: 1015546161}
   m_Layer: 3
-  m_Name: Cube (1)
+  m_Name: Ally_Spawn_Point_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1559,7 +1558,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1021005199}
-  m_LocalRotation: {x: 0.035857573, y: 0.68738747, z: -0.03401573, w: 0.7246072}
+  m_LocalRotation: {x: 0.03585758, y: 0.68738747, z: -0.034015737, w: 0.7246072}
   m_LocalPosition: {x: -14.267252, y: 6.8395686, z: 7.303037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2114,7 +2113,7 @@ GameObject:
   - component: {fileID: 1298627129}
   - component: {fileID: 1298627128}
   m_Layer: 3
-  m_Name: Cube (5)
+  m_Name: Enemy_Spawn_Point_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2260,7 +2259,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310930145}
-  m_LocalRotation: {x: 0.03926831, y: 0.75168747, z: -0.044940438, w: 0.65681374}
+  m_LocalRotation: {x: 0.039268307, y: 0.7516874, z: -0.044940423, w: 0.6568139}
   m_LocalPosition: {x: -14.247252, y: 6.9197116, z: 2.0230374}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2508,7 +2507,7 @@ GameObject:
   - component: {fileID: 1568289434}
   - component: {fileID: 1568289433}
   m_Layer: 3
-  m_Name: Cube (4)
+  m_Name: Enemy_Spawn_Point_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2889,7 +2888,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1772383176}
-  m_LocalRotation: {x: 0.04840567, y: 0.70655537, z: -0.04855872, w: 0.70432836}
+  m_LocalRotation: {x: 0.04840567, y: 0.70655537, z: -0.048558723, w: 0.70432836}
   m_LocalPosition: {x: -13.067252, y: 6.9197116, z: 0.75303745}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3200,6 +3199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2075611478}
   - component: {fileID: 2075611479}
+  - component: {fileID: 2075611480}
   m_Layer: 0
   m_Name: BattleHandler
   m_TagString: Untagged
@@ -3234,6 +3234,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 878b8bdd6e45f904a834194212616e27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EntityObjToSpawn:
+  - {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978, type: 3}
+  - {fileID: 1209568149458620216, guid: d7c76ddf655361540888a28f109b1570, type: 3}
+  - {fileID: 1209568149458620216, guid: e07012d961bff114a846567471d7d20f, type: 3}
+  _allySpawnPoints:
+  - {fileID: 164743515}
+  - {fileID: 1015546160}
+  - {fileID: 369299429}
+  - {fileID: 897806870}
+  _enemySpawnPoints:
+  - {fileID: 1568289432}
+  - {fileID: 1298627127}
+  - {fileID: 878159801}
+  - {fileID: 2117568596}
+  UnitsInBattle: []
+--- !u!114 &2075611480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2075611476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2425bcf2c09eda47a92626f06316763, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EntityObjToSpawn:
+  - {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978, type: 3}
+  - {fileID: 1209568149458620216, guid: d7c76ddf655361540888a28f109b1570, type: 3}
+  - {fileID: 1209568149458620216, guid: e07012d961bff114a846567471d7d20f, type: 3}
+  _allySpawnPoints:
+  - {fileID: 164743515}
+  - {fileID: 1015546160}
+  - {fileID: 369299429}
+  - {fileID: 897806870}
+  _enemySpawnPoints:
+  - {fileID: 1568289432}
+  - {fileID: 1298627127}
+  - {fileID: 878159801}
+  - {fileID: 2117568596}
+  UnitsInBattle: []
+  ChildObj: {fileID: 0}
 --- !u!1 &2105373754
 GameObject:
   m_ObjectHideFlags: 3
@@ -3319,7 +3362,7 @@ GameObject:
   - component: {fileID: 2117568598}
   - component: {fileID: 2117568597}
   m_Layer: 3
-  m_Name: Cube (7)
+  m_Name: Enemy_Spawn_Point_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

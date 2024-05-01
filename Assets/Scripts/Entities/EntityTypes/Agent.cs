@@ -23,13 +23,8 @@ namespace Entities
         #endregion
         public override void SetSpawnPoint()
         {
-            transform.position = TurnManager.Instance.AllySpawnPoints[TurnManager.Instance.AllySpawnPointNum].transform.position;
-            TurnManager.Instance.AllySpawnPointNum++;
-        }
-
-        private void SetTarget()
-        {
-            target = BattleCameraHandler.Instance.Targets[BattleCameraHandler.Instance.cameraIndex].GetComponent<Entity>();
+            transform.position = BattleHandler.Instance.AllySpawnPoints[BattleHandler.Instance.AllySpawnPointNum].transform.position;
+            BattleHandler.Instance.AllySpawnPointNum++;
         }
     }
 }

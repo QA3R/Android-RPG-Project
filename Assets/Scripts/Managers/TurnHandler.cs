@@ -2,16 +2,14 @@ using Unity.VisualScripting;
 using System.Collections;
 using UnityEngine.Rendering.Universal;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using TMPro;
 using ScriptableObjects;
 using Entities;
 using Cinemachine;
 
 namespace Managers
 {
-    public class TurnManager : MonoBehaviour
+    public class TurnHandler : MonoBehaviour
     {
         /// <summary>
         /// This script is responsible for managing the battle status. It will keep track of:
@@ -24,11 +22,12 @@ namespace Managers
         #region Variables
         //Instance implementation
         #region Instance Implmentation
-        private static TurnManager instance;
-        public static TurnManager Instance => instance;
+        private static TurnHandler instance;
+        public static TurnHandler Instance => instance;
         #endregion
 
         //The GameState will dictate what events needs to be called (i.e Giving player functionality, Passing to an EnemyTurn, ending the battle, etc..)
+        #region Turn Tracker Variables
         private enum GameState
         {
             BattleStart,
@@ -41,7 +40,6 @@ namespace Managers
 
         private static GameState currentGameState;
 
-        #region Turn Tracker Variables
         private int unitIndex =0;
         public int UnitIndex => unitIndex;
 
@@ -49,29 +47,6 @@ namespace Managers
         
         private Entity currentUnit;
         #endregion 
-
-        //Lists for Units to spawn, ally spawn locations, and enemy spawn locations
-        #region Lists of Units
-        [SerializeField] private List<GameObject> EntityObjToSpawn;
-
-        [SerializeField] private List<GameObject> _allySpawnPoints;
-        public List<GameObject> AllySpawnPoints => _allySpawnPoints;
-
-        [SerializeField] private List<GameObject> _enemySpawnPoints;
-        public List<GameObject> EnemySpawnPoints => _enemySpawnPoints;
-
-        private int allySpawnPointNum = 0;
-        public int AllySpawnPointNum { get => allySpawnPointNum; set => allySpawnPointNum = value; }
-        
-        private int enemySpawnPointNum = 0;
-        public int EnemySpawnPointNum { get => enemySpawnPointNum; set => enemySpawnPointNum = value; }
-
-        //Lists of Units in battle, only Allies, and only Enemies
-        public List <Entity> UnitsInBattle;
-        #endregion
-
-        //Used by the BattleCameraHandler to change target 
-        public GameObject ChildObj;
         #endregion
 
         #region Awake & Start
@@ -111,9 +86,8 @@ namespace Managers
         #endregion
 
         #region Methods
-
         #region State Related Methods
-        //This is the main method that will get called when a battle begins
+        //This is the Statemachine that checks which State the battle is in and sets the approiate actions
         void CheckState()
         {
             switch (currentGameState)
@@ -123,7 +97,7 @@ namespace Managers
                 case GameState.BattleStart:
                     Debug.Log(currentGameState);
                     //Setup all Allies and Enemies in scene
-                    SpawnUnits();
+                    BattleHandler.Instance.SpawnUnits();
                     break;
                 #endregion
 
@@ -135,10 +109,7 @@ namespace Managers
                 #region State: PlayerTurn
                 case GameState.PlayerTurn:
                     Debug.Log("It is now the player turn.");
-
-                    //Enable camera controls for the player
-                    ChildObj = UnitsInBattle[unitIndex].transform.GetChild(0).gameObject;
-                    BattleCameraHandler.Instance.IsControllable = true;
+     
                     break;
                 #endregion
 
@@ -161,52 +132,11 @@ namespace Managers
             }
         }
 
-        bool HasPlayerLost()
-        {
-            //Check if all allies are dead
-            bool anyPlayerUnitNotDead = UnitsInBattle.Any(Entity => Entity.IsControlable && !Entity.IsDead);
-
-            return !anyPlayerUnitNotDead;
-        }
-
-        //Forces the EventHandler to invoke the OnStateEnd delegate (TO DO: Move this functionality to the agent script)
-        public void InvokeStateEnd()
-        {
-            BattleHandler.Instance.OnStateEnd.Invoke();            
-        }
-
-        public void SetStateBetween()
-        {
-            currentGameState = GameState.BetweenTurn;
-            Debug.Log(currentGameState);
-        }
-        #endregion
-
-        //Takes the list of EntityObjToSpawn and sets them up in the battlefield
-        void SpawnUnits()
-        {
-            //Spawns the Gameobject from the list of Entities in the Battelfield and Sorts the list of EntityScripts based on the spd value on it
-            foreach (GameObject unitObj in EntityObjToSpawn)
-            {
-                if (unitObj != null)
-                //Spawn the entity 
-                currentUnit = Instantiate(unitObj.GetComponent<Entity>());
-                //Add the Entity Script from currentEntity to the EntityScripts List
-                UnitsInBattle.Add(currentUnit.GetComponent<Entity>());
-            }
-
-            //Set the postions of each entity to its correct spawn location
-            foreach (Entity unit in UnitsInBattle)
-            {
-                unit.SetSpawnPoint();
-            }
-        }
-       
         //Once an Entity's Timer reaches its max value, pause all entity timers and set the GameState to the corresponding state
         void SetEntityTurn(Entity entityTakingTurn)
         {
             //Pause all Entities' timer in UnitsInBattle
-            foreach (Entity entity in UnitsInBattle)
+            foreach (Entity entity in BattleHandler.Instance.UnitsInBattle)
             {
                 entity.PauseEntityTimer();
             } 
@@ -224,6 +154,18 @@ namespace Managers
             }
         }
 
+        //Forces the State Machine to the between turn state
+        public void SetStateBetween()
+        {
+            currentGameState = GameState.BetweenTurn;
+            Debug.Log(currentGameState);
+        }
+        //Forces the EventHandler to invoke the OnStateEnd delegate (TO DO: Move this functionality to the agent script)
+        public void InvokeStateEnd()
+        {
+            BattleHandler.Instance.OnStateEnd.Invoke();            
+        }
+        #endregion
         #endregion
 
     }
