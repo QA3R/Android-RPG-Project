@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 340862739}
   - component: {fileID: 340862738}
   m_Layer: 0
-  m_Name: TurnManager
+  m_Name: TurnHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -294,22 +294,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2425bcf2c09eda47a92626f06316763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EntityObjToSpawn:
-  - {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978, type: 3}
-  - {fileID: 1209568149458620216, guid: d7c76ddf655361540888a28f109b1570, type: 3}
-  - {fileID: 1209568149458620216, guid: e07012d961bff114a846567471d7d20f, type: 3}
-  _allySpawnPoints:
-  - {fileID: 164743515}
-  - {fileID: 1015546160}
-  - {fileID: 369299429}
-  - {fileID: 897806870}
-  _enemySpawnPoints:
-  - {fileID: 1568289432}
-  - {fileID: 1298627127}
-  - {fileID: 878159801}
-  - {fileID: 2117568596}
-  UnitsInBattle: []
-  ChildObj: {fileID: 0}
 --- !u!4 &340862739
 Transform:
   m_ObjectHideFlags: 0
@@ -2591,55 +2575,6 @@ Transform:
   m_Father: {fileID: 1000587069}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1610603108
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1610603110}
-  - component: {fileID: 1610603109}
-  m_Layer: 0
-  m_Name: BattleCameraHandler
-  m_TagString: MainCamera
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1610603109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1610603108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4419f690a97a99e4a9ee757fc268957f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsControllable: 1
-  Targets: []
-  cam: {fileID: 1363647140}
-  activeVC: {fileID: 0}
-  cameraIndex: 0
---- !u!4 &1610603110
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1610603108}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.159912, y: 0.269989, z: -3.769989}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1702534285
 GameObject:
   m_ObjectHideFlags: 0
@@ -3261,22 +3196,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2425bcf2c09eda47a92626f06316763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EntityObjToSpawn:
-  - {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978, type: 3}
-  - {fileID: 1209568149458620216, guid: d7c76ddf655361540888a28f109b1570, type: 3}
-  - {fileID: 1209568149458620216, guid: e07012d961bff114a846567471d7d20f, type: 3}
-  _allySpawnPoints:
-  - {fileID: 164743515}
-  - {fileID: 1015546160}
-  - {fileID: 369299429}
-  - {fileID: 897806870}
-  _enemySpawnPoints:
-  - {fileID: 1568289432}
-  - {fileID: 1298627127}
-  - {fileID: 878159801}
-  - {fileID: 2117568596}
-  UnitsInBattle: []
-  ChildObj: {fileID: 0}
 --- !u!1 &2105373754
 GameObject:
   m_ObjectHideFlags: 3
