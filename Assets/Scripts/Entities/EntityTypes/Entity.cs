@@ -104,7 +104,7 @@ namespace Entities
             //Calls the caster's BasicAtk.ExecuteSkill method that exists in the STASScriptableObject attached to it
             BasicAtk.ExecuteSkill(this, Target);
 
-            //Once Attack function has been completed, we call the SetStateBetween
+            //Once Attack function has been completed, we call the SetStateBetween 
             TurnHandler.Instance.SetStateBetween();
         }
 

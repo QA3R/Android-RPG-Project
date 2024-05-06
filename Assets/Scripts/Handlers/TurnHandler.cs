@@ -122,17 +122,16 @@ namespace Managers
 
                 #region State: PlayerTurn
                 case GameState.PlayerTurn:
+                    Debug.Log("It is now " + CurrentEntity.name + " turn.");
                     OnTurnReady.Invoke();
-                    Debug.Log("It is now the player turn.");
      
                     break;
                 #endregion
 
                 #region State: EnemyTurn
                 case GameState.EnemyTurn:
+                    Debug.Log("It is now " + CurrentEntity.name + " turn.");
                     currentEntity.Attack(currentEntity, currentEntity.Target);
-                    SetStateBetween();
-                    Debug.Log("It is now the enemy turn.");
                     break;
                 #endregion
 
@@ -165,12 +164,10 @@ namespace Managers
             if (entityTakingTurn.IsControlable)
             {
                 currentGameState = GameState.PlayerTurn;
-                Debug.Log(entityTakingTurn.name);
                 BattleHandler.Instance.OnStateEnd?.Invoke();
             }
             else
             {
-                Debug.Log(entityTakingTurn.name);
                 currentGameState = GameState.EnemyTurn;
                 BattleHandler.Instance.OnStateEnd?.Invoke();
             }
