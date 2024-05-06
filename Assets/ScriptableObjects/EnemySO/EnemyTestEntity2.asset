@@ -10,17 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef75bda879f97fe4da5365bc321841b5, type: 3}
-  m_Name: AgentZero
+  m_Name: EnemyTestEntity2
   m_EditorClassIdentifier: 
-  Name: AgentZero
-  EntityModel: {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978,
+  Name: EnemyTestEntity2
+  EntityModel: {fileID: 1209568149458620216, guid: e07012d961bff114a846567471d7d20f,
     type: 3}
-  MaxHP: 120
-  Atk: 55
-  Spd: 27
-  Def: 47.27
-  Res: 85.7
+  MaxHP: 53
+  Atk: 10
+  Spd: 12
+  Def: 5
+  Res: 8
   BasicAtk: {fileID: 11400000, guid: b173db530e7418c4e8c552dcbf33ccfb, type: 2}
-  Skill:
-  - {fileID: 11400000, guid: b173db530e7418c4e8c552dcbf33ccfb, type: 2}
-  - {fileID: 11400000, guid: c3e40722bbcedbd45835421aa239610f, type: 2}
+  Skill: []

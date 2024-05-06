@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 38958686}
   - component: {fileID: 38958685}
   m_Layer: 0
-  m_Name: UIManager
+  m_Name: PlayerControlHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlsUI: {fileID: 768383502}
+  basicAtkBtn: {fileID: 1007369818}
 --- !u!4 &38958686
 Transform:
   m_ObjectHideFlags: 0
@@ -1542,7 +1543,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1021005199}
-  m_LocalRotation: {x: 0.03585758, y: 0.68738747, z: -0.034015737, w: 0.7246072}
+  m_LocalRotation: {x: 0.035857573, y: 0.6873875, z: -0.03401573, w: 0.7246072}
   m_LocalPosition: {x: -14.267252, y: 6.8395686, z: 7.303037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2243,7 +2244,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310930145}
-  m_LocalRotation: {x: 0.039268307, y: 0.7516874, z: -0.044940423, w: 0.6568139}
+  m_LocalRotation: {x: 0.03926831, y: 0.75168747, z: -0.044940438, w: 0.65681374}
   m_LocalPosition: {x: -14.247252, y: 6.9197116, z: 2.0230374}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2823,7 +2824,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1772383176}
-  m_LocalRotation: {x: 0.04840567, y: 0.70655537, z: -0.048558723, w: 0.70432836}
+  m_LocalRotation: {x: 0.04840567, y: 0.70655537, z: -0.04855872, w: 0.70432836}
   m_LocalPosition: {x: -13.067252, y: 6.9197116, z: 0.75303745}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3173,12 +3174,12 @@ MonoBehaviour:
   - {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978, type: 3}
   - {fileID: 1209568149458620216, guid: d7c76ddf655361540888a28f109b1570, type: 3}
   - {fileID: 1209568149458620216, guid: e07012d961bff114a846567471d7d20f, type: 3}
-  _allySpawnPoints:
+  allySpawnPoints:
   - {fileID: 164743515}
   - {fileID: 1015546160}
   - {fileID: 369299429}
   - {fileID: 897806870}
-  _enemySpawnPoints:
+  enemySpawnPoints:
   - {fileID: 1568289432}
   - {fileID: 1298627127}
   - {fileID: 878159801}

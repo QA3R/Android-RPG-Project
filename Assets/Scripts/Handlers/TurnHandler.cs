@@ -26,8 +26,24 @@ namespace Managers
         public static TurnHandler Instance => instance;
         #endregion
 
+        #region Delegates
+        public delegate void TurnReady();
+        public TurnReady OnTurnReady;
+
+        public delegate void PlayerTurnEnded();
+        public PlayerTurnEnded OnPlayerTurnEnded;
+        #endregion
+
         //The GameState will dictate what events needs to be called (i.e Giving player functionality, Passing to an EnemyTurn, ending the battle, etc..)
         #region Turn Tracker Variables
+
+        private Entity currentEntity;
+        public Entity CurrentEntity { get => currentEntity; set => currentEntity = value; }
+
+        private int unitIndex =0;
+        public int UnitIndex => unitIndex;
+
+        private int roundIndex;
         private enum GameState
         {
             BattleStart,
@@ -36,16 +52,9 @@ namespace Managers
             EnemyTurn,
             GameWon,
             GameLoss
-        };
+        }
 
         private static GameState currentGameState;
-
-        private int unitIndex =0;
-        public int UnitIndex => unitIndex;
-
-        private int roundIndex;
-        
-        private Entities.Entity currentUnit;
         #endregion 
         #endregion
 
@@ -67,15 +76,15 @@ namespace Managers
         private void OnEnable()
         {
             currentGameState = GameState.BattleStart;
-            BattleHandler.Instance.OnStateEnd += CheckState;
             BattleHandler.Instance.OnTimerReady += SetEntityTurn;
+            BattleHandler.Instance.OnStateEnd += CheckState;
         }
 
         //Unsubscribe to OnBattleStart when disabled
         void OnDisable()
         {
-            BattleHandler.Instance.OnStateEnd -= CheckState;
             BattleHandler.Instance.OnTimerReady -= SetEntityTurn;
+            BattleHandler.Instance.OnStateEnd -= CheckState;
         }
 
         // Start is called before the first frame update
@@ -86,7 +95,7 @@ namespace Managers
         #endregion
 
         #region Methods
-        #region State Related Methods
+        #region StateMachine
         //This is the Statemachine that checks which State the battle is in and sets the approiate actions
         void CheckState()
         {
@@ -103,11 +112,17 @@ namespace Managers
 
                 #region State: BetweenTurn
                 case GameState.BetweenTurn:
+                    //Pause all Entities' timer in UnitsInBattle
+                    foreach (Entities.Entity entity in BattleHandler.Instance.UnitsInBattle)
+                    {
+                        entity.StartEntityTimer();
+                    }
                     break;
                 #endregion
 
                 #region State: PlayerTurn
                 case GameState.PlayerTurn:
+                    OnTurnReady.Invoke();
                     Debug.Log("It is now the player turn.");
      
                     break;
@@ -115,6 +130,8 @@ namespace Managers
 
                 #region State: EnemyTurn
                 case GameState.EnemyTurn:
+                    currentEntity.Attack(currentEntity, currentEntity.Target);
+                    SetStateBetween();
                     Debug.Log("It is now the enemy turn.");
                     break;
                 #endregion
@@ -131,10 +148,13 @@ namespace Managers
                     #endregion
             }
         }
+        #endregion
 
         //Once an Entity's Timer reaches its max value, pause all entity timers and set the GameState to the corresponding state
-        void SetEntityTurn(Entities.Entity entityTakingTurn)
+        public void SetEntityTurn(Entities.Entity entityTakingTurn)
         {
+            CurrentEntity = entityTakingTurn;
+
             //Pause all Entities' timer in UnitsInBattle
             foreach (Entities.Entity entity in BattleHandler.Instance.UnitsInBattle)
             {
@@ -150,7 +170,9 @@ namespace Managers
             }
             else
             {
+                Debug.Log(entityTakingTurn.name);
                 currentGameState = GameState.EnemyTurn;
+                BattleHandler.Instance.OnStateEnd?.Invoke();
             }
         }
 
@@ -158,14 +180,15 @@ namespace Managers
         public void SetStateBetween()
         {
             currentGameState = GameState.BetweenTurn;
+            BattleHandler.Instance.OnStateEnd.Invoke();
             Debug.Log(currentGameState);
         }
         //Forces the EventHandler to invoke the OnStateEnd delegate (TO DO: Move this functionality to the agent script)
         public void InvokeStateEnd()
         {
+
             BattleHandler.Instance.OnStateEnd.Invoke();            
         }
-        #endregion
         #endregion
 
     }

@@ -51,17 +51,17 @@ namespace Managers
 
         [SerializeField] private List<GameObject> EntityObjToSpawn;
 
-        [SerializeField] private List<GameObject> _allySpawnPoints;
-        public List<GameObject> AllySpawnPoints => _allySpawnPoints;
+        [SerializeField] private List<GameObject> allySpawnPoints;
+        public List<GameObject> AllySpawnPoints => allySpawnPoints;
 
-        [SerializeField] private List<GameObject> _enemySpawnPoints;
-        public List<GameObject> EnemySpawnPoints => _enemySpawnPoints;
+        [SerializeField] private List<GameObject> enemySpawnPoints;
+        public List<GameObject> EnemySpawnPoints => enemySpawnPoints;
 
-        private int allySpawnPointNum = 0;
-        public int AllySpawnPointNum { get => allySpawnPointNum; set => allySpawnPointNum = value; }
+        private int allySpawnID = 0;
+        public int AllySpawnID { get => allySpawnID; set => allySpawnID = value; }
 
-        private int enemySpawnPointNum = 0;
-        public int EnemySpawnPointNum { get => enemySpawnPointNum; set => enemySpawnPointNum = value; }
+        private int enemySpawnID = 0;
+        public int EnemyBattleID { get => enemySpawnID; set => enemySpawnID = value; }
 
         //Lists of Units in battle, only Allies, and only Enemies
         public List<Entity> UnitsInBattle;

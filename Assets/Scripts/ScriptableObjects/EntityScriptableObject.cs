@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ScriptableObjects;
+using Entities;
 
 namespace ScriptableObjects
 {
@@ -17,7 +18,9 @@ namespace ScriptableObjects
         public float Def;
         public float Res;
 
-        public ScriptableObject BasicAtk;
-        public List <ScriptableObject> Skill;
+        public STAScriptableObject BasicAtk;
+        public List <STAScriptableObject> Skills;
+
+
     }
 }

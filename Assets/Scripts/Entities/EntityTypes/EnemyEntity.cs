@@ -25,19 +25,9 @@ namespace Entities
         public override void SetSpawnPoint()
         {
             //base.SetSpawnPoint(bManager, cManager);
-            transform.position = BattleHandler.Instance.EnemySpawnPoints[BattleHandler.Instance.EnemySpawnPointNum].transform.position;
-            BattleHandler.Instance.EnemySpawnPointNum++;
+            transform.position = BattleHandler.Instance.EnemySpawnPoints[BattleHandler.Instance.EnemyBattleID].transform.position;
+            BattleHandler.Instance.EnemyBattleID++;
         }
-        
-
-        #region Action Methods
-        //Selects the Ally with the lowest current HP and calculates DMG dealt based on the enemy's ATK
-        public override void Attack() 
-        {
-
-        }
-
-        #endregion
     }
 
 }

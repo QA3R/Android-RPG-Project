@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef75bda879f97fe4da5365bc321841b5, type: 3}
-  m_Name: SlowWalker
+  m_Name: AllyTestEntity
   m_EditorClassIdentifier: 
-  Name: SlowWalker
-  EntityModel: {fileID: 1209568149458620216, guid: e07012d961bff114a846567471d7d20f,
+  Name: AgentZero
+  EntityModel: {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978,
     type: 3}
-  MaxHP: 53
-  Atk: 12
-  Spd: 12
-  Def: 5
-  Res: 8
-  EquipedArtifacts: []
+  MaxHP: 50
+  Atk: 20
+  Spd: 15
+  Def: 12
+  Res: 9
+  BasicAtk: {fileID: 11400000, guid: b173db530e7418c4e8c552dcbf33ccfb, type: 2}
+  Skill: []

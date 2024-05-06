@@ -8,10 +8,7 @@ using Managers;
 namespace Entities
 {
     public class AllyEntity : Entity
-    {
-        private Entity target;
-        float TotalDmg;
-
+    {  
         #region OnEnable, OnDisable, Start
 
         // Start is called before the first frame update
@@ -21,10 +18,17 @@ namespace Entities
   
         }
         #endregion
+
         public override void SetSpawnPoint()
         {
-            transform.position = BattleHandler.Instance.AllySpawnPoints[BattleHandler.Instance.AllySpawnPointNum].transform.position;
-            BattleHandler.Instance.AllySpawnPointNum++;
+            transform.position = BattleHandler.Instance.AllySpawnPoints[BattleHandler.Instance.AllySpawnID].transform.position;
+            BattleHandler.Instance.AllySpawnID++;
+        }
+
+        //Attack the first enemy in the spawn order
+        public override void Attack(Entity caster, Entity receiver)
+        {
+            base.Attack(caster, receiver);
         }
     }
 }

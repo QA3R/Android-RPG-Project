@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a071cf989b1b40e4b90dd61c0172b70a, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f6034a1a027770469300be6ec66fea2, type: 3}
   m_Name: BasicAttack
   m_EditorClassIdentifier: 
-  Description: This is the basic attack for all playable characters which does damage
-    modified by the enemies' defense
-  SkillName: BasicPhysAtk
-  DmgMultiplier: 1
+  SkillName: BasicAttack
+  Description: Does basic attack damage calculation with a skill multiplier of 1.
+  damageType: 0
+  SkillMultiplier: 1

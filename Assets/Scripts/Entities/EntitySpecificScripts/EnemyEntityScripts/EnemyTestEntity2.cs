@@ -14,11 +14,6 @@ namespace Entities.Enemies
 
         private void OnDisable()
         {
-            if (BattleHandler.Instance != null)
-            {
-                BattleHandler.Instance.onEnemyTurn -= Attack;
-                BattleHandler.Instance.OnDealDMG -= DealDMG;
-            }
         }
 
         // Start is called before the first frame update
@@ -27,15 +22,9 @@ namespace Entities.Enemies
             base.Start();
         }
 
-        //This method will be used to assign a new Action to be invoked during onEnemyTurn
-        public override void MakeAction()
+        public override void Attack(Entity caster, Entity receiver)
         {
-            BattleHandler.Instance.onEnemyTurn += Attack;
-        }
-
-        public override void Attack()
-        {
-            StartCoroutine(StartAttack());
+            base.Attack(caster, receiver);
         }
 
         IEnumerator StartAttack()

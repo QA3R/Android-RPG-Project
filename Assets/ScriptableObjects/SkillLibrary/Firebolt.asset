@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a071cf989b1b40e4b90dd61c0172b70a, type: 3}
-  m_Name: Cleave
+  m_Script: {fileID: 11500000, guid: 3f6034a1a027770469300be6ec66fea2, type: 3}
+  m_Name: Firebolt
   m_EditorClassIdentifier: 
-  Description: 'Hit the target enemy and adjacnet enemies '
-  SkillName: Cleave
-  DmgMultiplier: 0.5
+  SkillName: 
+  Description: 
+  damageType: 0
+  SkillMultiplier: 0

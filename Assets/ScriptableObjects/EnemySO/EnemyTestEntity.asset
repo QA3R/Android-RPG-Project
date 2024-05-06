@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef75bda879f97fe4da5365bc321841b5, type: 3}
-  m_Name: RogueAgent
+  m_Name: EnemyTestEntity
   m_EditorClassIdentifier: 
-  Name: RogueAgent
+  Name: EnemyTestEntity
   EntityModel: {fileID: 1209568149458620216, guid: d7c76ddf655361540888a28f109b1570,
     type: 3}
   MaxHP: 43
@@ -20,6 +20,5 @@ MonoBehaviour:
   Spd: 33
   Def: 11
   Res: 8
-  BasicAtk: {fileID: 0}
-  Skill:
-  - {fileID: 11400000, guid: b173db530e7418c4e8c552dcbf33ccfb, type: 2}
+  BasicAtk: {fileID: 11400000, guid: b173db530e7418c4e8c552dcbf33ccfb, type: 2}
+  Skill: []

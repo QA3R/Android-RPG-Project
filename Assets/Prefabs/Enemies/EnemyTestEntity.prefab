@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 1209568149458620219}
   - component: {fileID: 6604052832293780820}
   m_Layer: 0
-  m_Name: RogueAgent
+  m_Name: EnemyTestEntity
   m_TagString: Entity
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

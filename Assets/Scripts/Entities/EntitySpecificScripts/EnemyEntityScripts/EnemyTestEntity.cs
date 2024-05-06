@@ -11,11 +11,6 @@ public class EnemyTestEntity : EnemyEntity
     Entity minHpEntity;
     private void OnDisable()
     {
-        if (BattleHandler.Instance != null)
-        {
-            BattleHandler.Instance.onEnemyTurn -= Attack;
-            BattleHandler.Instance.OnDealDMG -= DealDMG;
-        }
     }
 
     public override void Start()
@@ -23,15 +18,9 @@ public class EnemyTestEntity : EnemyEntity
         base.Start();
     }
 
-
-    public override void MakeAction()
+    public override void Attack(Entity caster, Entity receiver)
     {
-        BattleHandler.Instance.onEnemyTurn += Attack;
-    }
-
-    public override void Attack()
-    {
-        StartCoroutine(StartAttack());
+        base.Attack(caster, receiver);
 
     }
 
