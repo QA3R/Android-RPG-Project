@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Managers;
+using Entities;
 
 namespace Managers
 {
@@ -103,15 +105,30 @@ namespace Managers
                         }
                         #endregion
 
+                        Ray ray = Camera.main.ScreenPointToRay(endPos);
+                        RaycastHit hit;
+
+                        if (Physics.Raycast(ray, out hit))
+                        {
+                            if (hit.collider.gameObject.TryGetComponent<EnemyEntity>(out EnemyEntity enemyEntity))
+                            {
+
+                                Debug.Log("This object is of type EnemyEntity");
+                                TurnHandler.Instance.OnTargetSelected.Invoke(hit.collider.gameObject.GetComponent<EnemyEntity>());
+                            }
+                            else
+                            {
+                                Debug.Log("No object of type EnemyEntity was found");
+                            }
+
+                        }
+
                         break;
                 }
 
 
 
             }
-
-
-
         }
     }
 }

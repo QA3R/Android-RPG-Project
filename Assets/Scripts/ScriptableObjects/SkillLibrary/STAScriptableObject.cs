@@ -30,14 +30,16 @@ public class STAScriptableObject : ScriptableObject, ISkill
             case DamageType.Physical:
 
                 dmgToDeal = (caster.Atk / ((receiver.Def + 100) / 100)) * SkillMultiplier;
-                Debug.Log(dmgToDeal);
+                receiver.Hp -= dmgToDeal;
+                Debug.Log(receiver.name + " received "  + dmgToDeal + " damage");
 
                 break;
 
             case DamageType.Magic:
 
                 dmgToDeal = (caster.Atk / ((receiver.Res + 100) / 100)) * SkillMultiplier;
-                Debug.Log(dmgToDeal);
+                receiver.Hp -= dmgToDeal;
+                Debug.Log(receiver.name + " received " + dmgToDeal + " damage");
                 break;
         }
     }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef75bda879f97fe4da5365bc321841b5, type: 3}
   m_Name: AllyTestEntity
   m_EditorClassIdentifier: 
-  Name: AgentZero
+  Name: AllyTestEntity
   EntityModel: {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978,
     type: 3}
   MaxHP: 50
@@ -21,4 +21,4 @@ MonoBehaviour:
   Def: 12
   Res: 9
   BasicAtk: {fileID: 11400000, guid: b173db530e7418c4e8c552dcbf33ccfb, type: 2}
-  Skill: []
+  Skills: []

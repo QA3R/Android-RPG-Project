@@ -99,7 +99,10 @@ namespace Entities
             caster = this;
 
             //Remove this when refactoring Targeting system
-            Target = BattleHandler.Instance.UnitsInBattle[0];
+            if (Target == null)
+            {
+                Target = BattleHandler.Instance.UnitsInBattle[0];
+            }
 
             //Calls the caster's BasicAtk.ExecuteSkill method that exists in the STASScriptableObject attached to it
             BasicAtk.ExecuteSkill(this, Target);

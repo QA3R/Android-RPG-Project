@@ -32,6 +32,9 @@ namespace Managers
 
         public delegate void PlayerTurnEnded();
         public PlayerTurnEnded OnPlayerTurnEnded;
+
+        public delegate void TargetSelected(Entity entity);
+        public TargetSelected OnTargetSelected;
         #endregion
 
         //The GameState will dictate what events needs to be called (i.e Giving player functionality, Passing to an EnemyTurn, ending the battle, etc..)
@@ -78,6 +81,7 @@ namespace Managers
             currentGameState = GameState.BattleStart;
             BattleHandler.Instance.OnTimerReady += SetEntityTurn;
             BattleHandler.Instance.OnStateEnd += CheckState;
+            OnTargetSelected += SetCEntityTarget;
         }
 
         //Unsubscribe to OnBattleStart when disabled
@@ -85,6 +89,7 @@ namespace Managers
         {
             BattleHandler.Instance.OnTimerReady -= SetEntityTurn;
             BattleHandler.Instance.OnStateEnd -= CheckState;
+            OnTargetSelected -= SetCEntityTarget;
         }
 
         // Start is called before the first frame update
@@ -188,6 +193,13 @@ namespace Managers
         }
         #endregion
 
+        public void SetCEntityTarget(Entity selectedTarget)
+        {
+            if (currentGameState == GameState.PlayerTurn)
+            {
+                CurrentEntity.Target = selectedTarget;
+            }
+        }
     }
 }
 

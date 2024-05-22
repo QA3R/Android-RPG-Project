@@ -21,15 +21,5 @@ public class EnemyTestEntity : EnemyEntity
     public override void Attack(Entity caster, Entity receiver)
     {
         base.Attack(caster, receiver);
-
-    }
-
-    IEnumerator StartAttack()
-    {
-        yield return new WaitForSeconds(2f);
-        Debug.Log("Starting Attack");
-
-            //Cycle to the next State
-            BattleHandler.Instance.OnStateEnd.Invoke();
     }
 }
