@@ -81,6 +81,7 @@ namespace Entities
         {
             IsTimerRunning = true;
         }
+
         public void PauseEntityTimer()
         {
             IsTimerRunning = false;

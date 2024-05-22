@@ -33,6 +33,9 @@ namespace Managers
         public delegate void PlayerTurnEnded();
         public PlayerTurnEnded OnPlayerTurnEnded;
 
+        public delegate void EntityTurnEnd();
+        public EntityTurnEnd OnEntityTurnEnd;
+
         public delegate void TargetSelected(Entity entity);
         public TargetSelected OnTargetSelected;
         #endregion
@@ -81,7 +84,12 @@ namespace Managers
             currentGameState = GameState.BattleStart;
             BattleHandler.Instance.OnTimerReady += SetEntityTurn;
             BattleHandler.Instance.OnStateEnd += CheckState;
+
+            //Subscribe to the function which sets the Target of the CurrentEntity on the TurnHandler to the targetSelected by the InputHandler
             OnTargetSelected += SetCEntityTarget;
+
+            //Subscribe to the function which sets the currentGameState to GameState.BetweenTurn on the end of an Entity's turn
+            OnEntityTurnEnd += SetStateBetween;
         }
 
         //Unsubscribe to OnBattleStart when disabled
@@ -90,6 +98,7 @@ namespace Managers
             BattleHandler.Instance.OnTimerReady -= SetEntityTurn;
             BattleHandler.Instance.OnStateEnd -= CheckState;
             OnTargetSelected -= SetCEntityTarget;
+            OnEntityTurnEnd -= SetStateBetween;
         }
 
         // Start is called before the first frame update
@@ -185,14 +194,14 @@ namespace Managers
             BattleHandler.Instance.OnStateEnd.Invoke();
             Debug.Log(currentGameState);
         }
+
         //Forces the EventHandler to invoke the OnStateEnd delegate (TO DO: Move this functionality to the agent script)
         public void InvokeStateEnd()
         {
 
             BattleHandler.Instance.OnStateEnd.Invoke();            
         }
-        #endregion
-
+        
         public void SetCEntityTarget(Entity selectedTarget)
         {
             if (currentGameState == GameState.PlayerTurn)
@@ -200,6 +209,8 @@ namespace Managers
                 CurrentEntity.Target = selectedTarget;
             }
         }
+        #endregion
+
     }
 }
 
