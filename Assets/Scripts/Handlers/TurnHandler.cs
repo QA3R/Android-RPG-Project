@@ -27,6 +27,10 @@ namespace Managers
         #endregion
 
         #region Delegates
+
+        public delegate void EntityTimerReady(Entity entityTakingTurn);
+        public EntityTimerReady OnTimerReady;
+
         public delegate void TurnReady();
         public TurnReady OnTurnReady;
 
@@ -36,8 +40,15 @@ namespace Managers
         public delegate void EntityTurnEnd();
         public EntityTurnEnd OnEntityTurnEnd;
 
+        public delegate void StateEnd();
+        public StateEnd OnStateEnd;
+
         public delegate void TargetSelected(Entity entity);
         public TargetSelected OnTargetSelected;
+
+        //The Entity.cs Script will invoke its CheckEntityStatus method to determine if it is dead or not
+        public delegate void DeathCheck();
+        public DeathCheck OnDeathCheck;
         #endregion
 
         //The GameState will dictate what events needs to be called (i.e Giving player functionality, Passing to an EnemyTurn, ending the battle, etc..)
@@ -82,8 +93,8 @@ namespace Managers
         private void OnEnable()
         {
             currentGameState = GameState.BattleStart;
-            BattleHandler.Instance.OnTimerReady += SetEntityTurn;
-            BattleHandler.Instance.OnStateEnd += CheckState;
+            TurnHandler.Instance.OnTimerReady += SetEntityTurn;
+            TurnHandler.Instance.OnStateEnd += CheckState;
 
             //Subscribe to the function which sets the Target of the CurrentEntity on the TurnHandler to the targetSelected by the InputHandler
             OnTargetSelected += SetCEntityTarget;
@@ -95,8 +106,8 @@ namespace Managers
         //Unsubscribe to OnBattleStart when disabled
         void OnDisable()
         {
-            BattleHandler.Instance.OnTimerReady -= SetEntityTurn;
-            BattleHandler.Instance.OnStateEnd -= CheckState;
+            TurnHandler.Instance.OnTimerReady -= SetEntityTurn;
+            TurnHandler.Instance.OnStateEnd -= CheckState;
             OnTargetSelected -= SetCEntityTarget;
             OnEntityTurnEnd -= SetStateBetween;
         }
@@ -104,7 +115,7 @@ namespace Managers
         // Start is called before the first frame update
         void Start()
         {
-            BattleHandler.Instance.OnStateEnd.Invoke();
+            TurnHandler.Instance.OnStateEnd.Invoke();
         }
         #endregion
 
@@ -178,12 +189,12 @@ namespace Managers
             if (entityTakingTurn.IsControlable)
             {
                 currentGameState = GameState.PlayerTurn;
-                BattleHandler.Instance.OnStateEnd?.Invoke();
+                TurnHandler.Instance.OnStateEnd?.Invoke();
             }
             else
             {
                 currentGameState = GameState.EnemyTurn;
-                BattleHandler.Instance.OnStateEnd?.Invoke();
+                TurnHandler.Instance.OnStateEnd?.Invoke();
             }
         }
 
@@ -191,7 +202,7 @@ namespace Managers
         public void SetStateBetween()
         {
             currentGameState = GameState.BetweenTurn;
-            BattleHandler.Instance.OnStateEnd.Invoke();
+            TurnHandler.Instance.OnStateEnd.Invoke();
             Debug.Log(currentGameState);
         }
 
@@ -199,7 +210,7 @@ namespace Managers
         public void InvokeStateEnd()
         {
 
-            BattleHandler.Instance.OnStateEnd.Invoke();            
+            TurnHandler.Instance.OnStateEnd.Invoke();            
         }
         
         public void SetCEntityTarget(Entity selectedTarget)

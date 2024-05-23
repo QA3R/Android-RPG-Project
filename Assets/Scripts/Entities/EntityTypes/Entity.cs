@@ -45,12 +45,12 @@ namespace Entities
             IsDead = false;
 
             //Subscribe to the OnActionMade Event
-            BattleHandler.Instance.OnDeathCheck += CheckEntityStatus;
+            TurnHandler.Instance.OnDeathCheck += CheckEntityStatus;
         }
 
         private void OnDisable()
         {
-            BattleHandler.Instance.OnDeathCheck -= CheckEntityStatus;
+            TurnHandler.Instance.OnDeathCheck -= CheckEntityStatus;
         }
 
         void Update()
@@ -62,7 +62,7 @@ namespace Entities
 
             if (CurrentTimerVal >=1 && IsTimerRunning) 
             {
-                BattleHandler.Instance.OnTimerReady?.Invoke(this);
+                TurnHandler.Instance.OnTimerReady?.Invoke(this);
                 
                 ResetEntityTimer();
             }
