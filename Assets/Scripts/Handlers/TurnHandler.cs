@@ -7,7 +7,7 @@ using ScriptableObjects;
 using Entities;
 using Cinemachine;
 
-namespace Managers
+namespace Handlers
 {
     public class TurnHandler : MonoBehaviour
     {
@@ -29,13 +29,10 @@ namespace Managers
         #region Delegates
 
         public delegate void EntityTimerReady(Entity entityTakingTurn);
-        public EntityTimerReady OnTimerReady;
+        public EntityTimerReady OnEntityTimerReady;
 
-        public delegate void TurnReady();
-        public TurnReady OnTurnReady;
-
-        public delegate void PlayerTurnEnded();
-        public PlayerTurnEnded OnPlayerTurnEnded;
+        public delegate void EntityTurnSet();
+        public EntityTurnSet OnEntityTurnSet;
 
         public delegate void EntityTurnEnd();
         public EntityTurnEnd OnEntityTurnEnd;
@@ -46,9 +43,8 @@ namespace Managers
         public delegate void TargetSelected(Entity entity);
         public TargetSelected OnTargetSelected;
 
-        //The Entity.cs Script will invoke its CheckEntityStatus method to determine if it is dead or not
-        public delegate void DeathCheck();
-        public DeathCheck OnDeathCheck;
+        public delegate void BattleVictory();
+        public BattleVictory OnBattleVictory;
         #endregion
 
         //The GameState will dictate what events needs to be called (i.e Giving player functionality, Passing to an EnemyTurn, ending the battle, etc..)
@@ -93,7 +89,7 @@ namespace Managers
         private void OnEnable()
         {
             currentGameState = GameState.BattleStart;
-            TurnHandler.Instance.OnTimerReady += SetEntityTurn;
+            TurnHandler.Instance.OnEntityTimerReady += SetEntityTurn;
             TurnHandler.Instance.OnStateEnd += CheckState;
 
             //Subscribe to the function which sets the Target of the CurrentEntity on the TurnHandler to the targetSelected by the InputHandler
@@ -106,7 +102,7 @@ namespace Managers
         //Unsubscribe to OnBattleStart when disabled
         void OnDisable()
         {
-            TurnHandler.Instance.OnTimerReady -= SetEntityTurn;
+            TurnHandler.Instance.OnEntityTimerReady -= SetEntityTurn;
             TurnHandler.Instance.OnStateEnd -= CheckState;
             OnTargetSelected -= SetCEntityTarget;
             OnEntityTurnEnd -= SetStateBetween;
@@ -137,10 +133,25 @@ namespace Managers
 
                 #region State: BetweenTurn
                 case GameState.BetweenTurn:
-                    //Pause all Entities' timer in UnitsInBattle
-                    foreach (Entities.Entity entity in BattleHandler.Instance.UnitsInBattle)
+
+                    if (BattleHandler.Instance.HasPlayerWon())
                     {
-                        entity.StartEntityTimer();
+                        StopEntityTimers();
+                        OnBattleVictory.Invoke();
+                        currentGameState = GameState.GameWon;
+                    }
+                    else if (BattleHandler.Instance.HasPlayerLost())
+                    {
+                        StopEntityTimers();
+                        currentGameState = GameState.GameLoss;
+                    }
+                    else
+                    {
+                        //Unpause all Entities' timer in UnitsInBattle
+                        foreach (Entities.Entity entity in BattleHandler.Instance.UnitsInBattle)
+                        {
+                            entity.StartEntityTimer();
+                        }
                     }
                     break;
                 #endregion
@@ -148,7 +159,7 @@ namespace Managers
                 #region State: PlayerTurn
                 case GameState.PlayerTurn:
                     Debug.Log("It is now " + CurrentEntity.name + " turn.");
-                    OnTurnReady.Invoke();
+                    OnEntityTurnSet.Invoke();
      
                     break;
                 #endregion
@@ -179,11 +190,7 @@ namespace Managers
         {
             CurrentEntity = entityTakingTurn;
 
-            //Pause all Entities' timer in UnitsInBattle
-            foreach (Entities.Entity entity in BattleHandler.Instance.UnitsInBattle)
-            {
-                entity.PauseEntityTimer();
-            } 
+            StopEntityTimers();
 
             //Set the currentGameState based on weather the passsed entity is controlable
             if (entityTakingTurn.IsControlable)
@@ -205,19 +212,21 @@ namespace Managers
             TurnHandler.Instance.OnStateEnd.Invoke();
             Debug.Log(currentGameState);
         }
-
-        //Forces the EventHandler to invoke the OnStateEnd delegate (TO DO: Move this functionality to the agent script)
-        public void InvokeStateEnd()
-        {
-
-            TurnHandler.Instance.OnStateEnd.Invoke();            
-        }
         
         public void SetCEntityTarget(Entity selectedTarget)
         {
             if (currentGameState == GameState.PlayerTurn)
             {
                 CurrentEntity.Target = selectedTarget;
+            }
+        }
+
+        public void StopEntityTimers()
+        {
+            //Pause all Entities' timer in UnitsInBattle
+            foreach (Entities.Entity entity in BattleHandler.Instance.UnitsInBattle)
+            {
+                entity.PauseEntityTimer();
             }
         }
         #endregion

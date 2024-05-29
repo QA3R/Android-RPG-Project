@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Managers;
+using Handlers;
 using Entities;
 
-namespace UserInterface
+namespace BattleUI
 {
     public class PlayerControlsHandler : MonoBehaviour
     {
@@ -15,13 +15,13 @@ namespace UserInterface
         //Subscribe to the EventHandler's onPlayerTurn & onEnemyTurn
         private void Start()
         {
-            TurnHandler.Instance.OnTurnReady += ChangeBasicAtkBtn;
+            TurnHandler.Instance.OnEntityTurnSet += ChangeBasicAtkBtn;
         }
 
         //Unsubscribe to the EventHandler's onPlayerTurn & onEnemyTurn
         private void OnDisable()
         {
-            TurnHandler.Instance.OnTurnReady -= ChangeBasicAtkBtn;
+            TurnHandler.Instance.OnEntityTurnSet -= ChangeBasicAtkBtn;
         }
 
         void DisablePlayerControls()

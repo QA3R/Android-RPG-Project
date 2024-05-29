@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Managers;
+using Handlers;
 using Entities;
 
-namespace Managers
+namespace Handlers
 {
     public class InputHandler : MonoBehaviour
     {
@@ -110,7 +110,7 @@ namespace Managers
 
                         if (Physics.Raycast(ray, out hit))
                         {
-                            if (hit.collider.gameObject.TryGetComponent<EnemyEntity>(out EnemyEntity enemyEntity))
+                            if (hit.collider.gameObject.TryGetComponent<EnemyEntity>(out EnemyEntity enemyEntity) && !enemyEntity.IsDead)
                             {
 
                                 Debug.Log("This object is of type EnemyEntity");

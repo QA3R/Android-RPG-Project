@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Entities;
 using TMPro;
-using Managers;
+using Handlers;
 
-namespace UserInterface
+namespace BattleUI
 {
     public class HealthUI : MonoBehaviour
     {

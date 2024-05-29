@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ScriptableObjects;
-using Managers;
+using Handlers;
 
 namespace Entities
 {
@@ -43,26 +43,18 @@ namespace Entities
             Res = entityType.Res;         
 
             IsDead = false;
-
-            //Subscribe to the OnActionMade Event
-            TurnHandler.Instance.OnDeathCheck += CheckEntityStatus;
-        }
-
-        private void OnDisable()
-        {
-            TurnHandler.Instance.OnDeathCheck -= CheckEntityStatus;
         }
 
         void Update()
         {
-            if (IsTimerRunning)
+            if (IsTimerRunning && !IsDead)
             {
                 CurrentTimerVal += Time.deltaTime * (Spd/10);
             }
 
             if (CurrentTimerVal >=1 && IsTimerRunning) 
             {
-                TurnHandler.Instance.OnTimerReady?.Invoke(this);
+                TurnHandler.Instance.OnEntityTimerReady?.Invoke(this);
                 
                 ResetEntityTimer();
             }
@@ -112,25 +104,27 @@ namespace Entities
             TurnHandler.Instance.SetStateBetween();
         }
 
-        public void DealDMG(Entity entityDamaged, float dmgTaken)
+        public virtual void ReceiveDmg(float dmgToDeal)
         {
-            entityDamaged.Hp = entityDamaged.Hp - dmgTaken;
-            Debug.Log(entityDamaged.Name + " was damaged for " + dmgTaken);
-        }
+            Hp -= dmgToDeal;
 
-        public virtual void CheckEntityStatus()
-        {
             if (Hp <= 0)
             {
-                IsDead = true;
-                RemoveEntity();
+                ResetEntityTimer();
+
+                MarkAsDead();
             }
         }
-     
-        //Disables MeshRenderer
-        public virtual void RemoveEntity() 
+
+        public virtual void MarkAsDead()
         {
-            gameObject.GetComponent<MeshRenderer>().enabled = false;
+            //Mark the Entity as dead
+            IsDead = true;
+
+            IsTimerRunning = false;
+
+            //Disable the Meshrenderer of the cube
+            gameObject.SetActive(false);
         }
         #endregion
     }

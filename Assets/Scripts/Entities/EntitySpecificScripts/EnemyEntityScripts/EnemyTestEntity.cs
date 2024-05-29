@@ -1,5 +1,5 @@
 using Entities;
-using Managers;
+using Handlers;
 using ScriptableObjects;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +9,7 @@ public class EnemyTestEntity : EnemyEntity
 {
     private float dmgToDeal;
     Entity minHpEntity;
+
     private void OnDisable()
     {
     }

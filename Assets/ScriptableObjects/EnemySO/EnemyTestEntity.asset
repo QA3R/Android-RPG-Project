@@ -16,7 +16,7 @@ MonoBehaviour:
   EntityModel: {fileID: 1209568149458620216, guid: d7c76ddf655361540888a28f109b1570,
     type: 3}
   MaxHP: 43
-  Atk: 36
+  Atk: 12
   Spd: 21
   Def: 11
   Res: 8

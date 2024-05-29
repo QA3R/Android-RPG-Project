@@ -15,10 +15,10 @@ MonoBehaviour:
   Name: AllyTestEntity
   EntityModel: {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978,
     type: 3}
-  MaxHP: 50
+  MaxHP: 150
   Atk: 20
   Spd: 15
-  Def: 12
+  Def: 35
   Res: 9
   BasicAtk: {fileID: 11400000, guid: b173db530e7418c4e8c552dcbf33ccfb, type: 2}
   Skills: []

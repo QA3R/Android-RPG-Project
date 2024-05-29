@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f6034a1a027770469300be6ec66fea2, type: 3}
   m_Name: Firebolt
   m_EditorClassIdentifier: 
-  SkillName: 
+  SkillName: OnePunch
   Description: 
-  damageType: 0
-  SkillMultiplier: 0
+  damageType: 1
+  SkillMultiplier: 10.81

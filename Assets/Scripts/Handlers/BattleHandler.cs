@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Linq;
 
 
-namespace Managers
+namespace Handlers
 {
     public class BattleHandler : MonoBehaviour
     {
@@ -15,8 +15,6 @@ namespace Managers
         #endregion
 
         #region BattleManager related delegates
-
-
         //Pings when units are spawning into the battle
         public delegate void OnUnitSpawn(GameObject unitToSapwn);
         public OnUnitSpawn onUnitSpawn;
@@ -25,29 +23,26 @@ namespace Managers
         //Lists for Units to spawn, ally spawn locations, and enemy spawn locations
         #region Lists of Units
         private Entity currentUnit;
+        private int allySpawnID = 0;
+        private int enemySpawnID = 0;
 
         [SerializeField] private List<GameObject> EntityObjToSpawn;
-
         [SerializeField] private List<GameObject> allySpawnPoints;
-        public List<GameObject> AllySpawnPoints => allySpawnPoints;
-
         [SerializeField] private List<GameObject> enemySpawnPoints;
+
+        public List<Entity> UnitsInBattle;
+        public List<GameObject> AllySpawnPoints => allySpawnPoints;
         public List<GameObject> EnemySpawnPoints => enemySpawnPoints;
-
-        private int allySpawnID = 0;
         public int AllySpawnID { get => allySpawnID; set => allySpawnID = value; }
-
-        private int enemySpawnID = 0;
         public int EnemyBattleID { get => enemySpawnID; set => enemySpawnID = value; }
 
-        //Lists of Units in battle, only Allies, and only Enemies
-        public List<Entity> UnitsInBattle;
+
+
         #endregion
 
         //Singleton Implementation
         private void Awake()
         {
-        
             if (instance == null & instance != this)
             {
                 instance = this;
@@ -65,8 +60,10 @@ namespace Managers
             foreach (GameObject unitObj in EntityObjToSpawn)
             {
                 if (unitObj != null)
+                {
                     //Spawn the entity 
                     currentUnit = Instantiate(unitObj.GetComponent<Entity>());
+                }
                 //Add the Entity Script from currentEntity to the EntityScripts List
                 UnitsInBattle.Add(currentUnit.GetComponent<Entity>());
             }
@@ -78,12 +75,20 @@ namespace Managers
             }
         }
 
-        bool HasPlayerLost()
+        public bool HasPlayerLost()
         {
             //Check if all allies are dead
             bool anyPlayerUnitNotDead = BattleHandler.Instance.UnitsInBattle.Any(Entity => Entity.IsControlable && !Entity.IsDead);
 
             return !anyPlayerUnitNotDead;
+        }
+
+        public bool HasPlayerWon()
+        { 
+            //Check if all allies are dead
+            bool anyEnemyUnitNotDead = BattleHandler.Instance.UnitsInBattle.Any(Entity => !Entity.IsControlable && !Entity.IsDead);
+
+            return !anyEnemyUnitNotDead;
         }
     }
 }
