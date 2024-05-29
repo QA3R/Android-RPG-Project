@@ -49,7 +49,7 @@ namespace Entities
         {
             if (IsTimerRunning && !IsDead)
             {
-                CurrentTimerVal += Time.deltaTime * (Spd/10);
+                CurrentTimerVal += Time.deltaTime * (Spd);
             }
 
             if (CurrentTimerVal >=1 && IsTimerRunning) 
@@ -91,14 +91,11 @@ namespace Entities
         {
             caster = this;
 
-            //Remove this when refactoring Targeting system
-            if (Target == null)
+            if (Target != null)
             {
-                Target = BattleHandler.Instance.UnitsInBattle[0];
+                //Calls the caster's BasicAtk.ExecuteSkill method that exists in the STASScriptableObject attached to it
+                BasicAtk.ExecuteSkill(this, Target);
             }
-
-            //Calls the caster's BasicAtk.ExecuteSkill method that exists in the STASScriptableObject attached to it
-            BasicAtk.ExecuteSkill(this, Target);
 
             //Once Attack function has been completed, we call the SetStateBetween 
             TurnHandler.Instance.SetStateBetween();

@@ -45,6 +45,9 @@ namespace Handlers
 
         public delegate void BattleVictory();
         public BattleVictory OnBattleVictory;
+
+        public delegate void BattleLoss();
+        public BattleLoss OnBattleLoss;
         #endregion
 
         //The GameState will dictate what events needs to be called (i.e Giving player functionality, Passing to an EnemyTurn, ending the battle, etc..)
@@ -143,12 +146,18 @@ namespace Handlers
                     else if (BattleHandler.Instance.HasPlayerLost())
                     {
                         StopEntityTimers();
+                        OnBattleLoss.Invoke();
                         currentGameState = GameState.GameLoss;
                     }
                     else
                     {
                         //Unpause all Entities' timer in UnitsInBattle
-                        foreach (Entities.Entity entity in BattleHandler.Instance.UnitsInBattle)
+                        foreach (Entities.Entity entity in BattleHandler.Instance.PlayableUnitsInBattle)
+                        {
+                            entity.StartEntityTimer();
+                        }
+                        //Unpause all Entities' timer in UnitsInBattle
+                        foreach (Entities.Entity entity in BattleHandler.Instance.EnemyUnitsInBattle)
                         {
                             entity.StartEntityTimer();
                         }
@@ -224,7 +233,12 @@ namespace Handlers
         public void StopEntityTimers()
         {
             //Pause all Entities' timer in UnitsInBattle
-            foreach (Entities.Entity entity in BattleHandler.Instance.UnitsInBattle)
+            foreach (Entities.Entity entity in BattleHandler.Instance.PlayableUnitsInBattle)
+            {
+                entity.PauseEntityTimer();
+            }
+            //Pause all Entities' timer in UnitsInBattle
+            foreach (Entities.Entity entity in BattleHandler.Instance.EnemyUnitsInBattle)
             {
                 entity.PauseEntityTimer();
             }

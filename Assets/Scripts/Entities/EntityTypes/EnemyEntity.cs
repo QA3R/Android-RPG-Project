@@ -28,6 +28,16 @@ namespace Entities
             transform.position = BattleHandler.Instance.EnemySpawnPoints[BattleHandler.Instance.EnemyBattleID].transform.position;
             BattleHandler.Instance.EnemyBattleID++;
         }
+
+        public override void Attack(Entity caster, Entity receiver)
+        {
+            if (Target == null)
+            {
+                Target = BattleHandler.Instance.PlayableUnitsInBattle[0];
+            }
+
+            base.Attack(caster, receiver);
+        }
     }
 
 }

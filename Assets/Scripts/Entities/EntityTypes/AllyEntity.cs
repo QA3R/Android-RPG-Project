@@ -28,6 +28,11 @@ namespace Entities
         //Attack the first enemy in the spawn order
         public override void Attack(Entity caster, Entity receiver)
         {
+            if (Target == null)
+            {
+                Target = BattleHandler.Instance.EnemyUnitsInBattle[0];
+            }
+
             base.Attack(caster, receiver);
         }
     }

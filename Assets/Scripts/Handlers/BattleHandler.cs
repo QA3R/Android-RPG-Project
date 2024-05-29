@@ -31,6 +31,11 @@ namespace Handlers
         [SerializeField] private List<GameObject> enemySpawnPoints;
 
         public List<Entity> UnitsInBattle;
+
+        public List<Entity> PlayableUnitsInBattle;
+
+        public List<Entity> EnemyUnitsInBattle;
+
         public List<GameObject> AllySpawnPoints => allySpawnPoints;
         public List<GameObject> EnemySpawnPoints => enemySpawnPoints;
         public int AllySpawnID { get => allySpawnID; set => allySpawnID = value; }
@@ -43,7 +48,7 @@ namespace Handlers
         //Singleton Implementation
         private void Awake()
         {
-            if (instance == null & instance != this)
+            if (instance == null)
             {
                 instance = this;
             }
@@ -64,12 +69,23 @@ namespace Handlers
                     //Spawn the entity 
                     currentUnit = Instantiate(unitObj.GetComponent<Entity>());
                 }
-                //Add the Entity Script from currentEntity to the EntityScripts List
-                UnitsInBattle.Add(currentUnit.GetComponent<Entity>());
+
+                if (currentUnit.IsControlable)
+                {
+                    PlayableUnitsInBattle.Add(currentUnit.GetComponent<Entity>());
+                }
+                else
+                {
+                    EnemyUnitsInBattle.Add(currentUnit.GetComponent<Entity>());
+                }
             }
 
             //Set the postions of each entity to its correct spawn location
-            foreach (Entity unit in UnitsInBattle)
+            foreach (Entity unit in PlayableUnitsInBattle)
+            {
+                unit.SetSpawnPoint();
+            }
+            foreach (Entity unit in EnemyUnitsInBattle)
             {
                 unit.SetSpawnPoint();
             }
@@ -78,7 +94,7 @@ namespace Handlers
         public bool HasPlayerLost()
         {
             //Check if all allies are dead
-            bool anyPlayerUnitNotDead = BattleHandler.Instance.UnitsInBattle.Any(Entity => Entity.IsControlable && !Entity.IsDead);
+            bool anyPlayerUnitNotDead = BattleHandler.Instance.PlayableUnitsInBattle.Any(Entity => Entity.IsControlable && !Entity.IsDead);
 
             return !anyPlayerUnitNotDead;
         }
@@ -86,7 +102,7 @@ namespace Handlers
         public bool HasPlayerWon()
         { 
             //Check if all allies are dead
-            bool anyEnemyUnitNotDead = BattleHandler.Instance.UnitsInBattle.Any(Entity => !Entity.IsControlable && !Entity.IsDead);
+            bool anyEnemyUnitNotDead = BattleHandler.Instance.EnemyUnitsInBattle.Any(Entity => !Entity.IsControlable && !Entity.IsDead);
 
             return !anyEnemyUnitNotDead;
         }
