@@ -18,6 +18,7 @@ namespace Entities
         public bool IsControlable;
         public bool IsDead;
         public string Name;
+        public Sprite Portrait;
         public float Atk;
         public float Def;
         public float Spd;
@@ -36,6 +37,7 @@ namespace Entities
             CurrentTimerVal = 0;
             IsTimerRunning = true;
             Name = entityType.Name;
+            Portrait = entityType.EntityPortrait;
             Hp = entityType.MaxHP;
             Atk = entityType.Atk;
             Spd = entityType.Spd;

@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: AllyTestEntity
   m_EditorClassIdentifier: 
   Name: AllyTestEntity
+  EntityPortrait: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   EntityModel: {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978,
     type: 3}
   MaxHP: 150
-  Atk: 0
+  Atk: 25
   Spd: 15
   Def: 35
   Res: 9

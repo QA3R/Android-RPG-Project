@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TestCombat.unity
+    path: Assets/Scenes/BattleScene.unity
     guid: f1c89df798c82ae40a40890c61016e76
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 89d7904b28d642c4b96f11f25ea88bac,

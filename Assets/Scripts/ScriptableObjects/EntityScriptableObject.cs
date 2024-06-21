@@ -1,8 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 using ScriptableObjects;
 using Entities;
+using UnityEngine.UI;
 
 namespace ScriptableObjects
 {
@@ -10,7 +11,7 @@ namespace ScriptableObjects
     public class EntityScriptableObject : ScriptableObject
     {
         public string Name;
-
+        public Sprite EntityPortrait;
         public GameObject EntityModel;
         public float MaxHP;
         public float Atk;

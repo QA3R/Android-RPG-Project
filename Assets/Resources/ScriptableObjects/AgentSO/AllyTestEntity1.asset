@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef75bda879f97fe4da5365bc321841b5, type: 3}
+  m_Name: AllyTestEntity1
+  m_EditorClassIdentifier: 
+  Name: AllyTestEntity
+  EntityPortrait: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  EntityModel: {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978,
+    type: 3}
+  MaxHP: 150
+  Atk: 25
+  Spd: 15
+  Def: 35
+  Res: 9
+  BasicAtk: {fileID: 11400000, guid: b173db530e7418c4e8c552dcbf33ccfb, type: 2}
+  Skills: []
