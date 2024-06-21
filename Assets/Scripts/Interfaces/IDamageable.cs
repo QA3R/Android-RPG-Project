@@ -5,6 +5,9 @@ using Entities;
 
 public interface IDamageable
 {
-    void DealDMG<T>() { }
+    void ReceiveDMG(float dmgReceived, Entities.Entity receiver) 
+    {
+        receiver.Hp -= dmgReceived;
+    }
     
 }

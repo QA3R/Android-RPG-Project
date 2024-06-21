@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Handlers;
+using Entities;
 
-namespace Managers
+namespace Handlers
 {
     public class InputHandler : MonoBehaviour
     {
@@ -13,6 +15,16 @@ namespace Managers
 
         private Vector2 startPos;
         private Vector2 endPos;
+
+        #region InputHandler delegates
+        //Pings when swiping left on the device
+        public delegate void SwipeLeft();
+        public SwipeLeft swipeLeft;
+
+        //Pings when swiping right on the device
+        public delegate void SwipeRight();
+        public SwipeRight swipeRight;
+        #endregion
 
         private void Awake()
         {
@@ -69,12 +81,12 @@ namespace Managers
                             //Are we swiping right?
                             if (x > 0)
                             {
-                                EventHandler.Instance.swipeRight?.Invoke();
+                                swipeRight?.Invoke();
                             }
                             //Are we swiping left?
                             else if (x < 0)
                             {
-                                EventHandler.Instance.swipeLeft?.Invoke();
+                                swipeLeft?.Invoke();
                             }
                         }
                         //Is the vertical movement greater than the horizontal?
@@ -93,15 +105,30 @@ namespace Managers
                         }
                         #endregion
 
+                        Ray ray = Camera.main.ScreenPointToRay(endPos);
+                        RaycastHit hit;
+
+                        if (Physics.Raycast(ray, out hit))
+                        {
+                            if (hit.collider.gameObject.TryGetComponent<EnemyEntity>(out EnemyEntity enemyEntity) && !enemyEntity.IsDead)
+                            {
+
+                                Debug.Log("This object is of type EnemyEntity");
+                                TurnHandler.Instance.OnTargetSelected.Invoke(hit.collider.gameObject.GetComponent<EnemyEntity>());
+                            }
+                            else
+                            {
+                                Debug.Log("No object of type EnemyEntity was found");
+                            }
+
+                        }
+
                         break;
                 }
 
 
 
             }
-
-
-
         }
     }
 }
