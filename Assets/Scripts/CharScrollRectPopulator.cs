@@ -22,11 +22,13 @@ public class CharScrollRectPopulator : MonoBehaviour
 
     void LoadAndPopulate()
     {
-        EntityScriptableObject[] CharPortraits = Resources.LoadAll<EntityScriptableObject>(FolderPath);
+        EntityScriptableObject[] PlayableCharacters = Resources.LoadAll<EntityScriptableObject>(FolderPath);
         
-        foreach (EntityScriptableObject CharPortrait in CharPortraits)
+        foreach (EntityScriptableObject PlayableCharacter in PlayableCharacters)
         {
-            Debug.Log(CharPortrait.Name);
+            EntityScriptableObject exampleEntity = Resources.Load<EntityScriptableObject>("ScriptableObjects/AgentSO/" + PlayableCharacter.name);
+            
+            Debug.Log(exampleEntity);
 
             //Spawn the image into the scroll rect
             GameObject newChar = Instantiate(CharPortraitObj, ContentPanel);
@@ -35,11 +37,11 @@ public class CharScrollRectPopulator : MonoBehaviour
             Image imageComponent = newChar.GetComponent<Image>();
 
             //Set the sprite of the newly populated object to the entity portrait sprite
-            if (imageComponent != null && CharPortrait !=null)
+            if (imageComponent != null && PlayableCharacter !=null)
             {
-                imageComponent.sprite = CharPortrait.EntityPortrait;
-                imageComponent.name = CharPortrait.name + "Portrait";
-            }
+                imageComponent.sprite = PlayableCharacter.EntityPortrait;
+                imageComponent.name = PlayableCharacter.name;
+            }   
         }
     }
 }
