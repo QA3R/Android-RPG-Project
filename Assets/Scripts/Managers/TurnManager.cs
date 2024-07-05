@@ -3,13 +3,12 @@ using System.Collections;
 using UnityEngine.Rendering.Universal;
 using System.Collections.Generic;
 using UnityEngine;
-using ScriptableObjects;
 using Entities;
-using Cinemachine;
+using Managers.Battle;
 
-namespace Handlers
+namespace Managers
 {
-    public class TurnHandler : MonoBehaviour
+    public class TurnManager : MonoBehaviour
     {
         /// <summary>
         /// This script is responsible for managing the battle status. It will keep track of:
@@ -22,8 +21,8 @@ namespace Handlers
         #region Variables
         //Instance implementation
         #region Instance Implmentation
-        private static TurnHandler instance;
-        public static TurnHandler Instance => instance;
+        private static TurnManager instance;
+        public static TurnManager Instance => instance;
         #endregion
 
         #region Delegates
@@ -92,8 +91,8 @@ namespace Handlers
         private void OnEnable()
         {
             currentGameState = GameState.BattleStart;
-            TurnHandler.Instance.OnEntityTimerReady += SetEntityTurn;
-            TurnHandler.Instance.OnStateEnd += CheckState;
+            TurnManager.Instance.OnEntityTimerReady += SetEntityTurn;
+            TurnManager.Instance.OnStateEnd += CheckState;
 
             //Subscribe to the function which sets the Target of the CurrentEntity on the TurnHandler to the targetSelected by the InputHandler
             OnTargetSelected += SetCEntityTarget;
@@ -105,8 +104,8 @@ namespace Handlers
         //Unsubscribe to OnBattleStart when disabled
         void OnDisable()
         {
-            TurnHandler.Instance.OnEntityTimerReady -= SetEntityTurn;
-            TurnHandler.Instance.OnStateEnd -= CheckState;
+            TurnManager.Instance.OnEntityTimerReady -= SetEntityTurn;
+            TurnManager.Instance.OnStateEnd -= CheckState;
             OnTargetSelected -= SetCEntityTarget;
             OnEntityTurnEnd -= SetStateBetween;
         }
@@ -114,7 +113,7 @@ namespace Handlers
         // Start is called before the first frame update
         void Start()
         {
-            TurnHandler.Instance.OnStateEnd.Invoke();
+            TurnManager.Instance.OnStateEnd.Invoke();
         }
         #endregion
 
@@ -130,20 +129,20 @@ namespace Handlers
                 case GameState.BattleStart:
                     Debug.Log(currentGameState);
                     //Setup all Allies and Enemies in scene
-                    BattleHandler.Instance.SpawnUnits();
+                    BattleManager.Instance.SpawnUnits();
                     break;
                 #endregion
 
                 #region State: BetweenTurn
                 case GameState.BetweenTurn:
 
-                    if (BattleHandler.Instance.HasPlayerWon())
+                    if (BattleManager.Instance.HasPlayerWon())
                     {
                         StopEntityTimers();
                         OnBattleVictory.Invoke();
                         currentGameState = GameState.GameWon;
                     }
-                    else if (BattleHandler.Instance.HasPlayerLost())
+                    else if (BattleManager.Instance.HasPlayerLost())
                     {
                         StopEntityTimers();
                         OnBattleLoss.Invoke();
@@ -152,12 +151,12 @@ namespace Handlers
                     else
                     {
                         //Unpause all Entities' timer in UnitsInBattle
-                        foreach (Entities.Entity entity in BattleHandler.Instance.PlayableUnitsInBattle)
+                        foreach (Entities.Entity entity in BattleManager.Instance.PlayableUnitsInBattle)
                         {
                             entity.StartEntityTimer();
                         }
                         //Unpause all Entities' timer in UnitsInBattle
-                        foreach (Entities.Entity entity in BattleHandler.Instance.EnemyUnitsInBattle)
+                        foreach (Entities.Entity entity in BattleManager.Instance.EnemyUnitsInBattle)
                         {
                             entity.StartEntityTimer();
                         }
@@ -205,12 +204,12 @@ namespace Handlers
             if (entityTakingTurn.IsControlable)
             {
                 currentGameState = GameState.PlayerTurn;
-                TurnHandler.Instance.OnStateEnd?.Invoke();
+                TurnManager.Instance.OnStateEnd?.Invoke();
             }
             else
             {
                 currentGameState = GameState.EnemyTurn;
-                TurnHandler.Instance.OnStateEnd?.Invoke();
+                TurnManager.Instance.OnStateEnd?.Invoke();
             }
         }
 
@@ -218,7 +217,7 @@ namespace Handlers
         public void SetStateBetween()
         {
             currentGameState = GameState.BetweenTurn;
-            TurnHandler.Instance.OnStateEnd.Invoke();
+            TurnManager.Instance.OnStateEnd.Invoke();
             Debug.Log(currentGameState);
         }
         
@@ -233,12 +232,12 @@ namespace Handlers
         public void StopEntityTimers()
         {
             //Pause all Entities' timer in UnitsInBattle
-            foreach (Entities.Entity entity in BattleHandler.Instance.PlayableUnitsInBattle)
+            foreach (Entities.Entity entity in BattleManager.Instance.PlayableUnitsInBattle)
             {
                 entity.PauseEntityTimer();
             }
             //Pause all Entities' timer in UnitsInBattle
-            foreach (Entities.Entity entity in BattleHandler.Instance.EnemyUnitsInBattle)
+            foreach (Entities.Entity entity in BattleManager.Instance.EnemyUnitsInBattle)
             {
                 entity.PauseEntityTimer();
             }

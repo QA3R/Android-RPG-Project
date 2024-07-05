@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ScriptableObjects;
-using Handlers;
+using Managers.Battle;
 
 namespace Entities
 {
@@ -21,8 +21,8 @@ namespace Entities
 
         public override void SetSpawnPoint()
         {
-            transform.position = BattleHandler.Instance.AllySpawnPoints[BattleHandler.Instance.AllySpawnID].transform.position;
-            BattleHandler.Instance.AllySpawnID++;
+            transform.position = BattleManager.Instance.AllySpawnPoints[BattleManager.Instance.AllySpawnID].transform.position;
+            BattleManager.Instance.AllySpawnID++;
         }
 
         //Attack the first enemy in the spawn order
@@ -30,7 +30,7 @@ namespace Entities
         {
             if (Target == null)
             {
-                Target = BattleHandler.Instance.EnemyUnitsInBattle[0];
+                Target = BattleManager.Instance.EnemyUnitsInBattle[0];
             }
 
             base.Attack(caster, receiver);

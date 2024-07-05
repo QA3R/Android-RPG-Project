@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 340862739}
   - component: {fileID: 340862738}
   m_Layer: 0
-  m_Name: TurnHandler
+  m_Name: TurnManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -427,7 +427,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 340862737}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2425bcf2c09eda47a92626f06316763, type: 3}
+  m_Script: {fileID: 11500000, guid: fc0c3bd249a093941bc17d06d4438a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &340862739
@@ -2780,7 +2780,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310930145}
-  m_LocalRotation: {x: 0.039268307, y: 0.7516874, z: -0.044940423, w: 0.6568139}
+  m_LocalRotation: {x: 0.03926831, y: 0.75168747, z: -0.044940438, w: 0.65681374}
   m_LocalPosition: {x: -14.247252, y: 6.9197116, z: 2.0230374}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3816,7 +3816,7 @@ GameObject:
   - component: {fileID: 2075611478}
   - component: {fileID: 2075611479}
   m_Layer: 0
-  m_Name: BattleHandler
+  m_Name: BattleManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

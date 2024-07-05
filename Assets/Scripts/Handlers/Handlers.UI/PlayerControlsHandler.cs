@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Handlers;
+using Managers;
 using Entities;
 
 namespace BattleUI
@@ -15,13 +15,13 @@ namespace BattleUI
         //Subscribe to the EventHandler's onPlayerTurn & onEnemyTurn
         private void Start()
         {
-            TurnHandler.Instance.OnEntityTurnSet += ChangeBasicAtkBtn;
+            TurnManager.Instance.OnEntityTurnSet += ChangeBasicAtkBtn;
         }
 
         //Unsubscribe to the EventHandler's onPlayerTurn & onEnemyTurn
         private void OnDisable()
         {
-            TurnHandler.Instance.OnEntityTurnSet -= ChangeBasicAtkBtn;
+            TurnManager.Instance.OnEntityTurnSet -= ChangeBasicAtkBtn;
         }
 
         void DisablePlayerControls()
@@ -50,7 +50,7 @@ namespace BattleUI
 
         public void OnClicked()
         {
-            TurnHandler.Instance.CurrentEntity.Attack(TurnHandler.Instance.CurrentEntity, TurnHandler.Instance.CurrentEntity.Target);
+            TurnManager.Instance.CurrentEntity.Attack(TurnManager.Instance.CurrentEntity, TurnManager.Instance.CurrentEntity.Target);
         }
     }
 }

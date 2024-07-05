@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ScriptableObjects;
-using Handlers;
+using Managers;
 
 namespace Entities
 {
@@ -56,7 +56,7 @@ namespace Entities
 
             if (CurrentTimerVal >=1 && IsTimerRunning) 
             {
-                TurnHandler.Instance.OnEntityTimerReady?.Invoke(this);
+                TurnManager.Instance.OnEntityTimerReady?.Invoke(this);
                 
                 ResetEntityTimer();
             }
@@ -100,7 +100,7 @@ namespace Entities
             }
 
             //Once Attack function has been completed, we call the SetStateBetween 
-            TurnHandler.Instance.SetStateBetween();
+            TurnManager.Instance.SetStateBetween();
         }
 
         public virtual void ReceiveDmg(float dmgToDeal)

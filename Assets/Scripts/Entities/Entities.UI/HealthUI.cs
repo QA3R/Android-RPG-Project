@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Entities;
 using TMPro;
-using Handlers;
+using Managers;
 
-namespace BattleUI
+namespace Entities.UI
 {
     public class HealthUI : MonoBehaviour
     {
@@ -18,7 +18,7 @@ namespace BattleUI
         // Start is called before the first frame update
         void Start()
         {
-            TurnHandler.Instance.OnStateEnd += UpdateHealthText;
+            TurnManager.Instance.OnStateEnd += UpdateHealthText;
 
             //Fetch the MainCamera component
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
@@ -42,7 +42,7 @@ namespace BattleUI
         private void OnDisable()
         {
 
-            TurnHandler.Instance.OnStateEnd -= UpdateHealthText;
+            TurnManager.Instance.OnStateEnd -= UpdateHealthText;
         }
 
         // Update is called once per frame

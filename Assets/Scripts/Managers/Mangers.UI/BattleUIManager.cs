@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
-using Handlers;
 
-namespace BattleUI
+namespace Managers.Battle
 {
-    public class BattleUIHandler : MonoBehaviour
+    public class BattleUIManager : MonoBehaviour
     {
         #region Variables
         [SerializeField] private GameObject victoryPanel;
@@ -17,14 +15,14 @@ namespace BattleUI
 
         private void Start()
         {
-            TurnHandler.Instance.OnBattleVictory += SetVictoryScreen;
-            TurnHandler.Instance.OnBattleLoss += SetGameLossScreen;
+            TurnManager.Instance.OnBattleVictory += SetVictoryScreen;
+            TurnManager.Instance.OnBattleLoss += SetGameLossScreen;
         }
 
         private void OnDisable()
         {
-            TurnHandler.Instance.OnBattleVictory -= SetVictoryScreen;
-            TurnHandler.Instance.OnBattleLoss -= SetGameLossScreen;
+            TurnManager.Instance.OnBattleVictory -= SetVictoryScreen;
+            TurnManager.Instance.OnBattleLoss -= SetGameLossScreen;
         }
 
         void SetVictoryScreen()

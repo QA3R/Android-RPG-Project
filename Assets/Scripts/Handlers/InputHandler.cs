@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Handlers;
+using Managers;
 using Entities;
 
 namespace Handlers
@@ -114,7 +114,7 @@ namespace Handlers
                             {
 
                                 Debug.Log("This object is of type EnemyEntity");
-                                TurnHandler.Instance.OnTargetSelected.Invoke(hit.collider.gameObject.GetComponent<EnemyEntity>());
+                                TurnManager.Instance.OnTargetSelected.Invoke(hit.collider.gameObject.GetComponent<EnemyEntity>());
                             }
                             else
                             {

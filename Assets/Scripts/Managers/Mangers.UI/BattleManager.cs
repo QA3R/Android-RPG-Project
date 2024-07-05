@@ -5,13 +5,13 @@ using UnityEngine;
 using System.Linq;
 
 
-namespace Handlers
+namespace Managers.Battle
 {
-    public class BattleHandler : MonoBehaviour
+    public class BattleManager : MonoBehaviour
     {
         #region Singleton Implementation
-        private static BattleHandler instance;
-        public static BattleHandler Instance => instance;
+        private static BattleManager instance;
+        public static BattleManager Instance => instance;
         #endregion
 
         #region BattleManager related delegates
@@ -94,7 +94,7 @@ namespace Handlers
         public bool HasPlayerLost()
         {
             //Check if all allies are dead
-            bool anyPlayerUnitNotDead = BattleHandler.Instance.PlayableUnitsInBattle.Any(Entity => Entity.IsControlable && !Entity.IsDead);
+            bool anyPlayerUnitNotDead = BattleManager.Instance.PlayableUnitsInBattle.Any(Entity => Entity.IsControlable && !Entity.IsDead);
 
             return !anyPlayerUnitNotDead;
         }
@@ -102,7 +102,7 @@ namespace Handlers
         public bool HasPlayerWon()
         { 
             //Check if all allies are dead
-            bool anyEnemyUnitNotDead = BattleHandler.Instance.EnemyUnitsInBattle.Any(Entity => !Entity.IsControlable && !Entity.IsDead);
+            bool anyEnemyUnitNotDead = BattleManager.Instance.EnemyUnitsInBattle.Any(Entity => !Entity.IsControlable && !Entity.IsDead);
 
             return !anyEnemyUnitNotDead;
         }
