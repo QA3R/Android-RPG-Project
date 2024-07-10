@@ -10,9 +10,14 @@ namespace ScriptableObjects
     [CreateAssetMenu(fileName ="NewEntity")]
     public class EntityScriptableObject : ScriptableObject
     {
-        public string Name;
-        public Sprite EntityPortrait;
+        
         public GameObject EntityModel;
+        public Sprite EntityPortrait;
+        
+        public string Name;
+        public bool IsAlliedEntity;
+        public bool IsControlable;
+        
         public float MaxHP;
         public float Atk;
         public float Spd;

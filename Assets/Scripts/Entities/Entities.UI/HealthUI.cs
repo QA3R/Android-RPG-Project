@@ -35,7 +35,7 @@ namespace Entities.UI
             //If we have the entity component, set the health to the entity hp value
             if (entity != null)
             {
-                healthText.text = ("HP: " + entity.Hp);
+                healthText.text = ("HP: " + entity.HealthPoints);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Entities.UI
         {
             if (entity != null)
             {
-                healthText.text = ("HP: " + entity.Hp);
+                healthText.text = ("HP: " + entity.HealthPoints);
             }
         }
     }

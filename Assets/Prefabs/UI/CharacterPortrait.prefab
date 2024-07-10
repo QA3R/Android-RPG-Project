@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1997098861694502574}
   - component: {fileID: 9085823545382826306}
   - component: {fileID: 8902179574345522696}
+  - component: {fileID: 7675848917257455263}
   m_Layer: 5
   m_Name: CharacterPortrait
   m_TagString: Untagged
@@ -102,6 +103,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f79222f69033aa409b5e6bf2415d25d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
-  canvasGroup: {fileID: 0}
-  rectTransform: {fileID: 0}
+--- !u!114 &7675848917257455263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9183237044630339307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac68e8e72b5fa3e41839fefaaa9afe64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityType: {fileID: 0}
+  IsAlliedEntity: 0
+  IsControlable: 0
+  IsDead: 0
+  Name: 
+  Portrait: {fileID: 0}
+  Atk: 0
+  Def: 0
+  Spd: 0
+  Res: 0
+  Hp: 0
+  CurrentTimerVal: 0
+  IsTimerRunning: 0

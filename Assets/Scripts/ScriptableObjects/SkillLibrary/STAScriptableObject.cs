@@ -31,7 +31,7 @@ public class STAScriptableObject : ScriptableObject, ISkill
 
                 dmgToDeal = (caster.Atk / ((receiver.Def + 100) / 100)) * SkillMultiplier;
                 receiver.ReceiveDmg(dmgToDeal);
-                Debug.Log(receiver.name + " received "  + dmgToDeal + " damage");
+                Debug.Log(receiver.EntName + " received "  + dmgToDeal + " damage");
 
                 break;
 
@@ -39,7 +39,7 @@ public class STAScriptableObject : ScriptableObject, ISkill
 
                 dmgToDeal = (caster.Atk / ((receiver.Res + 100) / 100)) * SkillMultiplier;
                 receiver.ReceiveDmg(dmgToDeal);
-                Debug.Log(receiver.name + " received " + dmgToDeal + " damage");
+                Debug.Log(receiver.EntName + " received " + dmgToDeal + " damage");
                 break;
         }
     }

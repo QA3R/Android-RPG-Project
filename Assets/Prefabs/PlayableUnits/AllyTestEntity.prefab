@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 1209568149458620221}
   - component: {fileID: 1209568149458620218}
   - component: {fileID: 1209568149458620219}
-  - component: {fileID: 4805309780724431020}
+  - component: {fileID: -3684870011372653883}
+  - component: {fileID: 4775239091715491353}
   m_Layer: 0
   m_Name: AllyTestEntity
   m_TagString: Entity
@@ -99,7 +100,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4805309780724431020
+--- !u!114 &-3684870011372653883
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,21 +109,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1209568149458620216}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 980752edc6f179947a93b9a1a384e8ae, type: 3}
+  m_Script: {fileID: 11500000, guid: ac68e8e72b5fa3e41839fefaaa9afe64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   entityType: {fileID: 11400000, guid: 6d25748d7ac012641bc74315a4d2cdb5, type: 2}
-  IsAlliedEntity: 1
-  IsControlable: 1
-  IsDead: 0
-  Name: 
-  Atk: 0
-  Def: 0
-  Spd: 0
-  Res: 0
-  Hp: 0
-  CurrentTimerVal: 0
-  IsTimerRunning: 0
+  timer: {fileID: 4775239091715491353}
+--- !u!114 &4775239091715491353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209568149458620216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d7bf103dec2a34697484a9bc69c2a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7032732743925099521
 GameObject:
   m_ObjectHideFlags: 0

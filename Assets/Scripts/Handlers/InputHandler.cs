@@ -110,11 +110,11 @@ namespace Handlers
 
                         if (Physics.Raycast(ray, out hit))
                         {
-                            if (hit.collider.gameObject.TryGetComponent<EnemyEntity>(out EnemyEntity enemyEntity) && !enemyEntity.IsDead)
+                            if (hit.collider.gameObject.TryGetComponent<Entity>(out Entity enemyEntity) && !enemyEntity.IsDead && !enemyEntity.IsControlable)
                             {
 
                                 Debug.Log("This object is of type EnemyEntity");
-                                TurnManager.Instance.OnTargetSelected.Invoke(hit.collider.gameObject.GetComponent<EnemyEntity>());
+                                TurnManager.Instance.OnTargetSelected.Invoke(hit.collider.gameObject.GetComponent<Entity>());
                             }
                             else
                             {

@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 1209568149458620221}
   - component: {fileID: 1209568149458620218}
   - component: {fileID: 1209568149458620219}
-  - component: {fileID: 4693422176962984256}
+  - component: {fileID: 1794691366050859758}
+  - component: {fileID: 4123439086980768240}
   m_Layer: 0
   m_Name: EnemyTestEntity2
   m_TagString: Entity
@@ -100,7 +101,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4693422176962984256
+--- !u!114 &1794691366050859758
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,18 +110,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1209568149458620216}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2fedfe600877d941ae1abe7b76ae52e, type: 3}
+  m_Script: {fileID: 11500000, guid: ac68e8e72b5fa3e41839fefaaa9afe64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   entityType: {fileID: 11400000, guid: 7f9e7c6e9531cdc4cbd1504691745ae7, type: 2}
-  IsControlable: 0
-  IsDead: 0
-  Name: 
-  Atk: 0
-  Def: 0
-  Spd: 0
-  Res: 0
-  Hp: 0
+  timer: {fileID: 4123439086980768240}
+--- !u!114 &4123439086980768240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209568149458620216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d7bf103dec2a34697484a9bc69c2a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3971296526833992318
 GameObject:
   m_ObjectHideFlags: 0

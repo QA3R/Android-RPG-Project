@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef75bda879f97fe4da5365bc321841b5, type: 3}
   m_Name: AllyTestEntity 1
   m_EditorClassIdentifier: 
-  Name: AllyTestEntity 1
-  EntityPortrait: {fileID: 21300000, guid: affeade9874cf2347abb155e8d0db4d8, type: 3}
   EntityModel: {fileID: 1209568149458620216, guid: 0c31e6613f202b9418f3c4f354db3978,
     type: 3}
+  EntityPortrait: {fileID: 21300000, guid: affeade9874cf2347abb155e8d0db4d8, type: 3}
+  Name: AllyTestEntity 1
+  IsAlliedEntity: 1
+  IsControlable: 1
   MaxHP: 142
   Atk: 25
   Spd: 15

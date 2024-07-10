@@ -5,9 +5,9 @@ using Entities;
 
 public interface IDamageable
 {
-    void ReceiveDMG(float dmgReceived, Entities.Entity receiver) 
+    void ReceiveDMG(float dmgReceived, Entities.Entity receiver)
     {
-        receiver.Hp -= dmgReceived;
+        receiver.HealthPoints -= dmgReceived;
     }
-    
+
 }

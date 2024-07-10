@@ -91,7 +91,6 @@ namespace Managers
         private void OnEnable()
         {
             currentGameState = GameState.BattleStart;
-            TurnManager.Instance.OnEntityTimerReady += SetEntityTurn;
             TurnManager.Instance.OnStateEnd += CheckState;
 
             //Subscribe to the function which sets the Target of the CurrentEntity on the TurnHandler to the targetSelected by the InputHandler
@@ -99,6 +98,8 @@ namespace Managers
 
             //Subscribe to the function which sets the currentGameState to GameState.BetweenTurn on the end of an Entity's turn
             OnEntityTurnEnd += SetStateBetween;
+
+            TurnManager.Instance.OnEntityTimerReady += SetEntityTurn;
         }
 
         //Unsubscribe to OnBattleStart when disabled
@@ -113,7 +114,7 @@ namespace Managers
         // Start is called before the first frame update
         void Start()
         {
-            TurnManager.Instance.OnStateEnd.Invoke();
+            CheckState();
         }
         #endregion
 
@@ -145,28 +146,19 @@ namespace Managers
                     else if (BattleManager.Instance.HasPlayerLost())
                     {
                         StopEntityTimers();
-                        OnBattleLoss.Invoke();
                         currentGameState = GameState.GameLoss;
                     }
                     else
                     {
-                        //Unpause all Entities' timer in UnitsInBattle
-                        foreach (Entities.Entity entity in BattleManager.Instance.PlayableUnitsInBattle)
-                        {
-                            entity.StartEntityTimer();
-                        }
-                        //Unpause all Entities' timer in UnitsInBattle
-                        foreach (Entities.Entity entity in BattleManager.Instance.EnemyUnitsInBattle)
-                        {
-                            entity.StartEntityTimer();
-                        }
+                        SetEntityTurn(currentEntity);
+
                     }
                     break;
                 #endregion
 
                 #region State: PlayerTurn
                 case GameState.PlayerTurn:
-                    Debug.Log("It is now " + CurrentEntity.name + " turn.");
+                    Debug.Log("It is now " + CurrentEntity.EntName + " turn.");
                     OnEntityTurnSet.Invoke();
      
                     break;
@@ -174,7 +166,7 @@ namespace Managers
 
                 #region State: EnemyTurn
                 case GameState.EnemyTurn:
-                    Debug.Log("It is now " + CurrentEntity.name + " turn.");
+                    Debug.Log("It is now " + CurrentEntity.EntName + " turn.");
                     currentEntity.Attack(currentEntity, currentEntity.Target);
                     break;
                 #endregion
@@ -187,6 +179,7 @@ namespace Managers
 
                 #region State: GameWon
                 case GameState.GameWon:
+                    OnBattleLoss.Invoke();
                     break;
                     #endregion
             }
@@ -234,12 +227,12 @@ namespace Managers
             //Pause all Entities' timer in UnitsInBattle
             foreach (Entities.Entity entity in BattleManager.Instance.PlayableUnitsInBattle)
             {
-                entity.PauseEntityTimer();
+                entity.gameObject.GetComponent<TimerHandler>().PauseEntityTimer();
             }
             //Pause all Entities' timer in UnitsInBattle
             foreach (Entities.Entity entity in BattleManager.Instance.EnemyUnitsInBattle)
             {
-                entity.PauseEntityTimer();
+                entity.gameObject.GetComponent<TimerHandler>().PauseEntityTimer();
             }
         }
         #endregion
